@@ -8,21 +8,38 @@ date: "2024-06-07"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Definición
+# Conceptos Iniciales
 
-Cuando hablamos de un proceso de inferencia causal nos referimos al proceso de hacer afirmaciones sobre una $población$ basándonos en una $muestra$ representativa (misma que dependerá de diferentes supuestos), particularmente, usaremos estos dos conceptos para entender el efecto de un fenómeno ocurrido de la $muestra$ sobre la $población$, buscando si es $estadísticamente significativo$
+## Inferencia Causal
+
+Cuando hablamos de un proceso de inferencia causal nos referimos al proceso de hacer afirmaciones sobre una $población$ basándonos en una $muestra$ representativa (misma que dependerá de diferentes supuestos), particularmente, usaremos estos dos conceptos para entender el efecto de un fenómeno ocurrido de la $muestra$ sobre la $población$, buscando si es $estadísticamente significativo$. 
+
+## Hipótesis Alternativa/ Hipótesis Nula
 
 Vamos a concentrarnos en dos conceptos importantes: 
 
 * $H_0$ : Hipoótesis Nula refiriéndose a que el efecto no es $estádisticamente \ significativo$ o bien que no hay efecto.
 * $H_a$ : Hipótesis Alternativa, refiriéndose a que el efecto  es $estádisticamente \ significativo$.
 
-Generalmente buscamos desacreditar la hipótesis nula,
+Generalmente buscamos desacreditar la hipótesis nula como objetivo de la investigación.
+
+
+## 
 
 
 
 ```{r cars}
-summary(cars)
+
+library(ggplot2)
+library(NHANES)
+
+colnames(NHANES)
+
+# Create bar plot for Home Ownership by Gender
+ggplot(NHANES, aes(x = Gender, fill = HomeOwn)) + 
+  # Set the position to fill
+  geom_bar(position = "fill") +
+  ylab("Relative frequencies")
 ```
 
 ## Including Plots
@@ -30,7 +47,6 @@ summary(cars)
 You can also embed plots, for example:
 
 ```{r pressure, echo=FALSE}
-plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
