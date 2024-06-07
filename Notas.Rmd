@@ -1,5 +1,5 @@
 ---
-title: "Notas"
+title: "Inferencia Causal en R"
 output: html_document
 date: "2024-06-07"
 ---
@@ -8,11 +8,18 @@ date: "2024-06-07"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Definición
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Cuando hablamos de un proceso de inferencia causal nos referimos al proceso de hacer afirmaciones sobre una $población$ basándonos en una $muestra$ representativa (misma que dependerá de diferentes supuestos), particularmente, usaremos estos dos conceptos para entender el efecto de un fenómeno ocurrido de la $muestra$ sobre la $población$, buscando si es $estadísticamente significativo$
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Vamos a concentrarnos en dos conceptos importantes: 
+
+* $H_0$ : Hipoótesis Nula refiriéndose a que el efecto no es $estádisticamente \ significativo$ o bien que no hay efecto.
+* $H_a$ : Hipótesis Alternativa, refiriéndose a que el efecto  es $estádisticamente \ significativo$.
+
+Generalmente buscamos desacreditar la hipótesis nula,
+
+
 
 ```{r cars}
 summary(cars)

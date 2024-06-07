@@ -12,7 +12,7 @@
 
 <meta name="date" content="2024-06-07" />
 
-<title>Notas</title>
+<title>Inferencia Causal en R</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -349,21 +349,27 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Notas</h1>
+<h1 class="title toc-ignore">Inferencia Causal en R</h1>
 <h4 class="date">2024-06-07</h4>
 
 </div>
 
 
-<div id="r-markdown" class="section level2">
-<h2>R Markdown</h2>
-<p>This is an R Markdown document. Markdown is a simple formatting
-syntax for authoring HTML, PDF, and MS Word documents. For more details
-on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be
-generated that includes both content as well as the output of any
-embedded R code chunks within the document. You can embed an R code
-chunk like this:</p>
+<div id="definición" class="section level2">
+<h2>Definición</h2>
+<p>Cuando hablamos de un proceso de inferencia causal nos referimos al
+proceso de hacer afirmaciones sobre una <span class="math inline">\(población\)</span> basándonos en una <span class="math inline">\(muestra\)</span> representativa (misma que
+dependerá de diferentes supuestos), particularmente, usaremos estos dos
+conceptos para entender el efecto de un fenómeno ocurrido de la <span class="math inline">\(muestra\)</span> sobre la <span class="math inline">\(población\)</span>, buscando si es <span class="math inline">\(estadísticamente significativo\)</span></p>
+<p>Vamos a concentrarnos en dos conceptos importantes:</p>
+<ul>
+<li><span class="math inline">\(H_0\)</span> : Hipoótesis Nula
+refiriéndose a que el efecto no es <span class="math inline">\(estádisticamente \ significativo\)</span> o bien
+que no hay efecto.</li>
+<li><span class="math inline">\(H_a\)</span> : Hipótesis Alternativa,
+refiriéndose a que el efecto es <span class="math inline">\(estádisticamente \ significativo\)</span>.</li>
+</ul>
+<p>Generalmente buscamos desacreditar la hipótesis nula,</p>
 <pre class="r"><code>summary(cars)</code></pre>
 <pre><code>##      speed           dist       
 ##  Min.   : 4.0   Min.   :  2.00  
