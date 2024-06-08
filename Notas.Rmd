@@ -12,7 +12,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Inferencia Causal
 
-Cuando hablamos de un proceso de inferencia causal nos referimos al proceso de hacer afirmaciones sobre una $población$ basándonos en una $muestra$ representativa (misma que dependerá de diferentes supuestos), particularmente, usaremos estos dos conceptos para entender el efecto de un fenómeno ocurrido de la $muestra$ sobre la $población$, buscando si es $estadísticamente significativo$. 
+Cuando hablamos de un proceso de inferencia causal nos referimos al proceso de hacer afirmaciones sobre una $población$ basándonos en una $muestra$ representativa compuesta de $unidades$  (misma que dependerá de diferentes supuestos), particularmente, usaremos estos dos conceptos para entender el efecto de un fenómeno ocurrido de la $muestra$ sobre la $población$, buscando si es $estadísticamente significativo$ para establecer una relación $causal$
+
+## Modelo de Rubin, Holland 
+
+Una afirmación ya bastante conocida es que correlación no implica causalidad, sin embargo no resulta muy claro el camino a seguir estadísticamente para crear un modelo causal, una parte importante es establecer el concepto de $aleatoreidad$ lo cual obedece a un $proceso \ generador \ de \ datos $ el cual puede se puede aislar  bajo sus propias condiciones. 
+
 
 ## Hipótesis Alternativa/ Hipótesis Nula
 
@@ -32,6 +37,7 @@ Generalmente buscamos desacreditar la hipótesis nula como objetivo de la invest
 
 library(ggplot2)
 library(NHANES)
+library(tidyverse)
 
 colnames(NHANES)
 
@@ -40,6 +46,23 @@ ggplot(NHANES, aes(x = Gender, fill = HomeOwn)) +
   # Set the position to fill
   geom_bar(position = "fill") +
   ylab("Relative frequencies")
+
+# Density plot of SleepHrsNight colored by SleepTrouble
+ggplot(NHANES, aes(x = SleepHrsNight, color = SleepTrouble)) + 
+  # Adjust by 2
+  geom_density(adjust = 2) + 
+  # Facet by HealthGen
+  facet_wrap(~ HealthGen)
+
+
+#Using the NHANES dataset, let's investigate the relationship between gender and home ownership. Remember, more information #about the dataset can be found here: NHANES.
+
+# Subset the data: homes
+homes <- NHANES %>%
+  # Select Gender and HomeOwn
+  select(Gender, HomeOwn) %>%
+  # Filter for HomeOwn equal to "Own" or "Rent"
+  filter(HomeOwn %in% c("Own", "Rent"))
 ```
 
 ## Including Plots
