@@ -12,11 +12,52 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Inferencia Causal
 
-Cuando hablamos de un proceso de inferencia causal nos referimos al proceso de hacer afirmaciones sobre una $población$ basándonos en una $muestra$ representativa compuesta de $unidades$  (misma que dependerá de diferentes supuestos), particularmente, usaremos estos dos conceptos para entender el efecto de un fenómeno ocurrido de la $muestra$ sobre la $población$, buscando si es $estadísticamente significativo$ para establecer una relación $causal$
+Cuando hablamos de un proceso de inferencia causal nos referimos al proceso de hacer afirmaciones sobre una $población$ basándonos en una $muestra$ representativa compuesta de $unidades$  (misma que dependerá de diferentes supuestos), particularmente, usaremos estos dos conceptos para entender el efecto de un fenómeno ocurrido de la $muestra$ sobre la $población$, buscando si es $estadísticamente \ significativo$ para establecer una relación $causal$.
 
 ## Modelo de Rubin, Holland 
 
 Una afirmación ya bastante conocida es que correlación no implica causalidad, sin embargo no resulta muy claro el camino a seguir estadísticamente para crear un modelo causal, una parte importante es establecer el concepto de $aleatoreidad$ lo cual obedece a un $proceso \ generador \ de \ datos $ el cual puede se puede aislar  bajo sus propias condiciones. 
+
+Retomando los conceptoa anteriores, consideraremos una $población$, $muestra$ y $unidades$, de las últimas podremos establecer $funcione$ que traduciremos como $variables$. 
+
+En ese sentido, podemos definir los componentes del modelo como: 
+
+* Unidad : Un objeto $i$ en un punto del tiempo específico. 
+* Tratamiento : Una intervención $t$, cuyos efectos queremos estimar comparando con un $control / c$ determinado por la ausencia de intervención. 
+* Estado del mundo: $S$ para la unidad $i$ la cual tiene un estado de tratamiento definido por $S \in {t,c}$. 
+* Resultado potencial: Antes de que el tratamiento es asignado, podemos estimar la medición de nuestro resultado de interés $Y$ para cada unidad $i$, bajo ambos tratamiento y control, identificados como $Y_{i}^{t}$ y $Y_{i}^{c}$.
+* Mecanismo de asignación: El algoritmo que determina si cada $i$ recibe $t$ o $c$.
+* Efecto causal: La diferencia entre el resultado potencial para una unidad dada: $Y_{i}^{t} - Y_{i}^{c} = T_{i}$. 
+
+
+Una vez que $S = c$ podemos obtener el $efecto /del tratamiento$ como $Y_{i}^{t} - Y_{i}^{c} = T_{i}$. No obstante una vez que $S$ está determinado solo observamos un resultado, nunca podemos observar dos resultados potenciales para la misma unidad, a esto se refiere el Problema Fundamental de la Inferencia Causal, es decir, es imposible observar el valor de  $Y_{i}^{t}$ y $Y_{i}^{c}$ para la misma unidad y por tanto, es imposible observar el efecto de $t$ contra $c$ para una $i$ en particular.  
+
+// 
+
+Una solución al problema anterior es, en lugar de concentrarnos en calcular $T_{i}$ calculamos $T$ que será el $Efecto / medio / de/  tratamientoo$ calculado como: $T = E(Y_{i}^{t} - Y_{i}^{c}) = E(T_{i}) $ el cual se obtiene directamente recordando que la media es un operador lineal. 
+
+Aunque no siempre podemos observar $T$, podemos estimarlo de la siguiente forma: 
+
+$\hat{T} = \hat{E}(Y_{i}^{t}| S=t) - \hat{E}( Y_{i}^{c}|S=c)$
+
+Generalmente $\hat{T}$ es un buen estimador de $T$ (no quiere decir que sea el único), lo cual depende del mecanismo de asignación.
+
+
+Consideremos: $E(Y_{i}^{t}) = (Y_{i}^{t}| S=t)$ y $E(Y_{i}^{c}) = (Y_{i}^{c}| S=c)$
+
+Entonces  $E(\hat{T}) = T$ se cumplirá si $S$ es independeinte de $Y$, entonces el grupo tratado es una muestra aleatoria del grupo de los potencialmente tratados, mismo caso para el grupo de control. 
+
+Notemos entonces que la asignación aleatoria de $S$ hace que la independencia sea plausible pero no testeable. 
+
+## Problema de identificación. 
+
+Cuando el supuesto de independencia entre $S$ y $Y$ cuando hay alguna relación a priori entre ambos, por ejemplo, si el tratamiento es parte de un procceso de optimización que involucra al resultado, caso que es común. 
+
+A partir de lo anterior, nos referimos al problema de identificación a la dificultad de obtener un estimador insesgado para identificar parámetros causales a menos que el mecanismo de asignación cumpla con distintas condiciones. 
+
+
+
+
 
 
 ## Hipótesis Alternativa/ Hipótesis Nula
@@ -25,6 +66,8 @@ Vamos a concentrarnos en dos conceptos importantes:
 
 * $H_0$ : Hipoótesis Nula refiriéndose a que el efecto no es $estádisticamente \ significativo$ o bien que no hay efecto.
 * $H_a$ : Hipótesis Alternativa, refiriéndose a que el efecto  es $estádisticamente \ significativo$.
+
+
 
 Generalmente buscamos desacreditar la hipótesis nula como objetivo de la investigación.
 
