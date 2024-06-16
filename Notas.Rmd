@@ -105,7 +105,43 @@ Un data frame contendrá información sobre múltiples unidades para diferentes 
 
 * Scrapeo de datos: es un proceso de automatización comunmente realizado en R o Python, en el cual se obtienen datos de cada link en una página o bien se retoman usando la estructura HTML de la página en cuestión. 
 
+* Data Capture: son datos que se encuentran previamente clasificados, generalmente siguen una estructura estadística. 
+
+
 * API: es una fuente en la que podemos acceder más directamente a los datos a través de código, generalmente los datos se encuentran en foramto JSON. 
+
+
+
+## Teorema del Límite Central 
+
+* Muestra aleatoria: se refiere a una realización aleatoria de un conjunto de objetos en un data frame, esperamos que al tomar subconjuntos de dicha muestra:
+
+    * La media de ese subconjunto converga (en media) a la             media de la muestra completa.
+  
+    * La varianza de ese subconjunto sea representativa a la          varianza de nuestra muestra completa. 
+    
+* Lo anterior se cumplirá sí y sólo sí los datos son independientes e idénticamente distribuidos (no hay ninguna conexión entre las observaciones o filas para un dataframe), es decir, si no hay subgrupos en la población que podrían tener resultados correlacionados. 
+
+* Si quisíeramos hacer algún tipo de inferencia partiendo de los grupos de un data frame tenemos que usar el método de aleatorización estratificada para asegurarnos de considerar submuestras representativas para cada subgrupo. 
+
+
+## Distribuciones: nos muetran el comportamiento las varibales aleatorias, y son particularmente útiles para realizar pruebas de hipótesis. Podemos distinguir entre: 
+
+  * Discretas: Involucran descontinuidades escalonadas en la        densidad, también tienen la naturaleza de mostrar realizaciones binarias, es por eso que los ejemplos más comunes son las distribuciones Bernoulli y Binomial. 
+  * Continuas: Tienen una forma suavizada, son un caso de una        distribución discreta, la forma más común es la distribución normal (Gaussiana)
+  
+* Lo anterior nos sierve para establecer el Teorema del Límite Central, el cual establece que conforme el número de realizaciones aumenta, la media muestral tiene a distribuirse de forma normal alrederor la media de la población, también la desviación estandar tiende a disminuir conforme $n$ disminuye (a causa de la convergencia en media). 
+
+* Para una realización aleatoria podemos hacer inferencias sobre qué podría ser representativo de nuestra población, conforme agregamos más datos, nuestra inferencia se vuelve más robusta. 
+  
+
+
+```{r, out.width="50%"}
+
+knitr::include_graphics("Sample_subset.png")
+
+```
+
 
 
 ## Hipótesis Alternativa/ Hipótesis Nula
