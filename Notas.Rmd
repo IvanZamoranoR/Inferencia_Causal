@@ -56,8 +56,56 @@ Cuando el supuesto de independencia entre $S$ y $Y$ cuando hay alguna relación 
 A partir de lo anterior, nos referimos al problema de identificación a la dificultad de obtener un estimador insesgado para identificar parámetros causales a menos que el mecanismo de asignación cumpla con distintas condiciones. 
 
 
+## Organización y estructura de datos.
 
+### Vectores
 
+Los vectores se usan regularmente para establecer una secuencia numérica, cada elemento del vector revela información sobre los datos en general, se representan comunmente como: $(S_{1}.... S_{6})$, en este caso se tratará de un vector de 6 elementos. 
+
+### Matrices
+
+Las matrices son objectos relacionados en dos dimensiones los cuales crean combinaciones de fila-columna, se representan comunmente como: 
+
+\begin{equation}
+\begin{pmatrix}
+  a_{a}       & b_{a}   & c_{a}  & d_{a}  \\
+  a_{b}      & b_{b}  & c_{b}  & d_{b}  \\
+  a_{c}       & b_{c}   & c_{c} & d_{c}  \\
+  a_{d}       & b_{d}   & c_{d} & d_{d}  \\
+\end{pmatrix}
+\end{equation}
+=
+
+\begin{equation}
+\begin{pmatrix}
+  1       & 2   & 3  & 4  \\
+  8      & 7  & 6  & 5  \\
+  9       & 10   & 11 & 12  \\
+  13       & 14   & 15 & 16  \\
+\end{pmatrix}
+\end{equation}
+
+### Data frame
+
+Un data frame contendrá información sobre múltiples unidades para diferentes vectores, los elemtnos que contienen este data frame regularmente a nivel de fila tendrán identificadores, aunque no siempre puede darse el caso en el que la información esté idenxada, esta última característica será útil si queremos agrupar nuestros datos. 
+
+### Tipos de variables 
+
+* Variables binarias: sólo pueden tomar dos valores de un conjunto discreto. 
+
+* Variables categóricas: capturan si la unidad del dato está clasificada en un rango de categorías. 
+
+* Variables ordinarias: capturan información en un rango particular. 
+
+* Variables continuas: capturan datos en un margen más amplio, generalmente son datos numéricos en un conjunto continuo. 
+
+## Obtención de datos 
+
+* Descargas directas: generalmente son datos con una estructura definida, son de fácil acceso a través de links descargables. 
+
+* Scrapeo de datos: es un proceso de automatización comunmente realizado en R o Python, en el cual se obtienen datos de cada link en una página o bien se retoman usando la estructura HTML de la página en cuestión. 
+
+* API: es una fuente en la que podemos acceder más directamente a los datos a través de código, generalmente los datos se encuentran en foramto JSON. 
 
 
 ## Hipótesis Alternativa/ Hipótesis Nula

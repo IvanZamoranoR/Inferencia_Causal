@@ -362,8 +362,8 @@ display: none;
 <p>Cuando hablamos de un proceso de inferencia causal nos referimos al
 proceso de hacer afirmaciones sobre una <span class="math inline">\(población\)</span> basándonos en una <span class="math inline">\(muestra\)</span> representativa compuesta de <span class="math inline">\(unidades\)</span> (misma que dependerá de
 diferentes supuestos), particularmente, usaremos estos dos conceptos
-para entender el efecto de un fenómeno ocurrido de la <span class="math inline">\(muestra\)</span> sobre la <span class="math inline">\(población\)</span>, buscando si es <span class="math inline">\(estadísticamente significativo\)</span> para
-establecer una relación <span class="math inline">\(causal\)</span></p>
+para entender el efecto de un fenómeno ocurrido de la <span class="math inline">\(muestra\)</span> sobre la <span class="math inline">\(población\)</span>, buscando si es <span class="math inline">\(estadísticamente \ significativo\)</span> para
+establecer una relación <span class="math inline">\(causal\)</span>.</p>
 </div>
 <div id="modelo-de-rubin-holland" class="section level2">
 <h2>Modelo de Rubin, Holland</h2>
@@ -373,6 +373,123 @@ estadísticamente para crear un modelo causal, una parte importante es
 establecer el concepto de <span class="math inline">\(aleatoreidad\)</span> lo cual obedece a un
 $proceso  generador  de  datos $ el cual puede se puede aislar bajo sus
 propias condiciones.</p>
+<p>Retomando los conceptoa anteriores, consideraremos una <span class="math inline">\(población\)</span>, <span class="math inline">\(muestra\)</span> y <span class="math inline">\(unidades\)</span>, de las últimas podremos
+establecer <span class="math inline">\(funcione\)</span> que
+traduciremos como <span class="math inline">\(variables\)</span>.</p>
+<p>En ese sentido, podemos definir los componentes del modelo como:</p>
+<ul>
+<li>Unidad : Un objeto <span class="math inline">\(i\)</span> en un
+punto del tiempo específico.</li>
+<li>Tratamiento : Una intervención <span class="math inline">\(t\)</span>, cuyos efectos queremos estimar
+comparando con un <span class="math inline">\(control / c\)</span>
+determinado por la ausencia de intervención.</li>
+<li>Estado del mundo: <span class="math inline">\(S\)</span> para la
+unidad <span class="math inline">\(i\)</span> la cual tiene un estado de
+tratamiento definido por <span class="math inline">\(S \in
+{t,c}\)</span>.</li>
+<li>Resultado potencial: Antes de que el tratamiento es asignado,
+podemos estimar la medición de nuestro resultado de interés <span class="math inline">\(Y\)</span> para cada unidad <span class="math inline">\(i\)</span>, bajo ambos tratamiento y control,
+identificados como <span class="math inline">\(Y_{i}^{t}\)</span> y
+<span class="math inline">\(Y_{i}^{c}\)</span>.</li>
+<li>Mecanismo de asignación: El algoritmo que determina si cada <span class="math inline">\(i\)</span> recibe <span class="math inline">\(t\)</span> o <span class="math inline">\(c\)</span>.</li>
+<li>Efecto causal: La diferencia entre el resultado potencial para una
+unidad dada: <span class="math inline">\(Y_{i}^{t} - Y_{i}^{c} =
+T_{i}\)</span>.</li>
+</ul>
+<p>Una vez que <span class="math inline">\(S = c\)</span> podemos
+obtener el <span class="math inline">\(efecto /del tratamiento\)</span>
+como <span class="math inline">\(Y_{i}^{t} - Y_{i}^{c} = T_{i}\)</span>.
+No obstante una vez que <span class="math inline">\(S\)</span> está
+determinado solo observamos un resultado, nunca podemos observar dos
+resultados potenciales para la misma unidad, a esto se refiere el
+Problema Fundamental de la Inferencia Causal, es decir, es imposible
+observar el valor de <span class="math inline">\(Y_{i}^{t}\)</span> y
+<span class="math inline">\(Y_{i}^{c}\)</span> para la misma unidad y
+por tanto, es imposible observar el efecto de <span class="math inline">\(t\)</span> contra <span class="math inline">\(c\)</span> para una <span class="math inline">\(i\)</span> en particular.</p>
+<p>//</p>
+<p>Una solución al problema anterior es, en lugar de concentrarnos en
+calcular <span class="math inline">\(T_{i}\)</span> calculamos <span class="math inline">\(T\)</span> que será el <span class="math inline">\(Efecto / medio / de/  tratamientoo\)</span>
+calculado como: $T = E(Y_{i}^{t} - Y_{i}^{c}) = E(T_{i}) $ el cual se
+obtiene directamente recordando que la media es un operador lineal.</p>
+<p>Aunque no siempre podemos observar <span class="math inline">\(T\)</span>, podemos estimarlo de la siguiente
+forma:</p>
+<p><span class="math inline">\(\hat{T} = \hat{E}(Y_{i}^{t}| S=t) -
+\hat{E}( Y_{i}^{c}|S=c)\)</span></p>
+<p>Generalmente <span class="math inline">\(\hat{T}\)</span> es un buen
+estimador de <span class="math inline">\(T\)</span> (no quiere decir que
+sea el único), lo cual depende del mecanismo de asignación.</p>
+<p>Consideremos: <span class="math inline">\(E(Y_{i}^{t}) = (Y_{i}^{t}|
+S=t)\)</span> y <span class="math inline">\(E(Y_{i}^{c}) = (Y_{i}^{c}|
+S=c)\)</span></p>
+<p>Entonces <span class="math inline">\(E(\hat{T}) = T\)</span> se
+cumplirá si <span class="math inline">\(S\)</span> es independeinte de
+<span class="math inline">\(Y\)</span>, entonces el grupo tratado es una
+muestra aleatoria del grupo de los potencialmente tratados, mismo caso
+para el grupo de control.</p>
+<p>Notemos entonces que la asignación aleatoria de <span class="math inline">\(S\)</span> hace que la independencia sea plausible
+pero no testeable.</p>
+</div>
+<div id="problema-de-identificación." class="section level2">
+<h2>Problema de identificación.</h2>
+<p>Cuando el supuesto de independencia entre <span class="math inline">\(S\)</span> y <span class="math inline">\(Y\)</span> cuando hay alguna relación a priori
+entre ambos, por ejemplo, si el tratamiento es parte de un procceso de
+optimización que involucra al resultado, caso que es común.</p>
+<p>A partir de lo anterior, nos referimos al problema de identificación
+a la dificultad de obtener un estimador insesgado para identificar
+parámetros causales a menos que el mecanismo de asignación cumpla con
+distintas condiciones.</p>
+</div>
+<div id="organización-y-estructura-de-datos." class="section level2">
+<h2>Organización y estructura de datos.</h2>
+<div id="vectores" class="section level3">
+<h3>Vectores</h3>
+<p>Los vectores se usan regularmente para establecer una secuencia
+numérica, cada elemento del vector revela información sobre los datos en
+general, se representan comunmente como: <span class="math inline">\((S_{1}.... S_{6})\)</span>, en este caso se
+tratará de un vector de 6 elementos.</p>
+</div>
+<div id="matrices" class="section level3">
+<h3>Matrices</h3>
+<p>Las matrices son objectos relacionados en dos dimensiones los cuales
+crean combinaciones de fila-columna, se representan comunmente como:</p>
+<p><span class="math display">\[\begin{equation}
+\begin{pmatrix}
+  a_{a}       &amp; b_{a}   &amp; c_{a}  &amp; d_{a}  \\
+  a_{b}      &amp; b_{b}  &amp; c_{b}  &amp; d_{b}  \\
+  a_{c}       &amp; b_{c}   &amp; c_{c} &amp; d_{c}  \\
+  a_{d}       &amp; b_{d}   &amp; c_{d} &amp; d_{d}  \\
+\end{pmatrix}
+\end{equation}\]</span> =</p>
+<p><span class="math display">\[\begin{equation}
+\begin{pmatrix}
+  1       &amp; 2   &amp; 3  &amp; 4  \\
+  8      &amp; 7  &amp; 6  &amp; 5  \\
+  9       &amp; 10   &amp; 11 &amp; 12  \\
+  13       &amp; 14   &amp; 15 &amp; 16  \\
+\end{pmatrix}
+\end{equation}\]</span></p>
+</div>
+<div id="data-frame" class="section level3">
+<h3>Data frame</h3>
+<p>Un data frame contendrá información sobre múltiples unidades para
+diferentes vectores, los elemtnos que contienen este data frame
+regularmente a nivel de fila tendrán identificadores, aunque no siempre
+puede darse el caso en el que la información esté idenxada, esta última
+característica será útil si queremos agrupar nuestros datos.</p>
+</div>
+<div id="tipos-de-variables" class="section level3">
+<h3>Tipos de variables</h3>
+<ul>
+<li><p>Variables binarias: sólo pueden tomar dos valores de un conjunto
+discreto.</p></li>
+<li><p>Variables categóricas: capturan si la unidad del dato está
+clasificada en un rango de categorías.</p></li>
+<li><p>Variables ordinarias: capturan información en un rango
+particular.</p></li>
+<li><p>Variables continuas: capturan datos en un margen más amplio,
+generalmente son datos numéricos en un conjunto continuo.</p></li>
+</ul>
+</div>
 </div>
 <div id="hipótesis-alternativa-hipótesis-nula" class="section level2">
 <h2>Hipótesis Alternativa/ Hipótesis Nula</h2>
