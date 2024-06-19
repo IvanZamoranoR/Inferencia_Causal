@@ -142,6 +142,10 @@ knitr::include_graphics("Sample_subset.png")
 
 ```
 
+## Analítica Descriptiva 
+
+
+
 
 
 ## Hipótesis Alternativa/ Hipótesis Nula
