@@ -142,9 +142,34 @@ knitr::include_graphics("Sample_subset.png")
 
 ```
 
-## Analítica Descriptiva 
+## Analítica Descriptiva: Medidas de dispersión y localización
+
+### Medidas de localización/tendencia central
+
+Consideremos que la localización central de un data frame (para un vector) requiere considerar diferentes medidas de tendencia central como: 
+
+* Media: También llamada Esperanza o Valor Esperado y denotado comunmente como $\bar{X}$ es igual a la suma del vector dividido entre su longitud (notemos que este valor indirectamente que el peso de cada valor en el vector es el mismo en términos de probabilidad). 
+
+* Mediana: El valor que se encuentra justo en medio del vector listado (el número de valores previos y posteriores es el mismo aproximádamente). 
+
+* Moda: El valor con más ocurrencia en el vector. 
+
+### Medidas de dispersión
+
+Generalmente los datos están distribuidos alrededor de una tendencia central, para organizarlos mejor distinguimos entre: 
+
+* Rango: Diferencia entre el valor más pequeño y el más grande en una secuencia numérica (vector numérico).
+
+* Percentiles/Quartiles: Muestran al densidad de la distribución sobre un punto en particular. 
+
+* Rango IQ: Distancia entre dos segmentos de datos. 
+
+* Varianza: Suma de los datos estandarizados (restándoles la media) divivido entre $n-1$, es decir: $\sigma^2 = 1/n-1 \sum_{1}^n (X_{i} - \bar{X})^2$ recordemos que la Desviación estándar es la raíz cuadrada de la Varianza (i.e $\sigma$).
 
 
+### Correlación
+
+* La correlación nos ayuda a evaluar la relación entre dos variables ($X$, $Y$; o más), la visualización más común es el gráfico de dispersión donde podemos observar como cuando un vector aumenta su valor, los valores del otro vector aumentan (relación directa), disminuyen (relación inversa) o se quedan igual (no hay relación), podemos obtener la correlación calculando $\sum_{1}^n (X_{i} - \bar{X})(Y_{i} - \bar{y})/ SD^X SD^Y$, esta medida deriva de la covarianza y es importante mencionar que la correlación no implica causalidad. 
 
 
 
