@@ -171,6 +171,28 @@ Generalmente los datos están distribuidos alrededor de una tendencia central, p
 
 * La correlación nos ayuda a evaluar la relación entre dos variables ($X$, $Y$; o más), la visualización más común es el gráfico de dispersión donde podemos observar como cuando un vector aumenta su valor, los valores del otro vector aumentan (relación directa), disminuyen (relación inversa) o se quedan igual (no hay relación), podemos obtener la correlación calculando $\sum_{1}^n (X_{i} - \bar{X})(Y_{i} - \bar{y})/ SD^X SD^Y$, esta medida deriva de la covarianza y es importante mencionar que la correlación no implica causalidad. 
 
+## Visualizaciones
+
+* Tablas 
+
+* Boxplots
+
+* Histogramas 
+
+* Densidad 
+
+
+## Randomized Control Trials (RCTs)
+
+Partiendo del modelo de Rubin, podemos recordar que si el tratamiento es determinado de forma aleatoria, entonces la independencia en la muestra es plausible (mas no garantizada), los RCTs hacen uso de este supuesto para generar modelos de asignación aleatoria. Algo importante a diferencias son los tratamientos exógenos vs los endógenos.
+
+* La idea detrás es que cuando los agentes eligen el estado del mundo $S$ (endógeno) dependederá en los resultados $Y$.
+
+* Por otro lado, si es exógeno podemos definir un "agente optimizador fuera del control" que hace la independencia plausible. 
+
+Lo anterior se puede entender también en un problema de exogeneidad sobre una regesión continua, lo cual le resta robustez y significancia estadística a nuestro modelo y por tanto a la intepretación del mismo. 
+
+También podemos notar 
 
 
 ## Hipótesis Alternativa/ Hipótesis Nula
