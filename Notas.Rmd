@@ -195,7 +195,19 @@ Lo anterior se puede entender también en un problema de exogeneidad sobre una r
 
 ## Limitantes de los RCT
 
+### Beneficios:
 
+* Dado que podemos establecer independencia a priori, el problema de identificación se resuelve fácilmente, pudiendo establecer un efecto causal. 
+
+### Limitantes o problemas potenciales:
+
+* Aleatorización fallida 
+* Sesgo por desgaste (Attrition bias)
+* Efectos en equilibrio general
+* Practicidad 
+* Validación externa 
+
+Por tanto, utilizaremos balance tests 
 
 
 
