@@ -190,9 +190,14 @@ Partiendo del modelo de Rubin, podemos recordar que si el tratamiento es determi
 
 * Por otro lado, si es exógeno podemos definir un "agente optimizador fuera del control" que hace la independencia plausible. 
 
-Lo anterior se puede entender también en un problema de exogeneidad sobre una regesión continua, lo cual le resta robustez y significancia estadística a nuestro modelo y por tanto a la intepretación del mismo. 
+Lo anterior se puede entender también en un problema de exogeneidad sobre una regesión continua, lo cual le resta robustez y significancia estadística a nuestro modelo y por tanto a la intepretación causal de los resultados, cuando hacemos un RCT la idea principal es resolver el problema de endogenidad teniendo una muestra independiente a priori, aunque también podemos encontrarnos con el problema de una aleatorización pobre, una forma de verificar que no ocurre dicho problema es realizando balance tests, los cuales buscan verificar la independencia del estado del mundo $S$ con las características exógenas (no el resultado $Y$).
 
-También podemos notar 
+
+## Limitantes de los RCT
+
+
+
+
 
 
 ## Hipótesis Alternativa/ Hipótesis Nula
