@@ -202,14 +202,31 @@ Lo anterior se puede entender también en un problema de exogeneidad sobre una r
 ### Limitantes o problemas potenciales:
 
 * Aleatorización fallida 
-* Sesgo por desgaste (Attrition bias)
+* Desgaste (Attrition)
 * Efectos en equilibrio general
 * Practicidad 
-* Validación externa 
+* Validación externa
+* Sesgo por elección
 
-Por tanto, utilizaremos balance tests 
+
+Attrition: Algunos participantes pueden dejar el estudio, el problema está en que no podremos encontrar $Y$ de las personas que abandonan el estudio, si el attrition no está correlacionado $Y^{s}$, no será un problema, dado que aún se podrá tener independencia de $S$ y $Y^{t}$ y $Y^{c}$ en el resto de la muestra, si el attrition está correlacionado con $Y^{S}$ y el tratamiento cambia el attrition entonces la indepedencia se rompe, necesitaríamos: 
+
+$E[Y^{S}|S = s, observada] = E[Y^{S}, observada]$
+
+Observaríamos un conjunto no aleatorio de los resultados tratados. 
 
 
+## Compliance 
+
+En algunas ocasiones también las personas se pueden negar a tomar el tratamiento, también puede darse el casp que las personas del grupo de control busquen tratarse fuera del programa, si es que se observan los resutlados, se puede obtener un estimador válido del parámetro sobre la intención a ser tratado (ITT), podemos entender mejor lo anterior a través de la siguiente Matrix de Compliance: 
+
+|   |      Assignación t      |  Assignación c |
+|----------|:-------------:|------:|
+| Recibo t |  A | B |
+| Recibo c |    C   | D |
+
+
+En este caso, A y D son compliers, mientras que B y C no lo serán. 
 
 
 ## Hipótesis Alternativa/ Hipótesis Nula
