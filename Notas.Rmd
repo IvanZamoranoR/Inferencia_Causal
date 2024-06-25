@@ -226,7 +226,9 @@ En algunas ocasiones también las personas se pueden negar a tomar el tratamient
 | Recibo c |    C   | D |
 
 
-En este caso, A y D son compliers, mientras que B y C no lo serán. 
+En este caso, A y D son compliers, mientras que B y C no lo serán. También podemos definir el siguiente modelo 
+
+
 
 
 ## Hipótesis Alternativa/ Hipótesis Nula
@@ -234,9 +236,7 @@ En este caso, A y D son compliers, mientras que B y C no lo serán.
 Vamos a concentrarnos en dos conceptos importantes: 
 
 * $H_0$ : Hipoótesis Nula refiriéndose a que el efecto no es $estádisticamente \ significativo$ o bien que no hay efecto.
-* $H_a$ : Hipótesis Alternativa, refiriéndose a que el efecto  es $estádisticamente \ significativo$.
-
-
+* $H_a$ : Hipótesis Alternativa, refiriéndose a que el efecto  es $estádisticamente \ significativo$. 
 
 Generalmente buscamos desacreditar la hipótesis nula como objetivo de la investigación.
 
