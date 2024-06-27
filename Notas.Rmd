@@ -253,7 +253,7 @@ Los RCT's serán nuestro marco estándar para estimar una inferencia causal a ca
 También llamada OLS(Ordinary Least Squares) Bivariada o Mínimos Cuadrados Ordinarios Bivariado, nos ofrece un modelo en el que se ajusta una línea entre dos variables X y Y, por lo que se asume de inició una relación lineal entre X y Y tal que: 
 
 \begin{equation}
-$Y = \beta_{0} + \beta_{1}X + u$
+Y = \beta_{0} + \beta_{1}X + u
 \end{equation}
 
 MCO (OLS) será el método para estimar la pendiente $\beta_{1}$ y el intercepto $\beta_{0}$, aunque también se podrá estimar a través de máxima verosimilitud. 
@@ -261,7 +261,7 @@ MCO (OLS) será el método para estimar la pendiente $\beta_{1}$ y el intercepto
 La ecuación estándar de regresión para una población será: 
 
 \begin{equation}
-$Y_{i} = \beta_{0} + \beta_{1}X_{i} + u_{i}$
+Y_{i} = \beta_{0} + \beta_{1}X_{i} + u_{i}
 \end{equation}
 
 Donde:
@@ -293,12 +293,86 @@ Sigue una lógica de optimización en la que se minimizan las desviaciones de lo
 
 
 \begin{equation}
-$ min_{b_{o}b_{1}} = \sum_{i}^{n}(Y_{i} - b_{0} - b_{1}X_{i})^2 $
+
+min_{b_{o}b_{1}} = \sum_{i}^{n}(Y_{i} - b_{0} - b_{1}X_{i})^2
+
 \end{equation}
 
-Los residuos se refieren a los errores que el modelo está haciendo 
+Los residuos se refieren a los errores que el modelo está haciendo, los cuales están dados por $\bar{u_{i}} = Y_{i} - \hat{\beta_{0}} - \hat{\beta_{1}} X_{i}$, podemos reescribir el problema de MCO como: 
 
 
+\begin{equation}
+min_{b_{o}b_{1}} \sum_{i=1}^{n} (\tilde{u_{i}})^2
+\end{equation}
+
+donde $\tilde{u_{i}} = Y_{i} - b_{0} - b_{1}X_{i}$, la solución dada por MCO minimiza la suma de los residuos al cuadrado, es decir mnimiza la distancia vertical entre los puntos. 
+
+
+```{r, out.width="50%"}
+
+knitr::include_graphics("OLS.png")
+
+```
+
+Notemos sin embargo que $\hat{\beta_{0}}$ y $\hat{\beta_{1}}$ son los valroes de $\beta_{0}$ y $\beta_{1}$ que minimizan la suma de residuos al cuadrado, donde cada uno está dado por: 
+
+
+\begin{equation}
+
+\hat{\beta_{1}} = \frac{\sum_{i=1}^{n}(X_{i} - \bar{X}) (Y_{i} - \bar{Y})} {{\sum}_{i=1}^{n} (X_{i} - \bar{X})^2}
+\end{equation}
+
+\begin{equation}
+ =  \frac{\hat{Cov(X,Y)}}{\hat{Var(X)}} = \frac{S_{XY}}{S_{X}^2}
+\end{equation}
+
+
+
+\begin{equation}
+\hat{\beta_{0}} = \bar{Y} - \hat{\beta_{1}}\bar{X}
+\end{equation}
+
+Donde 
+
+$\hat{X} = \frac{1}{n} \sum_{i=1}^{n} X_{i}$ es la media muestral de X.
+
+y $\hat{Y} = \frac{1}{n} \sum_{i=1}^{n} Y_{i}$ es la media muestral de Y.
+
+El método de MCO nos ayuda a encontrar $\hat{\beta_{s}}$, lo cual define el valor predecido y los residuos. 
+
+Los valores predecidos ($\hat{Y}$ es el modelo estimado de $Y_{i}$ dado $X_{i}$): 
+
+\begin{equation}
+\hat{Y_{i}} = \hat{\beta_{0}} + \hat{\beta_{1}}X_{i}
+\end{equation}
+
+Predice los valores a partir de los estimadores de MCO usando medias condicionales: 
+
+\begin{equation}
+E(Y_{i} | X_{i}) = \beta_{0} + \beta_{1}X_{i}
+\end{equation}
+
+\begin{equation}
+\hat{E}(Y_{i} | X_{i}) = \hat{\beta_{0}} + \hat{\beta_{1}}X_{i} = \hat{Y_{i}}
+\end{equation}
+
+Los valores predecidos son las mejores aproximaciones de $Y_{i}$ cuando sabemos $X_{i}$.
+
+Los residuos serán la diferencia entre los resultados veraderos y los valores predicidos. 
+
+\begin{equation}
+\hat{u_{i}} = Y_{i} - \hat{Y_{i}} = Y_{i} - \hat{\beta_{0}} - \hat{\beta_{1}}X_{i} 
+\end{equation}
+
+
+## Supuestos importantes para MCO 
+
+MCO será un "buen" método para estimar una relación causal entre $X$ y $Y$ a través del estimador/pendiente $\hat{\beta_{1}}$, se necesitará que: 
+
+1. Los parámetros verdaderos sean causales. 
+2. MCO deberá proporcionar un buen "estimador" de los valores reales. 
+
+Recordemos que $\hat{\beta_{0}}$ y $\hat{\beta_{1}}$ son variables aleatorias, no constantes, por lo que un "buen" estimador deberá de ser insesgado y preciso/eficiente. 
 
 
 ## Hipótesis Alternativa/ Hipótesis Nula
@@ -311,7 +385,6 @@ Vamos a concentrarnos en dos conceptos importantes:
 Generalmente buscamos desacreditar la hipótesis nula como objetivo de la investigación.
 
 
-## 
 
 
 
