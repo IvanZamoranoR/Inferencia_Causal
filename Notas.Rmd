@@ -216,9 +216,9 @@ $E[Y^{S}|S = s, observada] = E[Y^{S}, observada]$
 Observaríamos un conjunto no aleatorio de los resultados tratados. 
 
 
-## Compliance 
+## Compliance y la intención a ser tratado (ITT)
 
-En algunas ocasiones también las personas se pueden negar a tomar el tratamiento, también puede darse el casp que las personas del grupo de control busquen tratarse fuera del programa, si es que se observan los resutlados, se puede obtener un estimador válido del parámetro sobre la intención a ser tratado (ITT), podemos entender mejor lo anterior a través de la siguiente Matrix de Compliance: 
+En algunas ocasiones también las personas se pueden negar a tomar el tratamiento, también puede darse el casp que las personas del grupo de control busquen tratarse fuera del programa, si es que se observan los resultados, se puede obtener un estimador válido del parámetro sobre la intención a ser tratado (ITT), podemos entender mejor lo anterior a través de la siguiente Matrix de Compliance: 
 
 |   |      Assignación t      |  Assignación c |
 |----------|:-------------:|------:|
@@ -226,7 +226,77 @@ En algunas ocasiones también las personas se pueden negar a tomar el tratamient
 | Recibo c |    C   | D |
 
 
-En este caso, A y D son compliers, mientras que B y C no lo serán. También podemos definir el siguiente modelo 
+En este caso, A y D son compliers, mientras que B y C no lo serán. De inicio, podríamos pensar que nuna buena opción sería la de comparar A y B contra C y D, pero se perdiría la independencia dado que tenemos agentes endógenos que eligen en el estado del tratamiento, esto porque la asignación de $t$ o $c$ no necesariamente implica que hayan recibido $t$ o $c$ necesariamente. 
+
+De tal forma se desarrolla el concepto de la intención a ser tratado, el cual compara A y C así como B y D, si todos los agentes son compliers entonces se cumplirá que ITT = ATT.
+
+
+## Efectos en Equilibrio General
+
+Ocurre cuando el grupo de control es afectado por el tratamiento, puede darse debido a efectos en equilibrio general o bien a efectos de pares (peer effects), en caso que se identifiquen esos efectos de forma potencial, el RCT debe de ser rediseñado para prevenirles, lo cual regularmente reduce el tamaño de la muestra efectiva a través de clusters.
+
+
+## Practicidad y validación. 
+
+* Ética: Hay experimentos que pueden generar estrés financiero o una situación poco deseable para la muestra. 
+
+* Factibilidad: Existe una limitante sobre los recursos que podemos usar y el escenario que podemos plantear. 
+
+* Costo: Los RCT's tienden a ser costosos en comparación con los estudios observacionales. 
+
+* Validación externa: Una estimador será válido internamente si es un estimador insesgado para la población del experimento, también será válido externamente si es un estimador insesgado para la población fuera del experimento, no todos los RCT tienen validación externa pero se busca que la tengan. 
+
+Los RCT's serán nuestro marco estándar para estimar una inferencia causal a causa de que la independencia es plausible al controlar aleatoriamente el mecanismo de asignación, resolviendo el problema de identificación, por eso cuando examinamos datos observacionales (no experimentales) siepre es buena idea comparar con el RCT inicial para comprender los problemas potenciales, aunque es importante tener en mente las limitantes de los RCTs, teniendo claro el tipo de estimación que queremos obtener, así como los parámetros que son creíbles para estimar, considerando attrition, compliance, equilibrio general, etc.
+
+### Regresión Bivariada 
+
+También llamada OLS(Ordinary Least Squares) Bivariada o Mínimos Cuadrados Ordinarios Bivariado, nos ofrece un modelo en el que se ajusta una línea entre dos variables X y Y, por lo que se asume de inició una relación lineal entre X y Y tal que: 
+
+\begin{equation}
+$Y = \beta_{0} + \beta_{1}X + u$
+\end{equation}
+
+MCO (OLS) será el método para estimar la pendiente $\beta_{1}$ y el intercepto $\beta_{0}$, aunque también se podrá estimar a través de máxima verosimilitud. 
+
+La ecuación estándar de regresión para una población será: 
+
+\begin{equation}
+$Y_{i} = \beta_{0} + \beta_{1}X_{i} + u_{i}$
+\end{equation}
+
+Donde:
+
+* $Y_{i}$ es la variable dependiente.
+* $X_{i}$ es la variable independiente. 
+* $\beta_{0}$ es la constante/intersecto verdadera.
+* $\beta_{1}$ es la pendiente verdadera. 
+* $u_{i}$ es el término de error verdadero.
+
+
+Por otro lado, nuestros estimadores serán marcados con un "sombrero" de la siguiente forma: 
+
+* $\hat{\beta}$ será el estimador del coeficiente. 
+* $\hat{Y_{i}}$ será el valor predecido.
+
+Por lo que $\hat{Y} = \hat{\beta_{0}} + \hat{\beta_{1}} X_{i}$
+
+* $\hat{u_{i}}$ es un residuo. 
+
+Por lo que $ \hat{u_{i}} = Y_{i} - \hat{Y_{i}} = Y_{i} - \hat{\beta_{0}} - \hat{\beta_{1}} X_{i}$
+
+Observamos $X$ y $Y$ y estimamos $\beta$ y $u$.
+
+
+## Mínimos Cuadrados Ordinarios (MCO)
+
+Sigue una lógica de optimización en la que se minimizan las desviaciones de los valores predecidos con los valores reales en los datos, generalmente toma una muestra de tamaño $n$ dado por: 
+
+
+\begin{equation}
+$ min_{b_{o}b_{1}} = \sum_{i}^{n}(Y_{i} - b_{0} - b_{1}X_{i})^2 $
+\end{equation}
+
+Los residuos se refieren a los errores que el modelo está haciendo 
 
 
 
