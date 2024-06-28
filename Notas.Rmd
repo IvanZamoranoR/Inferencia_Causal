@@ -395,7 +395,13 @@ Media condicional igual a cero, se refiere a que la tendencia central de la dist
 
 Notemos que $E(u_{i})=0$ no es relevante acá, nos importa $E(u_{i}|X_{i})$ (esto dado que la media condicional es el mejor predictor lineal en general) sea la misma para todos los valores de $X$ i.e, $E(u_{i}) = E(u_{i}|X_{i})$, aunque notemos que $E(u_{i} = )$ mientras que la regresión tenga una constante 
 
-El supuesto de la media condicional igual a cero es más fuerte que 
+El supuesto de la media condicional igual a cero es más fuerte que el supuesto de no correlación, es decir: 
+
+* $E(u|X) = 0 \implies corr(u,X) = 0 $ pero 
+
+* $corr(u,X) = 0  \notimplies E(u|X) = 0 \newcommand{\notimplies}{\;\not\!\!\!\implies}$
+
+Notemos que el hecho de que nuestro témino de error $u$ y $X$ estén no correlacionados es una condición necesaria pero no suficiente para que el supuesto 1 se cumpla. 
 
 
 
