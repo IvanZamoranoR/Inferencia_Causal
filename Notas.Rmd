@@ -401,8 +401,35 @@ El supuesto de la media condicional igual a cero es más fuerte que el supuesto 
 
 * $corr(u,X) = 0  \notimplies E(u|X) = 0 \newcommand{\notimplies}{\;\not\!\!\!\implies}$
 
-Notemos que el hecho de que nuestro témino de error $u$ y $X$ estén no correlacionados es una condición necesaria pero no suficiente para que el supuesto 1 se cumpla. 
+Notemos que el hecho de que nuestro témino de error $u$ y $X$ estén no correlacionados es una condición necesaria pero no suficiente para que el supuesto 1 se cumpla, podemos ilustrar esto de la siguiente forma: 
 
+\begin{equation}
+ wage = \beta_{0} + \beta_{1}educ + u
+\end{equation}
+
+Necesitamos considerar los factores que serán capturados por $u . E(u|educ) = o$ implica por ejemplo que $E(u|trunca$ = $E(u|grduado$. Esto debido a que existen elemntos que no se capturan con educación en nuestro modelo inicial y serán capturados por $u$, por lo que $u$ podría ser la ambición, inteligencia, condiciones de mercado laboral locales, salud, etc. 
+Cualquier cosa que determine $Y$ y no esté en $X$ estará en nuestro "término de error", incluyendo las lurking variables, las cuales serán variables que pueden aparentar tener un nexo causal fuerte de forma errónea. 
+
+Si $X$ está correlacionado con el término de error, el supuesto 1 será violado, y sí $X$ es asigndo aleatoriamente, entonces no esperaíamos que el término de error esté correlacionado con $X$, en un RCT el tratamiento es asignado aleatoriamente por lo que el supuesto 1 es plausible. 
+
+Por tanto, si el supuesto 1 se cumple entonces esperaríamos que: 
+
+1. Los residuos $\hat{u}$ siempre estarán no correlacionados a $X$. 
+
+2. Los residuos $\hat{u}$ siempre tendrán media cero. 
+
+3. Si corremos la regresión $\hat{u} = \delta_{0} + \delta_{1}X + \epsilon$ entonces obtenemos $\hat{\delta_{0}} = \hat{\delta_{1}} = 0 $ siempre. 
+
+4. Los residuos no están correlacionados con $X$ por construcción. 
+
+5. Nos importa si el error está correacionado o no correlacionado con $X$.
+
+Por tanto, no podremos testear si $E(u|X) = 0$ checando si $E(\hat{u}|X) =0 $ dado que esto último siempre es cierto, tampoco podríamos si se cumple $E(u|X) = 0$ directamente dado que nunca observamos $u$, por lo que tendremos que decidir si el supuesto 1 es plausible dada la información que sabemos de los datos (por lo que resulta importante pensar en el mecanismo de asignación), otra opción sería observar las relaciones no lineales entre $\hat{u}$ y $X$. 
+
+
+## Supuesto 2: $(X_{i},Y_{}i)$ son indeendientes e identicamente distribuidas.
+
+Consideremos que cada unidad de los datos proviene de una realización de la misma población y cada realización es independiente entre sí. 
 
 
 
