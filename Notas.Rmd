@@ -365,7 +365,7 @@ Los residuos serán la diferencia entre los resultados veraderos y los valores p
 \end{equation}
 
 
-## Supuestos importantes para MCO 
+## Supuestos importantes para MCO - Teorema de Gauss - Markov 
 
 MCO será un "buen" método para estimar una relación causal entre $X$ y $Y$ a través del estimador/pendiente $\hat{\beta_{1}}$, se necesitará que: 
 
@@ -373,6 +373,32 @@ MCO será un "buen" método para estimar una relación causal entre $X$ y $Y$ a 
 2. MCO deberá proporcionar un buen "estimador" de los valores reales. 
 
 Recordemos que $\hat{\beta_{0}}$ y $\hat{\beta_{1}}$ son variables aleatorias, no constantes, por lo que un "buen" estimador deberá de ser insesgado y preciso/eficiente. 
+
+Pensemos que queremos estimar a través de MCO la siguiente relación lineal entre $X$ y $Y$: 
+
+\begin{equation}
+ Y_{i} = \beta_{0} + \beta_{1}X_{i} + u_{i}, i = 1,...,n 
+\end{equation}
+
+
+MCO será el mejor estimador bajo los siguientes supuestos para todo $i$: 
+
+1. $E(u_{i}|X_{i}) = 0 $ para todos los valores de $X_{i}$.
+2. $(X_{i}, Y_{i}$ son independientes e identicamente distribuidas.
+3. Los outliers son poco comunes (curtosis finita).
+4. $var(u_{i}|X_{i}) = \sigma_{u}^2$ para todos los valores de $X_{i}$ (homocedasticidad).
+
+
+## Supuesto 1: $E(u_{i}|X_{i}) = 0$ 
+
+Media condicional igual a cero, se refiere a que la tendencia central de la distribución del término de error $u_{i}$ no está relacionado a $X_{i}$, es decir la media de $u$ es la misma para cualquier valor de $X$. 
+
+Notemos que $E(u_{i})=0$ no es relevante acá, nos importa $E(u_{i}|X_{i})$ (esto dado que la media condicional es el mejor predictor lineal en general) sea la misma para todos los valores de $X$ i.e, $E(u_{i}) = E(u_{i}|X_{i})$, aunque notemos que $E(u_{i} = )$ mientras que la regresión tenga una constante 
+
+El supuesto de la media condicional igual a cero es más fuerte que 
+
+
+
 
 
 ## Hipótesis Alternativa/ Hipótesis Nula
