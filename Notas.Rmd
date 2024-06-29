@@ -427,9 +427,122 @@ Por tanto, si el supuesto 1 se cumple entonces esperaríamos que:
 Por tanto, no podremos testear si $E(u|X) = 0$ checando si $E(\hat{u}|X) =0 $ dado que esto último siempre es cierto, tampoco podríamos si se cumple $E(u|X) = 0$ directamente dado que nunca observamos $u$, por lo que tendremos que decidir si el supuesto 1 es plausible dada la información que sabemos de los datos (por lo que resulta importante pensar en el mecanismo de asignación), otra opción sería observar las relaciones no lineales entre $\hat{u}$ y $X$. 
 
 
-## Supuesto 2: $(X_{i},Y_{}i)$ son indeendientes e identicamente distribuidas.
+## Supuesto 2: $(X_{i},Y_{}i)$ son independientes e identicamente distribuidas.
 
-Consideremos que cada unidad de los datos proviene de una realización de la misma población y cada realización es independiente entre sí. 
+Consideremos que cada unidad de los datos proviene de una realización de la misma población y cada realización es independiente entre sí, notemos que los datos panel generalmente violan esa condición, las series de tiempo también violan ese supuesto regularmente. 
+
+
+## Supuesto 3: Los outliers son "poco comunes". 
+
+Es decir $X$ y $Y$ tienen curtosis finita, haciendo referencia al cuarto momento central i.e : $ 0 < E(X^4) < \infty$, esta condición también nos sirve para asegurar que tienen una varianza y covarianza finita y bien definida. 
+
+## Insesgadez de MCO 
+
+Consideremos el siguiente modelo especificado para la población: 
+
+\begin{equation}
+Y_{i} = \beta_{0} + \beta_{1}X_{i} + u_{i} 
+\end{equation}
+
+Si los supuestos 1-3 se cumplen entonces tendremos: 
+
+
+\begin{equation}
+  E(\hat{\beta_{0}}) = E(\beta_{0}) 
+\end{equation}
+
+\begin{equation}
+  E(\hat{\beta_{1}}) = E(\beta) 
+\end{equation}
+
+
+Donde \hat{\beta_{0}} y \hat{\beta_{1}} son estimadores del MCO, lo cual será cierto sin importar la muestra $n$. 
+
+## Aproximaciones a la normal (teoría asintótica)
+
+Cuando tenemos una $n$ lo suficientemente grande, la distribución de $\hat{\beta}$ se aproxima de forma cercana a la normal, i.e: 
+
+
+\begin{equation}
+  \hat{\beta_{1}} N(\beta_{1}, \sigma_{\hat{\beta_{1}}}^2)
+\end{equation}
+
+\begin{equation}
+  \sigma_{\hat{\beta_{1}}}^2 = \frac{1}{n} \frac{var [( X - \mu_{X})u ]}{ var(X)^2}
+\end{equation}
+
+Donde $\mu_{x}$ es la media de la población $X$. 
+
+En este caso usaremos una aplicación del teorema del límite central y nos ayudará a hacer pruebas de hipótesis de forma analítica. 
+
+Generalmente se sugiere nuestra muestra $n >100$ sera suficientemente grande, aunque esto depende en las características de los datos, en algunos casos incluso muestras grandes no serán suficientes dado que no existe suficiente independencia entre los puntos.
+
+
+## Supuesto 4: Homoscedasticidad. 
+
+Notemos que aunque es posible $E(u|X)=0$ pero $var(u|x)$ puede variar en $X$, si la varianza de de $u$ es diferente para diferentes niveles de $X$, diremos que el término de error es heterocedastico, aunque notemos que si el término de error es homoscedastico entonces nuestros estimadores de MCO serán mejores pero la homoscedasticidad no se requiere para que nuestro MCO sea insesgado 
+
+
+## Mejor Estimador Lineal (MEL)
+
+Cuando los supuestos 1-4 se cumplen entonces MCO será el mejor estimador lineal, el cual será 1. el más eficiente/mejor, 2. Lineal (en contraposición con modelos no lineales o de máxima verosimilitud), 3. Insesgado condicionalmente y 4. Estimador. 
+
+
+## Variaciones en los estimadores MCO 
+
+Recordemos que $\hat{\beta_{1}}$ es una variable aleatoria, por lo que tendrá una media y si los supuestos 1-3 se cumplen, entonces será insesgado, i.e: 
+
+\begin{equation}
+E(\hat{\beta_{1}}) = \beta_{1}
+\end{equation}
+
+Y tiene una desviación estándar de $\sigma_{\hat{\beta{1}}}$: 
+
+\begin{equation}
+  \sigma_{\hat{\beta_{1}}}^2 = \frac{1}{n} \frac{var [( X - \mu_{X})u ]}{ var(X)^2}
+\end{equation}
+
+Donde $n$ es una muestra, el denominador es la varianza de $X$ al cuadrado.
+
+Sin embargo, es importante preguntarnos: ¿qué determina la precisión de los estimadores MCO? 
+
+Pensemos en el caso homoscedastico: 
+
+
+\begin{equation}
+  \sigma_{\hat{\beta_{1}}}^2 = \frac{1}{n} \frac{var [( X - \mu_{X})u ]}{ var(X)^2}
+\end{equation}
+
+\begin{equation}
+         = \frac{1}{n} \frac{var(X) var(u)]}{ var(X)^2}
+\end{equation}
+
+\begin{equation}
+         = \frac{1}{n} \frac{var(u)}{ var(X)^2} = \frac{1}{n} \frac{\sigma_{u}^2}{\sigma_{X}^2} 
+\end{equation}
+
+Es decir que tendremos:
+
+\begin{equation}
+         = \frac{1}{n} \frac{\sigma_{u}^2}{\sigma_{X}^2} 
+\end{equation}
+
+\begin{equation}
+        = \frac{1}{\sqrt{n}} \frac{\sigma_{u}}{\sigma_{X}} 
+\end{equation}
+
+La precisión de (\frac{1}{var}) del estimador MCO es mayor mientras: 
+
+* El tamaño de la muestra $n$ aumente. 
+* La varianza de $u$ disminuya.
+* La varianza de $X_{i}$ aumente.
+
+La intuición será que tendremos que observar $Y$ para un rango más grande de $X$ para obtener más información. 
+
+
+
+
+
 
 
 
