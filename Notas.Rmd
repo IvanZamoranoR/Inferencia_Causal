@@ -641,10 +641,28 @@ Será ampliamente utilizado, el test default en Stata será contra cero (no efec
 
 Pero podemos hacer el mismo test contra cualquier otra hipótesis nula, el estadístico t de $H_{0}: \beta_{1} = 0.1 $, tomando el ejemplo anterior: $\frac{0.084 -0.1}{0.014} = -1.14 $
 
-Podemos recordar que si W es una variable normal, después si restamos la media 
+Podemos recordar que si W es una variable normal, si le restamos la media y dividimos sobre la desviación estándar nos lleva a una variable normal estándar, es decir: 
+
+\begin{equation}
+W - N(\mu_{W}, \sigma_{W}^2) \rightarrow \frac{W - \mu_{W}}{\sigma_{W}} - N(0,1)
+\end{equation}
+
+Si la desviación estándar es estimada en lugar de estar dada, entonces al momento de estandariar nos llevará a una distribución t
+
+\begin{equation}
+W - N(\mu_{W}, \sigma_{W}^2) \rightarrow \frac{W - \mu_{W}}{\hat{\sigma_{W}}} - t_{n-k-1}
+\end{equation}
+
+Y cuando n-k-1 es grande, entonces $t$ es aproximadamente normal. 
 
 
 
+```{r, out.width="55%"}
+
+knitr::include_graphics("Est_t.png")
+
+```
+Podemos interpretar los grados de libertad. 
 
 
 ```{r cars}
