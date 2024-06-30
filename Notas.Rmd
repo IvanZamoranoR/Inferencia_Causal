@@ -662,7 +662,56 @@ Y cuando n-k-1 es grande, entonces $t$ es aproximadamente normal.
 knitr::include_graphics("Est_t.png")
 
 ```
-Podemos interpretar los grados de libertad. 
+```{r, out.width="55%"}
+
+knitr::include_graphics("Est_t2.png")
+
+```
+
+```{r, out.width="55%"}
+
+knitr::include_graphics("Est_t3.png")
+
+```
+
+```{r, out.width="55%"}
+
+knitr::include_graphics("Est_t4.png")
+
+```
+
+Podemos interpretar los grados de libertad, pero ¿cuándo será n-k-1 suficientemente grande? podemos ver en el gráfico anterior cuándo la distribución t empata con la distribución normal, mientras que cuando aumentamos los grados de libertad de 1 a 5, 10 y 30 se acerca más a la distribución normal. 
+
+Así como el MCO será nuestro estimador estándar del regresor, el $t-stat$ será nuestro test estadístico estándar. 
+
+Sobre la hipótesis nula de que $\beta$ es igual a alguna constante $\theta$ ($H_{0}: \beta = \theta$) podemos formular el estadístico t:
+
+\begin{equation}
+\frac{\hat{\beta - \theta}}{\hat{\sigma_{\hat{\beta}}}} -.- t_{n-k-1}
+\end{equation}
+
+Si el estadístico t es muy pequeño, no podremos rechazar la hipótesis nula. 
+
+También existe una "regla del pulgar" la cual implica que  $|t-stat| >2$ implica que podemos rechazar la hipósteis nula.
+
+```{r, out.width="50%"}
+
+knitr::include_graphics("Est_t5.png")
+
+```
+
+No rechazamos la hipótesis nula $H_{o}$ si $|t-stat|<2$ dado que el valor absoluto de ese estadístico t es menor que 2. 
+
+
+
+```{r, out.width="50%"}
+
+knitr::include_graphics("Est_t6.png")
+
+```
+
+En este caso sí rechazamos la hipótesis nula $H_{o}$ si $|t-stat|>2$ dado que el valor absoluto de ese estadístico t es mayor que 2. 
+
 
 
 ```{r cars}
