@@ -558,15 +558,90 @@ knitr::include_graphics("MonteCarlo.png")
 
 Podemos ver que al momento de hacer una simulación Monte Carlo con la misma $\beta$ real, mismo $n$ y mismo $\sigma_{u}$ pero con mayor varianza en $X$ del lado derecho será más preciso dado que obtenemos más información sobre la distribución de $\hat{\beta_{1}}$
 
+## Medición de ajuste : R cuadrada. 
 
-## Hipótesis Alternativa/ Hipótesis Nula
+Recordemos que tenemos: 
+\begin{equation}
+Y_{i} = \hat{Y_{i}} + \hat{u_{i}}
+\end{equation}
+
+De lo cual obtenderemos la suma total de los cuadrados: TSS$= \sum_{i=1}^n(Y_{i} - \bar{Y})^2$, TSS será el valor total de la cantidad de variación en la muestra, notemos que $var(Y_{i}) = var(\hat{Y_{i}}) + var(\hat{u_{i}})$. 
+
+Por otro lado, una vez que tenemos $\hat{Y_{i}}$ estimado, entonces podemos obtener la suma de cuadrados explicados dada por ESS $= \sum_{i=1}^n(\hat{Y_{i}} - \bar{Y})^2$ lo cual será la cantidad de variación explicada por $X$.
+
+Así mismo, tendremos la suma de los residuos cuadrados dado por SSR $\sum_{i=1}^n \hat{U}^2$ que será la cantidad de variación no explicada por $X$, notemos que TSS = ESS+SSR. 
+
+A partir de lo anterior podemos definir la R cuadrada $R^2$ la cual se define como la fracción de la varianza muestral en $Y_{i}$ que está explicado por $X_{i}$, es decir:
+
+\begin{equation}
+R^2 = \frac{ESS}{TSS}
+\end{equation}
+
+\begin{equation}
+R^2 = 1 - \frac{SSR}{TSS}
+\end{equation}
+
+Donde la $R^2$ oscila entre 0 y 1, por lo que: 
+
+* $R^2 = 1 \iff SSR=0$
+* $R^2 = 0 \iff SSR=0$
+
+Por lo que una cantidad más cercana a 1 un mejor ajuste de nuestro modelo o bien una proporción más grande de la variación explicada. 
+
+
+## Medición de ajuste : Error estándar de la regresión
+
+El error estándar de la regresión es una medida del error de predicción y usado para estimar la varianza de los coeficientes, un estimador de la desviación estándar de $u_{i}$ es el error estándar de la regresión (SER) dado como: 
+
+
+\begin{equation}
+SER = \frac{1}{n-2} \sum_{i=1}^n \hat{u_{i}^2} = \frac{1}{n-2} SSR
+\end{equation}
+
+El SER mide la típica desviación entre $Y_{i}$ y $\hat{Y_{i}}$ y $n-2$ será los níveles de libertad (tamaño de la muestra menos el número de parámetros estimados).
+
+
+```{r, out.width="55%"}
+
+knitr::include_graphics("Fitted.png")
+
+```
+Notemos que los datos del lado derecho son los mismos que los del lado izquierdo con el error reducido (con varianza menor de $u$), por lo que la gráfica del lado derecho tendrá una mayor $R^2$ dado que una fracción de la variación en $Y$ es explicada por $X$. 
+
+
+
+## MCO : Inferencia - Hipótesis Alternativa/ Hipótesis Nula
 
 Vamos a concentrarnos en dos conceptos importantes: 
 
 * $H_0$ : Hipoótesis Nula refiriéndose a que el efecto no es $estádisticamente \ significativo$ o bien que no hay efecto.
-* $H_a$ : Hipótesis Alternativa, refiriéndose a que el efecto  es $estádisticamente \ significativo$. 
+* $H_A$ : Hipótesis Alternativa, refiriéndose a que el efecto  es $estádisticamente \ significativo$. 
 
-Generalmente buscamos desacreditar la hipótesis nula como objetivo de la investigación.
+Generalmente buscamos desacreditar la hipótesis nula como objetivo de la investigación y hacer inferencia estadística sobre hipótesis relativo a los parámetros de la población $\beta$, de tal forma podemos decir que: 
+
+* $H_0: \beta_{1} = \theta$ vs $H_{A}: \beta_{1} \neq \theta$ (two-sided)
+
+* $H_0: \beta_{1} = \theta$ vs $H_{A}: \beta_{1} < \theta$ (one-sided)
+
+Generalmente, se usan los test two-sided de forma más apropiada. 
+
+## Intervalos de confianza
+
+Imaginemos que tenemos $\hat{\beta} = 0.084$ y el error estándar de $\hat{\beta}$ (SE($\beta$)) = 0.014. 
+
+Con la información anterior podríamos construir elintervalo de confianza a 95%a para $\beta$ (usando una aproximación normal) como: $[\hat{\beta}-1.96 *SE(\hat{\beta}), \hat{\beta}+1.96*SE(\hat{\beta})] = [0.0567, 0.114]$ la primera parte nos dará la cola final y la segunda parte nos dará la cola inicial.
+
+Lo anterior se puede traducir también como que el 95% de las muestras posibles, el Intervalo de Confianza (CI) incluirá el valor verdadero. 
+
+Para cualquier $\theta$ dentro del Intervalo de Confianza (CI) se incluirá el valor verdadero, para cualquier $\theta$ dentro del CI no se rechazará $H_{0} : \beta =0 $ a un nivel del 5%. 
+
+## Estadístico t
+
+Será ampliamente utilizado, el test default en Stata será contra cero (no efecto) efecto nulo, el estadístico t de $H_{0}: \beta_{1} = 0 $, tomando el ejemplo anterior: $\frac{0.084 -0}{0.014} = 6.0 $
+
+Pero podemos hacer el mismo test contra cualquier otra hipótesis nula, el estadístico t de $H_{0}: \beta_{1} = 0.1 $, tomando el ejemplo anterior: $\frac{0.084 -0.1}{0.014} = -1.14 $
+
+Podemos recordar que si W es una variable normal, después si restamos la media 
 
 
 
