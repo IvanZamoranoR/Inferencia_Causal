@@ -694,25 +694,33 @@ Si el estadístico t es muy pequeño, no podremos rechazar la hipótesis nula.
 
 También existe una "regla del pulgar" la cual implica que  $|t-stat| >2$ implica que podemos rechazar la hipósteis nula.
 
-```{r, out.width="50%"}
-
+```{r, out.width="45%"}
 knitr::include_graphics("Est_t5.png")
-
 ```
 
 No rechazamos la hipótesis nula $H_{o}$ si $|t-stat|<2$ dado que el valor absoluto de ese estadístico t es menor que 2. 
 
 
-
 ```{r, out.width="50%"}
-
 knitr::include_graphics("Est_t6.png")
-
 ```
 
 En este caso sí rechazamos la hipótesis nula $H_{o}$ si $|t-stat|>2$ dado que el valor absoluto de ese estadístico t es mayor que 2. 
 
+Los resultados anteriores se pueden observar en la siguiente tabla, misma que generalmente se muestra después de correr un modelo estadístico: 
 
+
+```{r, out.width="50%"}
+knitr::include_graphics("Tabla_est.png")
+```
+
+Stata automaticamente reporta $H_{0}: \beta_{1} = 0$, en el caso que hemos estado discutiendo sería:
+
+\begin{equation}
+\frac{-10.33 -0}{1.699} = -6.08
+\end{equation}
+
+El test nos muestra si el estimador del coeficiente es "estadísticamente significativo diferente de cero". 
 
 ```{r cars}
 
