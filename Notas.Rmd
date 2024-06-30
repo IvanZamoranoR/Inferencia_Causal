@@ -541,10 +541,22 @@ La intuición será que tendremos que observar $Y$ para un rango más grande de 
 
 
 
+```{r, out.width="75%"}
+
+knitr::include_graphics("Precision_OLS.png")
+
+```
+
+En el gráfico podemos ver que si bien en ambos casos muestran la verdadera $\beta$, habrá más varianza en $X$ del lado derecho, sin embargo ¿cómo podemos saber cuál caso será más preciso? una manera de hacerlo es a través de simulaciones, en tal caso podríamos usar una simulación Monte Carlo como en el siguiente ejemplo:
 
 
+```{r, out.width="65%"}
 
+knitr::include_graphics("MonteCarlo.png")
 
+```
+
+Podemos ver que al momento de hacer una simulación Monte Carlo con la misma $\beta$ real, mismo $n$ y mismo $\sigma_{u}$ pero con mayor varianza en $X$ del lado derecho será más preciso dado que obtenemos más información sobre la distribución de $\hat{\beta_{1}}$
 
 
 ## Hipótesis Alternativa/ Hipótesis Nula
