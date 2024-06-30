@@ -656,28 +656,19 @@ W - N(\mu_{W}, \sigma_{W}^2) \rightarrow \frac{W - \mu_{W}}{\hat{\sigma_{W}}} - 
 Y cuando n-k-1 es grande, entonces $t$ es aproximadamente normal. 
 
 
-
 ```{r, out.width="55%"}
-
 knitr::include_graphics("Est_t.png")
-
 ```
 ```{r, out.width="55%"}
-
 knitr::include_graphics("Est_t2.png")
-
 ```
 
 ```{r, out.width="55%"}
-
 knitr::include_graphics("Est_t3.png")
-
 ```
 
 ```{r, out.width="55%"}
-
 knitr::include_graphics("Est_t4.png")
-
 ```
 
 Podemos interpretar los grados de libertad, pero ¿cuándo será n-k-1 suficientemente grande? podemos ver en el gráfico anterior cuándo la distribución t empata con la distribución normal, mientras que cuando aumentamos los grados de libertad de 1 a 5, 10 y 30 se acerca más a la distribución normal. 
@@ -714,13 +705,70 @@ Los resultados anteriores se pueden observar en la siguiente tabla, misma que ge
 knitr::include_graphics("Tabla_est.png")
 ```
 
+
+Podemos observar como la constante será 70.3973 lo cual significa que en esta muestra en particular tendremos individuos que son aproximadamente 70.39 inch de altura cuando female (mujer) = 0, ¿qué pasa cuando female =1? utilizaremos el valor de -10.322 menos cero, la hipótesis nula en ese sentido sería que no existe una diferencia entre las alturas de hombres y mujeres en la muestra, y será dividio sobre el error estándar (SE) dado por 1.699
+
+
 Stata automaticamente reporta $H_{0}: \beta_{1} = 0$, en el caso que hemos estado discutiendo sería:
 
 \begin{equation}
 \frac{-10.33 -0}{1.699} = -6.08
 \end{equation}
 
-El test nos muestra si el estimador del coeficiente es "estadísticamente significativo diferente de cero". 
+Recordemos que el test nos muestra si el estimador del coeficiente es "estadísticamente significativo diferente de cero", dado que tomaremos el valor absoluto, por lo que que sea negativo no impacta realmente, notemos que es mayor a 2 por lo que podemos refutar fácilmente la hipótesis nula en este caso, este test también sugiere que el coeficiente estimado es estadísticamente significativo, dado que será diferente de 0 donde 0 es nuestra hipótesis nula, generalmente se toman estos resultados como muestras de patrones descriptivos que pueden sugerir causalidad.  
+
+## Valores $p$
+
+Los valores $p$ se definen como la probabilidad de obtener una $\hat{\beta}$ que sea lo suficientemente lejana al valor nulo como del resultado observado, si el nulo es verdadero entonces definimos: 
+
+\begin{equation}
+p - value \aprox 2\Phi(-|t|)
+\end{equation}
+
+El resultado anterior usa una aproximación de la normal estándar para la distribución t con diferentes niveles de libertad. 
+
+Parecido al estadístico t, lo anterior depende del valor nulo en cuestión: 
+
+* $p$-value (para $(H_{0}: \beta = 0) \aprox 2\Phi (-6.08) < 0.00001$)
+
+* $p$-value (para $(H_{0}: \beta = -9) \aprox 2\Phi (0.782) = 0.439$)
+
+## MCO: Causalidad 
+
+Si bien es algo común encontrar correlacoones entre diferentes variables, no quiere decir que tods esas correlaciones nos lleven a causalidad, supongamos que hay una relación lineal causal: $X$ causa a $Y$. 
+
+Si estimamos por MCO $ X = \beta_{0} + \beta_{1}Y$ podemos generar una $\beta_{1}$ diferente de cero y tiene una interpretación inversa. 
+
+Incluso si tuviésmos la dirección de la causadlidad de forma correcta, MCO podría danos un estimador sesgado para $\beta_{1}$ en la mayoría de los casos. 
+
+Bajo circunstancias especiales MCO nos puede dar un etimador "bueno" de la relación causal entre $X$ y $Y$. 
+
+Cuando los datos se generan de un RCT realizado correctamente, al momento de aplicar MCO obtendremos un estimador insesgado para una relación causal dado que de inicio tenemos correctamente identificado nuestro nexo causal y también se satisfacen las condiciones del Teorema de Gauss-Markov. 
+
+Podemos pensar en el caso en el que tenemos un tratamiento bivariado, los valores predecidos (esperanas condicionadas estimada) si $X$ es una variable binaria se definen de la siguiente forma: 
+
+Definamos una variable dummy como =1 si el enunciado es verdadero, 0 en otro caso. Por ejemlo, una variable dummy de tratamiento será 1 si $i$ es tratado y o en otro caso (si $i$ forma parte del grupo de control). 
+
+\begin{equation}
+\hat{E}(Y_{i}|X_{i} = 1) = \hat{\beta_{0}} + \hat{\beta_{1}} x 1 = \hat{\beta_{0}} + \hat{\beta_{1}}
+
+\end{equation}
+
+
+\begin{equation}
+\hat{E}(Y_{i}|X_{i} = 0) = \hat{\beta_{0}} + \hat{\beta_{1}} x 0 = \hat{\beta_{0}} 
+\end{equation}
+
+$\beta_{0}$ será la media del control cuando $X=0$
+$\beta_{1}$ será la diferencia en medias del grupo de control cuando $X=1$ y $X=0$
+
+## Sesgo por variable omitida, introducción a MCO multivariado
+
+
+
+
+
+
 
 ```{r cars}
 
