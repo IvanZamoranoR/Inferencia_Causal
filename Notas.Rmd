@@ -764,9 +764,398 @@ $\beta_{1}$ será la diferencia en medias del grupo de control cuando $X=1$ y $X
 
 ## Sesgo por variable omitida, introducción a MCO multivariado
 
+Podeemos pensar en cuáles son los retornos de la educación, es decir, cuánto aumenta el salario de un individuo por un año adicional de educacion. 
+
+Supongamos que tenemos datos sobre los salarios y los años de educación de una muestra aleatoria de trabajadores, donde corremos la siguiente regresión: 
+
+\begin{equation}
+ log(wage_{i}) = \beta_{0} + \beta_{1}educ_{i} + u_{i}
+\end{equation}
+
+¿Será $\hat{\beta_{1}}$ un estimador insesgado de $\beta_{1}$, el retorno a la educación? (Es decir: ¿se cumplirá que $E(\hat{\beta_{1}}) = \beta_{1}$ ?)
+
+Consideremos que hay otros factores que determinan los salarios, por ejemplo los años de experiencia, por tal motivo, podemos pensar en un modelo más verdadero para determinar los salarios como: 
+
+\begin{equation}
+log(wage_{i}) = \beta_{0} + \beta_{1}educ_{i} + \beta_{2}exp_{i} + v_{i}
+\end{equation}
+
+Asumamos que los supuestos MCO se cumplen, por lo que $E(\hat{\beta_{1}}) = \beta_{1}$ para esta regresión multivariada. 
+
+Pero podemos omitir la experiencia y estimaríamos:
+
+\begin{equation}
+log(wage_{i}) = \beta_{0} + \beta_{1}'educ_{i} + u_{i}
+\end{equation}
+
+Pensemos que un modelo MCO bivariado sería incompleto, con un término de error dado por $v = \beta_{2}exp + u$
+
+\begin{equation}
+log(wages_{i}) = \beta_{0} + \beta_{1}educ_{i} + \beta_{2}exp_{i} + u_{i}
+\end{equation}
+
+
+Pensemos en el modelo incmpleto con un término de error dado por $v = \beta_{2}exp + u$, por lo que: 
+
+
+\begin{equation}
+log(wages_{i}) = \beta_{0} + \beta_{1}'educ_{i} + \beta_{2}exp_{i} + v_{i} ...(1)
+\end{equation}  
+
+Con
+
+
+\begin{equation}
+v_{i} = \beta_{2}exp_{i} + u_{i}
+\end{equation} 
+
+Entonces: 
+
+\begin{equation}
+log(wages_{i}) = \beta_{0} + \beta_{1}'educ_{i} + v_{i} ...(2)
+\end{equation}  
+
+Supongamos que estimamos la ecuación (2), recordemos el supuesto de la media condicional igual a cero, por lo que $E(v|educ) = 0$ para todos los valores de $education$, por lo que el término de error debería de ser el mismo para todos los niveles de $education$, por lo que la experiencia debería de ser la misma para todos los niveles de $education$, lo cual no parece ser del todo razonable. 
+
+Recordemos que el estimador de $\beta_{1}$
+
+\begin{equation}
+\hat{\beta_{1}'} = \frac{\hat{Cov(X,Y)}}{\hat{Var(X)}}
+\end{equation}
+
+Desarrollando el numerador vemos que: 
+
+\begin{equation}
+\hat{Cov(educ, log(wages))} = \hat{Cov(educ, \beta_{1}educ + \beta_{2}exp + u)}
+\end{equation}
+
+\begin{equation}
+= \beta_{1}\hat{Var(educ)} + \beta_{2}\hat{Cov(educ,exp)} + \hat{Cov(educ,u)}
+\end{equation}
+
+Dado que suponemos que $E(u|educ) = 0 $, por lo que $\hat{Cov(educ,u)} = 0$
+
+\begin{equation}
+= \beta_{1}\hat{Var(educ)} + \beta_{2}\hat{Cov(educ,exp)} 
+\end{equation}
+
+Por lo que el sesgo de variable omitidas será: 
+
+\begin{equation}
+\hat{\beta_{1}}'= \beta_{1} + \beta_{2}  \frac{\hat{Cov(educ, exp)}}{\hat{Var(educ)}}
+\end{equation}
+
+Y $\hat{\beta_{1}}'$ será insesgado solo sí $\beta_{2} = 0$ o si $cov(educ,exp)=0$
+
+Dado lo anterior podemos preguntarnos ¿cuándo ocurre que $E[\hat{\beta_{1}}] = \beta_{1}$? tenemos dos opciones  $\beta_{2} = 0$ o si $cov(educ,exp)=0$
+
+¿Se cumplirán estas condiciones en el ejemplo que hemos visto? 
+
+1. Por un lado, $\beta_{2} \neq 0$ si la $exp$ determina $wages$ lo cual ocurre. 
+
+2. Por otro lado,  $cov(educ,exp)\neq0$ dado que $exp$ y $educ$ están relacionados directamente. 
+
+Dado que en este caso ninguna de las condiciones se cumplirán nuestro $\hat{\beta_{1}}'$ sufriá de sesgo por variable omitida  por lo que no va a converger a $\beta_{1}$. 
+
+De tal forma, si el término de error está correlacionado con los regresores, entonces obtendremos estimdores sesgados. El término de error $u$ incluye todo lo que no hemos medido e incluido en la regresión, tal como variables omitidas. 
+
+Si alguna de las variables omitidas: 
+
+1. Influye en la variable depndiente ($\beta_{2} = 0$) y 
+2. Está relacionada con los regresiores de la ecuación ($cov(X_{1}, X_{2}) \neq 0$) entonces nuestro MCO estará sesgado. 
+En otras palabras, las propiedades del término de error determinarán si nuestro MCO es insesgado. 
+
+
+### Ejemplo: Sesgo por Variable Omitida
+
+Supongamos que tenemos un modelo verdadero dado por: 
+
+\begin{equation}
+Y_{i} = \beta_{0} + \beta_{1}X_{i1} + \beta_{2}X_{i2} + u_{i} ... (1)
+\end{equation}
+
+Y corremos el sigueinte modelo: 
+
+\begin{equation}
+Y_{i} = \beta_{0}' + \beta_{1'}X_{i1} + v_{i} ... (2)
+\end{equation}
+
+Y tenemos un modelo auxiliar: 
+
+\begin{equation}
+X_{i2} = \delta_{0}' + \delta_{1}'X_{i1} + \epsilon_{i} ... (3)
+\end{equation}
+
+En este caso simple donde tenemos un regresor y una variable omitida, al momento de estimar la ecuación (2) con MCO obtendremos: 
+
+\begin{equation}
+E(\hat{\beta_{1}}) = \beta_{1} + \beta_{2}\delta_{1}
+\end{equation}
+
+De manera equivalente, nuestro sesgo estría dado por: 
+
+\begin{equation}
+E(\hat{\beta_{1}}) - \beta_{1} = \beta_{2}\delta_{1}
+\end{equation}
+
+Podemos considerar los siguientes resultados: 
+
+
+```{r, out.width="50%"}
+knitr::include_graphics("Reg_Dif.png")
+```
+
+Notemos que para el modelo verdadero, el coeficiente de la educación $\beta_{1}$ es .093168, y el coeficiente de la experiencia $\beta_{2}$ es .0406574.
+
+Al momento de correr el modelo incompleto (en la parte de arriba) tenderemos nuestro estimador $\beta_{1}'$ dada por el coeficiente dado por .0520942. 
+
+En la parte de abajo tendremos nuestro modelo auxiliar, al momento de ver el coeficiente podemos notar que hay una correlación negativa entre experiencia y educación, mismo que será nuestro $\delta_{1}$.
+
+Podemos calcular y confirmar que: \hat{\beta_{1}}' = \hat{\beta_{1}} + \hat{\beta_{2}}\hat{\delta_{1}}  = 0.0932 + 0.0407(-1.010) = 0.0521, mismo que corresponde a los resultados de correr el modelo incorrectamente especificado/sesgado. 
+
+Lo anterior se reduce a lo siguiente: 
+
+
+\begin{equation}
+Sesgo = E(\hat{\beta_{1}}') - \beta_{1} = \beta_{2}\delta_{1}
+\end{equation}
+
+
+Cuando omitimos un segundo regresor ($X_{2}$) nos sesgará al estimador del coeficiente en el primer regresor ($X_{1}$) a menos que: 
+
+1. El segundo regresor no tiene efecto en la variable dependiente ($\beta_{2} = 0$).
+2. O bien el segundo regresor no está correlacionado con el primer regresor $(Cov(X_{1}, X_{2})=0)$ tal que $\delta_{1}=0$
+
+
+## Dirección del Sesgo por Variable Omitida
+
+\begin{equation}
+Y = \beta_{0} + \beta_{1}X_{1} + \beta_{2}X_{2} + u
+\end{equation}
+
+Tabla: Sesgo en $\hat{\beta_{1}}'$ cuando 
+
+
+|   |      $cov(X_{1},X_{2}) >0$    | $cov(X_{1},X_{2}) <0$   |
+|----------|:-------------:|------:|
+| $\beta_{2} > 0$ |  Sesgo Positivo | Sesgo Negativo |
+| $\beta_{2} < 0$ |    Sesgo Negativo   | Sesgo Positivo |
+
+Cuando tenemos un sesgo negativo quiere decir que estamos estimando por debajo del valor verdadero del estimador, por el otro lado, si el sesgo es positivo quiere decir que podemos estár sobre estimando por encima del valor verdadero del estimador. 
+
+Más allá del caso simple: 
+
+* La dirección del sesgo puede ser potencialmente más complicado si hay más de dos variables. 
+
+* El sesgo en un coeficiente puede sesgar los demás, por lo que la variable omiita tiene que estár correlacionada únicamente con un rgresor para sesgar todos los estimadores. 
+
+Por el lado optimiza, podemos "controlar por todo", dado que las variables omitidas pueden hacer que nuestro MCO esté sesgado, la idea principal de la regresión múltiple será que si incluimos las variables omitidas, podemos estimar el efecto de un regresor manteniendo lo demás constante. 
+
+Del lado pesimista, nunca podremos sabero medir todas las variables relevantes, por lo que deberíamos regresar a "estrategias de identificación" donde tenemos alguna razón para creer que $E(u|X) =0$, por ejemplo un RCT. 
+
+
+## Regresión multivariada 
+
+Recordemos que: 
+
+\begin{equation}
+Y_{i} = \beta_{0} + \beta_{1}X_{i1} + ... + \beta_{k}X_{ik} + u_{i}
+\end{equation}
+
+
+Donde $Y$ es la variable dependiente, variable de respuesta, variable predecida, regresandos. 
+
+
+Por otro lado $X$ serán las variables independientes, variables de control, variables predictores, regresores, en algunos casos se llama a $X$ como "variable de interés", en otros se le llama "controles".
+
+Por tanto, nuestro problema de optimización MCO será el siguiente:
+
+\begin{equation}
+min_{b_{0}, b_{1},...,b_{k}} \sum_{i=1}^n (Y_{i} - b_{0} - b_{1}X_{i1} - ... - b_{k}X_{ik})^2
+\end{equation}
+
+Podeemos agregar regresores, siempre y cuando se cumpla que $n>k+1$, es decir los parámetros no pueden exceder el número de variable sque tenemos, generalmente cuando tenemos muchos parámetros en nuestro modelo tenderá a hacer un overfit. 
+
+Las condiciones de primer orden son análogas al caso bivariado, aunque las soluciones pueden ser complicada en la notación estándar, por lo que usaremos notción matricial. 
+
+¿Cómo podemos interpretar la ecuación? 
+
+\begin{equation}
+Y_{i} = \beta_{0} + \beta_{1}X_{i1} + ... + \beta_{k}X_{ik} + u_{i}
+\end{equation}
+
+* Un cambio en $X_{1}$ y $X_{2}$ en $Y$ será dado por:
+
+\begin{equation}
+\Delta Y_{i} = \beta_{1} \Delta X_{i1} + \beta_{2} \Delta X_{i2}
+\end{equation}
+
+
+* Si solo cambianmos $X_{1}$, entonces tendremos $\Delta X_{2} = 0$ y por tando: 
+
+
+\begin{equation}
+\Delta Y_{i} =  \beta_{1} \Delta X_{i1}
+\end{equation}
+
+Por lo que $\beta_{1}$ nos dirá el cambio en la esperanza condicional de $Y$ si aumentamos $X_{1}$ una unidad manteniendo $X_{2}$ constante. 
+
+Así tomando 
+
+\begin{equation}
+\Delta Y_{i} =  \beta_{1} \Delta X_{i1}
+\end{equation}
+
+Y manteniendo todo lo demás constante, podemos notar que la interpretación es como en el caso bivariado, por tanto podemos definir que:
+
+* $\beta_{1}$ es el efecto parcial de $X_{1}$ en $Y$.
+* O bien, podemos decir uqe $\beta_{1}$ es la derivada parcial de $E[Y]$ con respecto a $X_{1}$.
+
+
+Como ejemplo podemos pensar en
+
+
+\begin{equation}
+\hat{lwage} = 4.6660 + 0.0932educ + 0.0407exp
+\end{equation}
+
+Podríamos interpretar el resultado del modelo (sin usar lenguaje causal) de la sigueinte forma: 
+
+* Manteniendo la experiencia constante, si aumentamos la educación en 1 año, esto aumenta el log wage esperado en .0932.
+
+* Es decir, ceteris paribus, aumentar la educación en un año está asociado en un aumento del 0.0932 en el log wage. 
+
+
+## Valores predecido y residuales. 
+
+Los valores predecidos son análogos al caso bivariado
+
+\begin{equation}
+\hat{Y_{i}} = \hat{\beta_{0}} + \hat{\beta_{1}}X_{i1} + ... + \hat{\beta_{k}}X_{ik} + u_{i} = E(\hat{Y|X})
+\end{equation}
+
+Donde $X$ es el vector: $E(Y|X) = E(Y|X_{1}, X_{2},..,X_{k})$
+
+Los residuos son análogos al caso bivariado: 
+
+
+\begin{equation}
+
+\hat{u_{i}} = Y_{i} - \hat{Y_{i}}
+
+\end{equation}
+
+Podemos pensar en el caso de ejemplo que hemos manejado: 
+
+* ¿Cuál será el salario predecido para alguien con 16 años de educación y 10 años de experiencia? 
+
+\begin{equation}
+\hat{lwage_{i}} = 4.6660 + 0.0932(16) + 0.0407(10) = 6.5642
+\end{equation}
+
+* ¿Qué pasaría si queremos agregar un año extra de educación manteniendo la experiencia fija? 
+
+\begin{equation}
+\hat{lwage_{i}} = 0.0932 \Delta educ
+\end{equation}
+
+\begin{equation}
+\rightarrow \hat{lwage_{i}} = 6.5642 + 0.0932 = 6.6574
+\end{equation}
+
+* ¿Qué pasaría si agregamos dos años más de educación y disminuimos un año de experiencia? 
+
+\begin{equation}
+\hat{lwage_{i}} = 0.0932 \Delta educ + 0.0407 \Delta exp
+\end{equation}
+
+\begin{equation}
+\rightarrow \hat{lwage_{i}} = 6.5642 + 0.0932(2) - 0.047 = 6.7099
+\end{equation}
+
+
+Sin embargo, queda preguntarnos: ¿A qué nos refereimos cuando decimos que mantenemos todo lo demás constante (ceteris paribus)?
+
+
+* Woolridge (p.77) : "El poder del análisis en la regresión multivariada es que nos permite crear un ambiente no experimental, mismo que en las ciencias naturales es posible en un laboratorio controlado", lo anterior resulta particularmente útil cuando pensamos en el potencial de la regresión multivariada, aunque es necesario mencionar que dicha interpretación resulta errónea si la regresión no es causal. 
 
 
 
+## Supuestos de Gauss - Markov 
+
+Serán muy similares al caso bivariado: 
+
+1. $E(u_{i}|X_{i1},...,X_{ik}) = 0$
+
+2. No Multicolinerealidad perfecta. (No debemos incluir dos regresores que tengan la misma información)
+
+3. ($X_{i1},...,X_{ik}, Y_{i}$) son i.i.d.
+
+4. Los "outliers" son poco comunes (curtosis finita)
+
+Estos cuatro supuestos implican que el M.C.O es insesgado, y también si $n$ es suficientemente larga, entonces $\hat{\beta}$ es distribuida aproximadamente normal. 
+
+### Media condicional igual a 0
+
+$E(u_{i}|X_{i1},...,X_{ik}) = 0$ implica que la media del error debe de ser cero para cualquier combinación de valores de los diferentes regresores. 
+
+Por ejemplo, $E[u|educ = 6, exp = 10] =0, E[u|educ = 20, exp = 3] = 0$. 
+
+Esta condicón será violada si cualquier regresos está correlacionad con el término de error $u$. 
+
+También si tenemos alguna variable omitida, esto porque: 
+
+1. Los valores faltantes afectan el resultado. 
+2. Los valores faltantes están correlacionados con las variables incluidas. 
+
+Por lo cual, aunque en los modelos multivariados tenemos la capacidad de controlar regresores adicionales, aún es posible que existan variables que afecten el resultado y estén relacionados con los regresores. 
+
+No podemos interpretar los residuos como términos de error, esto debido a la propiedad numérica en la que los residuios están no correlacionados con cada nivel de $X$.
+
+
+### Multicolinearidad Perfecta
+
+Un conjunto de variables que será perfectamente multicolineal si hay una relación exacta entre el conjunto de variables, por ejemplo pensemos en : 
+
+\begin{equation}
+X_{j} = \delta_{0} + \delta_{1}X_{1}+...+\delta_{j-1}X_{j-1} + \delta_{j+1}X_{j+1} +...+ \delta_{k}X_{k}
+\end{equation}
+
+Con $R^2 = 1$
+
+Ahora pensemos que tenemos $X_{2} = 2X_{1}$ y:
+
+\begin{equation}
+Y = 3X_{1} + 2X_{2}+u 
+\end{equation}
+
+Ahora bien, si predecimos $Y$ será exactamente igual a si tuviésemos: 
+
+\begin{equation}
+Y = 1X_{1} + 3X_{2}+u 
+\end{equation}
+
+
+Por lo que $X_{1}$ predice perfectamente a $X_{2}$, por lo que no podemos saber nada sobre los efectos separados de $X_{1}$ y $X_2$ por lo que no tendremos información nueva. 
+
+
+Algunos ejemplos de multicolinealidad perfecta: 
+
+1. Si $X_{2} =aX_{1}$ para cualquier a.
+2. Una variable dummy para $mujer$ en una muestra de mujeres. 
+3. experiencia = edad - años de educación - 6
+
+
+
+## Ejemplo de Regresión multivariada 
+
+* Neal y Johnson (1996) estudiaron la diferencia en salarios entre gente blanca y negra, esto con motivo de saber: 
+
+1. Si hay alguna discriminación en el mercado laboral. 
+2. Preocupación dado que la discriminación genera una experiencia, 
+
+
+* Se usaron datos de NLSY 
 
 
 
