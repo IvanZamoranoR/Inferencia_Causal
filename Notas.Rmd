@@ -1211,7 +1211,7 @@ Por lo que añadir un regresor disminue $SSR$ pero también aumenta la diferenci
 También notemos que: $\frac{n-1}{n-k-1} > 1$ entonces $R^2 >$ adj-$R^2$, y también adj-$R^2$ estará acotado superiormente por 1 como la $R^2$ pero también podrá ser negativo, esta métrica nos ayudará a justificar el agregar un regresor a nuestro modelo. 
 
 
-## MCO como forma de parcialización
+## MCO como forma de parcialización: Teorema de Frisch - Waugh - Lovell 
 
 Consideremos el modelo multivariado estándar:
 
@@ -1232,8 +1232,18 @@ Recordemos que:
 
 3. Correr regresión de $\hat{Y^r}$ sobre  $X_{i1}^r$, obtener $\hat{\beta_{1}}$
 
-Lo anterior dado que recordemos que los residuales son la parte de la variación que no está explicada por los regresores de un modelo, de tal forma para 1. obtendriamos la variación en$X_{i1}$ que no está en $X_{i2}$, es decir la variación de $X_{i1}$ que es independiente de $X_{i2}$, en 2. vemos la variación en el resultado que es independiente de$X_{i2}$, podemos tomar cualquiera de los residuos y usarlos para recuperar el estimador original, al final lo que estaríamos identificando $\hat{Y^r}$ sobre  $X_{i1}^r$ será lo que no está influenciado por $X_{i2}$ lo cual es lo mismo que si mantuviesemos $X_{i2}$  fijo 
+Lo anterior dado que recordemos que los residuales son la parte de la variación que no está explicada por los regresores de un modelo, de tal forma para 1. obtendriamos la variación en$X_{i1}$ que no está en $X_{i2}$, es decir la variación de $X_{i1}$ que es independiente de $X_{i2}$, en 2. vemos la variación en el resultado que es independiente de$X_{i2}$, podemos tomar cualquiera de los residuos y usarlos para recuperar el estimador original, al final lo que estaríamos identificando $\hat{Y^r}$ sobre  $X_{i1}^r$ será lo que no está influenciado por $X_{i2}$ lo cual es lo mismo que si mantuviesemos $X_{i2}$  fijo.
 
+
+
+```{r, out.width="50%"}
+knitr::include_graphics("Tabla_par.png")
+```
+En este caso se corrió una regresión con $log(wage)$ en función de $educ$ y $exp$, notemos que tenemos nuestro coeficiente de educación el cual será .107, ahora podemos pensar en la variación de los residuos, misma que corresponderá a la parte de $log(wage)$ que no está predecido por la variación en $exp$, obtendremos lo anterior con los comandos de STATA: quietly regress lwage exper, y vamos a predecir los residuos con el comando predict lwage_resid, haremos lo mismo para $educ$ y después correremos la regresión usando los residuos con regress lwage_resid educ_resid, noheader, y obtendremos el mismo resultado que tenemos cuando predecimos $educ$ y dejamos fija $exp$, notemos que los errores estándar cambian lo cual involucra un paso extra pero eso no será cubierto. 
+
+## MCO multivariado: Precisión e inferencia. 
+
+La multicolinearlidad imperfecta se refiere a que hay una o más variables que están altamente correlacionadas, es importante notar que la mulitcolinearidad no sesga los estimadores pero sí les resta precisión, dado que con regresores correlacionados resulta difícil para MCO determinar cuáles variables responden más a los cambios en Y, cuando parcializamos los residuos de la regresión de $X_{1}$ sobre $X_{2}$ son menores, estos residuos se convierten en la regresión en el siguiente paso, por lo que menor varianza en el regresor $\rightarrow$ errores estándar más grandes. 
 
 
 
