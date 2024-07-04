@@ -1146,7 +1146,6 @@ Algunos ejemplos de multicolinealidad perfecta:
 3. experiencia = edad - años de educación - 6
 
 
-
 ## Ejemplo de Regresión multivariada 
 
 * Neal y Johnson (1996) estudiaron la diferencia en salarios entre gente blanca y negra, esto con motivo de saber: 
@@ -1155,7 +1154,87 @@ Algunos ejemplos de multicolinealidad perfecta:
 2. Preocupación dado que la discriminación genera una experiencia, 
 
 
-* Se usaron datos de NLSY 
+* Se usaron datos de NLSY en donde se miden las habilidades al momento de entrada al mercado laboral, algunas de las preguntas relacionadas a la regresión fueron: 
+
+1. ¿Cómo puedo determinar la diferencia salarial con MCO?
+2. ¿Cómo podemos interpretar los coeficientes? 
+3. ¿Debería de controlar por muestra o edad?
+4. ¿Cómo puedo controlar por género?
+5. ¿Debería interpretar la regresión de forma causal?
+
+
+```{r, out.width="50%"}
+knitr::include_graphics("Labor_Reg.png")
+```
+
+Podemos observar que tenemos regresiones sobre la variable log(wage), la transformación logarítmica regularmente se hace para restarle peso a outliers sin afectar la naturaleza de su media y varianza dado que es una transformación lineal, podemos observar que se separan los efectos entre mujeres y hombres, en la columna de la izquierda vemos al segmento de hombres, también notemos que tenemos tres segmentos dentro de la muestra clasificados como individuos hispanos, afrodescendientes y el resto (que podemos identificar mayoritariamente como blancos y asiáticos), éstos serán categorizados a través de variable dummy (que tomarán. valores de 0 y 1). 
+
+Podemos observar que hay una diferencia de -.244 entre hombres negros y negros blancos, las cantidades que se encuentran en el paréntesis corresponden a los errores estándar, los cuales nos sirven para establecer la precisión estadística o la signifcancia estadística calculando el estadístico t mismo que será $\frac{\beta_{1} - \beta_{hipótesis \ nula}}{error \ estándar(\beta_{1})}$, en este caso sería $\frac{.244}{.026}$ aunque notemos que el $ \beta_{hipótesis \ nula}$ se omitió dado que esté será igual a 0, generalmente nos preguntaremos si este valor es mayor a 2, y que para este caso es 9.384, por lo que será mayor a 2 entonces será áltamente estadísticamente preciso.
+
+La columna 2 se refiere a educación por lo que podemos ver que la diferencia entre hombres negros y blancos será ahora de -.196, en el caso hispano se reduce casi a la mitad de -.113 a -.045, después utilizan la variable AFQT que es un test para medir habilidades, y se comparan con la columna 3. 
+
+En la columna 4 podemos ver la diferencia por género, notando que también las mujeres afrodescendientes reciben un menor ingreso en una magnitud de -.185, también podemos ver que una vez que condicionamos a habilidades hay relativamente poca discriminación, por lo que las minorias racionales probablemente experimentan poca discriminación antes de entrar al mercado laboral. 
+
+Algo también importante a ver es la $R^2$ la cual se define como la variación que puede ser explicada de nuestro resultado $Y$ por nuestro modelo en cuestión, si solo consideramos edad y raza podemos explicar el $.059$ o bien aproximadamente $6$% de la variación, mientras que si agregamos educación se explica $15$%, en el caso de mujeres la edad y la raza explica aproximadamente $3$% de la variación, mientras que la educación es $19.1$% y si agregamos el test AFQT explicará $16.5$%
+
+
+## Fit de la Regresión multivariada 
+
+Tendremos una $R^2$ multivariada la cual será análoga al caso bivariado: 
+
+\begin{equation}
+
+R^2 = \frac{ESS}{TSS} = 1 - \frac{SSR}{TSS}
+
+\end{equation}
+
+Recordemos que: 
+
+* ESS será la suma de los cuadrados explicados. 
+
+* SSR será la suma de los residuales al cuadrado. 
+
+* TSS será la suma de los cuadrados. 
+
+Al momento de comparar la $R^2$ podemos saber cuál modelo será mejor para axplicar la variación de $Y$. No obstante, habrá un problema en usar esta métrica en MCO multivariado lo cual se deberá a que el regresor $R^2$ nunca bajará cuando agregamos un regresor, dado que agregar regresores irrelevantes no puede hacer que el SSR aumente (agregar regresores no puede hacer que la optimización de MCO sea peor).
+
+### $R^2$ Ajustada
+
+Para solucionar el problema anterior, usaremos $R^2$ ajustada, la cual considera el número de regresores $X$, $k$ tales que: 
+
+\begin{equation}
+adj - R^2 : 1 - \frac{(n-1)}{(n-k-1)} \frac{SSR}{TSS}
+\end{equation}
+
+Por lo que añadir un regresor disminue $SSR$ pero también aumenta la diferencia $\frac{n-1}{n-k-1}$ como si estuviera "penalizandolo".Así, agregar un regresor solo aumenta $\bar{R^2}$ si tiene "suficiente" poder explicativo.
+
+También notemos que: $\frac{n-1}{n-k-1} > 1$ entonces $R^2 >$ adj-$R^2$, y también adj-$R^2$ estará acotado superiormente por 1 como la $R^2$ pero también podrá ser negativo, esta métrica nos ayudará a justificar el agregar un regresor a nuestro modelo. 
+
+
+## MCO como forma de parcialización
+
+Consideremos el modelo multivariado estándar:
+
+\begin{equation}
+Y_{i} = \beta_{0} + \beta_{1}X_{i1} + \beta_{2}X_{i2} + u_{i}
+\end{equation
+
+
+Recordemos que: 
+
+* $\beta_{1}$ nos dice la asociación entre $X_{i1}$ y $Y_{i}$ manteniendo $X_{i2}$ fija.
+
+* Podemos parcializar $X_{i2}$ de la siguiente forma: 
+
+1. Correr regresión de $X_{i1}$ sobre $X_{i2}$, obteniendo los residuales: $\hat{X_{i1}}^r = X_{i1} - \hat{\delta_{0}} -  \hat{\delta_{1}}X_{i2} $  
+
+2. Correr regresión de $Y_{i}$ sobre $X_{i2}$, obteniendo los residuales: $\hat{Y_{i}}^r = Y_{i1} - \hat{\alpha_{0}} -  \hat{\alpha_{1}}X_{i2}$ 
+
+3. Correr regresión de $\hat{Y^r}$ sobre  $X_{i1}^r$, obtener $\hat{\beta_{1}}$
+
+Lo anterior dado que recordemos que los residuales son la parte de la variación que no está explicada por los regresores de un modelo, de tal forma para 1. obtendriamos la variación en$X_{i1}$ que no está en $X_{i2}$, es decir la variación de $X_{i1}$ que es independiente de $X_{i2}$, en 2. vemos la variación en el resultado que es independiente de$X_{i2}$, podemos tomar cualquiera de los residuos y usarlos para recuperar el estimador original, al final lo que estaríamos identificando $\hat{Y^r}$ sobre  $X_{i1}^r$ será lo que no está influenciado por $X_{i2}$ lo cual es lo mismo que si mantuviesemos $X_{i2}$  fijo 
+
+
 
 
 
