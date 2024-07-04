@@ -1245,6 +1245,8 @@ En este caso se corrió una regresión con $log(wage)$ en función de $educ$ y $
 
 La multicolinearlidad imperfecta se refiere a que hay una o más variables que están altamente correlacionadas, es importante notar que la mulitcolinearidad no sesga los estimadores pero sí les resta precisión, dado que con regresores correlacionados resulta difícil para MCO determinar cuáles variables responden más a los cambios en Y, cuando parcializamos los residuos de la regresión de $X_{1}$ sobre $X_{2}$ son menores, estos residuos se convierten en la regresión en el siguiente paso, por lo que menor varianza en el regresor $\rightarrow$ errores estándar más grandes. 
 
+Ahora pensemos en la fórmula de $\hat{\beta}$, recordemos que estamos interesados en $\beta_{1}$ en nuestra ecuación
+
 
 
 
