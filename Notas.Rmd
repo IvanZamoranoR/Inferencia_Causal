@@ -1217,7 +1217,7 @@ Consideremos el modelo multivariado estándar:
 
 \begin{equation}
 Y_{i} = \beta_{0} + \beta_{1}X_{i1} + \beta_{2}X_{i2} + u_{i}
-\end{equation
+\end{equation}
 
 
 Recordemos que: 
@@ -1245,7 +1245,124 @@ En este caso se corrió una regresión con $log(wage)$ en función de $educ$ y $
 
 La multicolinearlidad imperfecta se refiere a que hay una o más variables que están altamente correlacionadas, es importante notar que la mulitcolinearidad no sesga los estimadores pero sí les resta precisión, dado que con regresores correlacionados resulta difícil para MCO determinar cuáles variables responden más a los cambios en Y, cuando parcializamos los residuos de la regresión de $X_{1}$ sobre $X_{2}$ son menores, estos residuos se convierten en la regresión en el siguiente paso, por lo que menor varianza en el regresor $\rightarrow$ errores estándar más grandes. 
 
-Ahora pensemos en la fórmula de $\hat{\beta}$, recordemos que estamos interesados en $\beta_{1}$ en nuestra ecuación
+Ahora pensemos en la fórmula de $\hat{\beta}$, recordemos que estamos interesados en $\beta_{1}$ en nuestra ecuación:
+
+\begin{equation}
+
+Y_{i} = \beta_{0} + \beta_{1}X_{i1} + \beta_{2}X_{i2} + u_{i}
+
+\end{equation}
+
+Podemos parcializar obteniendo: 
+
+\begin{equation}
+
+\hat{Y_{i}}^r = \beta_{0} + \hat{\beta_{1}X_{i1}}^r + u_{i}
+
+\end{equation}
+
+Y expandiendo podemos obtener:
+
+\begin{equation}
+
+\hat{\beta_{1}} = \frac{\sum_{i=1}^n(\hat{X_{i1}^r}- \bar{\hat{X_{i1}}^r}) (\hat{Y_{i1}^r}- \bar{\hat{Y_{i1}}^r})}{\sum_{i=1}^n (\hat{X_{i1}^r}- \bar{\hat{X_{i1}}^r})^2} = \frac{\sum_{i=1}^n \hat{X_{i1}^r} \hat{Y_{i1}^r}}{\sum_{i=1}^n \hat{X_{i1}^r}^2}
+
+\end{equation}
+
+
+Ahora bien, para la varianza de $\hat{\beta}$ como en el caso bivariado, si $n$ es grande, entonces los supuestos MCO se cumplen, y por tanto $\hat{\beta}$ se distribuye de forma normal, por lo tanto podemos escribir la varianza de $\hat{\beta}$ manteniendo el supuesto de homoscedasticidad: 
+
+\begin{equation}
+\sigma_{\hat{\beta_{1}}}^2 = \frac{\sigma_{u}^2}{ (1- R_{1}^2) \sigma_{i=1}^n (X_{i1} - \bar{X_{1}}) ^2} = \frac{1}{n} \frac{\sigma_{u}^2}{(1-R_{1}^2)\sigma_{X_{1}}^2 }
+\end{equation}
+
+
+Donde $R_{1}^2$ es la $R_{1}^2$ de la regresión de $X_{1}$ sobre todas las variables de $X$, lo cual significa que en la regresión multivariada tenemos que pensar en diferentes factores, uno de ellos es el tamaño de la muestra (recordemos que si el tamaño de la muestra aumenta entonces la $\sigma_{\hat{\beta_{1}}}^2$ aumentará en precisión, también notemos que $\sigma_{u}^2$ será la varianza del término de error y recordemos que si la varianza del término de error disminuye entonces toda la expresión disminuye, también $\sigma_{X_{1}}^2$ recordemos que queremos tener mayor varianza den $X_{1}$ como sea posible pero tenemos que ser cuidadosos dado que ahora $X_{1}$ no será el único factor que estará en nuestro modelo por lo que tenemos que pensar en otros factores que podrían estar correlacionados potencialmente con $X_{1}$, recordemos que estamos identificando el valor de $X_{1}$ que es independiente de $X_{2}$ por lo que si hay un componente sustancial en $X_{1}$ que se explica por $X_{2}$ entonces eso disminuirá la varianza para explicar y por tanto la precisión. 
+
+También veremos que $(1-R_{1}^2)$ será la regresión de $X_{1}$ sobre todas las otras variables, es decir la cantidad de $X_{1}$ que se explica por los otros regresores de nuestro modelo, si la cantidad de ese variación es grande entonces la varianza disminnuirá. 
+
+Lo anterior funciona dado que tendremos:
+
+\begin{equation}
+
+\sigma_{\hat{\beta_{1}}}^2 = \frac{1}{n} \frac{\sigma_{u}^2}{(1-R_{1}^2) \sigma_{X_{1}}^2)}
+\end{equation}
+
+E intuitvamente podemos decir que:
+
+* $var(\hat{\beta_{1}})$ aumenta con $\sigma_{u}^2$
+
+* $var(\hat{\beta_{1}})$ disminuye con la varianza de $X_{1}$
+
+* $var(\hat{\beta_{1}})$ aumenta con la cantidad de $X_{1}$ que se explica por otros regresores. 
+
+
+Así, la inferencia será casi la misma que en el caso bivariado:
+
+* Estimar $\sigma_{\beta_{1}}$ sustituyendo los valores estimados. 
+
+* Dado que $\hat{\beta_{j}}$ se distribuye normalmente, el estadístico t será: $\frac{\hat{\beta_{j}} -\beta_{j}} {\hat{\sigma_{\hat{\beta_{1}}}^2}}$ distribuudi t con $n-k-1$ grados de libertad y convergirán cuando el grado de libertad sea aproximadamente 100. 
+
+* El valor $p$ será aproximadamente $2\Phi(-|t|)$ y los intervalos de confianza serán construidos de la misma manera que en el caso bivariado. 
+
+Por tanto $R^2$ no disminuirá si agregamos más regresores, por lo que $R^2$ será menos valiosa al momento de comparar con otros modelos, usaremos adj$-R^2$ en su lugar. También el modelo MCO multivariado puede ser intrepretado como si estuviésemos parcializando los efectos de otras variables y agregar un regresor extra (algo no relacionado con $Y$) no va a sesgar los otros regresores pero va a disminuir la precisión. 
+
+
+## Pruebas de hipótesis y test F
+
+Imaginemos que tenemos estimadores para $\beta$ y $\hat{\sigma_{\hat{\beta}}}$ y queremos probar la hipótesis de que $\beta = \theta$, es decir: $H_{0} : \beta =0$. 
+
+El estadístico de prueba $\frac{\hat{\beta}-\theta}{\hat\sigma_{\hat{\beta}}}$ estará distribuido t con $n-k-1$ grados de libertad. 
+
+
+```{r, out.width="50%"}
+knitr::include_graphics("dis_t.png")
+```
+
+La forma en la que lo haremos será muy similar a los casos anteriores, comparando contra uns distribución en particular, la línea punteada representará la distribución normal, la línea sólida será la distribución t y vamos a rechazar la hipótesis si $|t|>1.96$. 
+
+
+Ahora bien, si queremos testear con respecto a diferentes restricciones usaremos el estadístico de prueba F, supongamos por ejemplo que queremos testear si $\beta_{jc} = \beta_{univ}$ y también que $\beta_{exper} = 0.006$, de tal forma, podemos imaginar los siguients test de forma: 
+
+*$H_{0}: \beta_{j} = \theta_{1}, \beta_{m} = \theta_{2}..$
+
+*$H_{A}: \beta_{j} \neq \theta_{1}, \beta_{m} \neq \theta_{2}..$
+
+donde el test siempre será que todas las condicones nulas se mantengan, necesitaremos un test $F$ para esto.
+
+
+Así, consideremos el resultado de la siguiente regresión cuando predecimos los salarios de ligas mayores de baseball:
+
+\begin{equation}
+
+
+log(salary) = \underset{(0.29)}{11.19}+\underset{(0.01121)}{0.0689 years} + \underset{(0.0026)}{0.0126gamesyr} + \underset{(0.00110)}{0.00098bavg} + \underset{(0.0161)}{0.01448hrunsyr} + \underset{(0.0072)}{0.0108sbisyr} 
+
+\end{equation}
+
+con $n=353$, $SSR=183.18$, $R^2=0.6278$ por lo que podremos explicar aproximadamente .63% de la variación del salario con el modelo propuesto, al momento de calcular el estadístico t para $years = 0.0689/0.0121 = 5.6942$ será mayor a 2 y por tanto estadísticamente significativo, para $gamesyr = 0.0126/0.0026 = 4.846$ será también mayor a 2 por lo que será estadísticamente significativo pero para$bavg = 0.00098/0.00110 = .890$, $hrunyr = 0.0144/0.0161 = 0.894$ y $rbisyr 0.0108/.0072 = 1.5$ podemos ver que no son determinantes importantes del salario dado que su estadístico t no es significativo (menor a 2) ¿podríamos decir que estos valores no son relevantes para determinar el salario? no necesariamente, dado que parece ser el caso que no es que sean determinantes importantes sino que cada uno por sí mismo no es estadísticamente preciso. 
+
+Ahora bien, podríamos pensar en la hipótesis nula como una restricción y estimar el MCO imponiendo la hipótesis nula (restringimos MCO para que solo eliga ciertos valores de $\hat{\beta}$), así: 
+
+* Si la restricción es verdadera, entonces imponer los valores para $\hat{\beta}$ no va a limitar la habilidad del modelo para que se ajuste a los datos por mucho. 
+* Si la restricción es falsa, el modelo tendrá un rendimiento bajo. 
+
+El procedimiento de lo anterior es: 
+
+* Correr el modelo no restringido 
+* Correr el modelo restringido 
+* Comparar el SSR
+
+Rechazar la hipótesis nula si al momento de imponerla causa que el SSR aumente por "mucho". También el test F sigue ese procedimiento y nos dice que tanto es "mucho".
+
+Dado lo anterior al momento de testear la hipótesis conjunta de que $\beta_{bavg}=\beta_{hrunsyr} = \beta_{rbisyr = 0}$ corremos la regresión auxiliar que impone la restricción hipotética:
+
+\begin{equation}
+log(salary) =  \underset{(0.11)}{11.22} + \underset{(0.0125)}{0.0713years} + \underset{(0.0013)}{0.0202gamesyr}
+\end{equation}
+
+con $n=353$ , $SSR=198.311$, $R^2 =0.5971$ y supongamos que $bavg$, $hrunsyr$ y $rbisyr$ no son importantes, por lo que si las removemos del modelo debería causar que el SSR aumente solo un poco, el estadístico F será un test más apropiado para esta intuición. 
+
 
 
 
