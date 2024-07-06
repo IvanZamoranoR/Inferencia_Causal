@@ -1363,6 +1363,20 @@ log(salary) =  \underset{(0.11)}{11.22} + \underset{(0.0125)}{0.0713years} + \un
 
 con $n=353$ , $SSR=198.311$, $R^2 =0.5971$ y supongamos que $bavg$, $hrunsyr$ y $rbisyr$ no son importantes, por lo que si las removemos del modelo debería causar que el SSR aumente solo un poco, el estadístico F será un test más apropiado para esta intuición. 
 
+El estadístico F tendrá la siguiente forma:
+
+\begin{equation}
+\frac{(SSR_{r} - SSR_{ur})/q}{SSR_{ur}/(n-k-1)}
+\end{equation}
+
+Donde:
+
+1. $q$ es el número de restricciones.
+2. $SSR_{ur}$ es la suma de los residuales al cuadrado en el modelo no restringido; $SSR_{r}$ será el del modelo restringido. 
+3. $n-k-1$ se referirá a los grados de libertad del estadístico en el denominador. 
+
+
+
 
 
 
