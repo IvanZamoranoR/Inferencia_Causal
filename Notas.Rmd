@@ -1434,6 +1434,151 @@ Así, podemos ver que el test $F$ es un test conjunto, por lo que:
 
 Pero cuando necesitamos testear más de una restricción ($q\geq2$) el test $t$ no aplica, el test $F$ puede funcionar para cualquier $q$ en general. 
 
+Así, en resumen para el test multivariado: 
+
+* Siempre se puede testear una sola restricción lineal reescribiendo la regresión y realizando un test $t$, por ejemplo: $H_{0} : \beta_{1} = \beta_{2} \rightarrow H_{0}: \beta_{1} - \beta_{2} =0$.
+
+*El test $F$ puede testear multiples restricciones simultáneamente corriendo el test $F$ al momento de calcular un modelo restringido y no restringido, si el $SSR$ cambia "mucho" entonces la restricción puede ser rechazada como falsa. 
+
+Además cuando $q=1$, el test $F$ dará el mismo resultado que el test $t$, por lo que el estadístico $F$ = cuadrado del estadístico t cuando $q=1$ 
+
+
+## Transformacioes afines: Suma y multiplicación de constantes
+
+Podemos transformar variables para hacer mejor uso de MCO, generalmente las transformaciones lineales (como el uso de logaritmos) serán relativamente triviales. 
+
+Para ilustrar mejor lo anterior, supongamos que corro la siguiente regresión del horario por hora en función del número de minutos por noche que un individuo duerme, es decir: 
+
+\begin{equation}
+\hat{hrwage} =  \underset{(.685)}{8.59} - \underset{(0.00147)}{0.00300sleep_{min}} 
+\end{equation}
+
+Con significancia estadística (estadísticos t) de 12.53 y -2.05 respectivamente. 
+
+¿Qué pasaría si usamos $sleep$ medido en horas en lugar de minutos ($sleep_{hour}$)?
+
+Podemos observar el uso de distintas medidas a continuación:
+
+```{r, out.width="70%"}
+knitr::include_graphics("Af_transf.png")
+```
+
+Notemos que son la misma imagen, por lo que cambiar la unidad de medida de $X$ no afecta dado que las unidades de medida son arbitarias por lo que ninguna conclusión estadística puede ser afectad por la unidad de medida, pero resta preguntarnos ¿qué pasará con $\beta_{sleep}$ cuando hagamos un cambio de escala? 
+
+\begin{equation}
+\hat{hrwage} =  \underset{(.685)}{8.59} - \underset{(0.0879)}{0.1800sleep_{hour}} 
+\end{equation}
+
+Por lo que vemos que la constante y el estadístico t no han cambiado y el coeficiente será el equivalente a tomar el coeficiente de $sleep_{min}$ (0.00300) y multiplicarlo por 60 para pasarlo a horas, por lo que será una transformación afin (lineal).
+
+Otro tipo de transformaciones afines serán:
+
+* Añadir una constante a $X$ o a $Y$ no afecta a la pendeinte de los coeficientes, dado que podremos parcializar (y mantener todo constante con respecto a un regresor); no obstante, sí cambiará el intercepto, por ejemplo pensemos si $\beta_{0} = \tilde{Y} - \hat{\beta_{1}}\tilde{X}$
+
+* Multiplicar $X$ o $Y$ por una constante cambiará $\beta_{k}$ pero este cambio es meramente de escala, y no cambiará los test de las hipótesis (escaladas), por ejemplo pensemos en que las unidades son arbitrarias, por lo que multiplicar $Y$ por una constante cambiará $\beta_{0}$, por ejemplo penssemos en $\beta_{0} = \tilde{Y} - \beta_{1}\tilde{X}$.
+
+Así podemos escalar las variables de tal forma que sea lo más conveniente para nuestra interpretación, por ejemplo si una regresión nos da como resultado un coeficiente de 0.0000015 en $X$ medido en dólares, podemos cambiar las unidades a millones y el coeficiente será de 1.5. 
+
+
+## Polinomios 
+
+Supongamos que observamos los siguientes datos: 
+
+```{r, out.width="30%"}
+knitr::include_graphics("Poly.png")
+```
+
+¿Cómo podríamos ajustar una línea a estos datos? ¿la regresión lineal sería una buena idea? Claramente los datos están curveados, particularmente de forma cóncava aunque potencialmente podríamos ajustar un modelo lineal para explicar esta relación, aunque parece ser muy claro que una curva se ajustaría mejor a los datos, quizá una forma cuadrática, por lo que resta preguntarnos ¿podemos hacer eso en MCO? así es, aunque MCO sea un estimador lineal, pero la linealidad se referirá a los parámetros, no a las variables, podemos pensar en una transformación no lineal de una variable como una variable nueva. 
+
+Podemos ilustrar lo anterior de la siguiente forma: 
+
+\begin{equation}
+y =  \beta_{0} + \beta_{1}X_{1} * X_{2} + \beta_{2}X_{1}^{X_{3}} + \beta_{3} \frac{X_{2}}{X_{3}} + \mu
+\end{equation}
+
+
+¿Podemos estimar este modelo con MCO? Así es, reescribiendo podemos obtener: 
+
+\begin{equation}
+y =  \beta_{0} + \beta_{1}X_{4} + \beta_{2}X_{5} + \beta_{3} X_{6} + u
+\end{equation}
+
+
+donde: 
+
+
+\begin{equation}
+X_{4} = X_{1}*X_{2}
+\end{equation}
+
+\begin{equation}
+X_{5} = X_{1}^{X_{3}}
+\end{equation}
+
+
+\begin{equation}
+X_{6} = \frac{X_{2}}{X_{3}}
+\end{equation}
+
+Notemos que crearemos nuevas variables y correremos MCO, mismo que estimará las $\hat{\beta}s$ de forma usual. 
+
+Así, tendremos:
+
+
+\begin{equation}
+y =  \beta_{0} + \beta_{1}X_{1} * X_{2} + \beta_{2}X_{1}^{X_{3}} + \beta_{3} \frac{X_{2}}{X_{3}} + u
+\end{equation}
+
+\begin{equation}
+=  \beta_{0} + \beta_{1}X_{4} + \beta_{2}X_{5} + \beta_{3} X_{6} + u
+\end{equation}
+
+
+En este ejemplo, ¿qué podemos asumir que pasará con $Y$ cuando incrementa $X_{2}$ aumenta en una unidad? recordemos que podemos obtener: $\frac{\partial Y}{\partial X_{2}} = \beta_{1}X_{1} + \frac{\beta_{3}}{X_{3}} $, por lo que el cambio en la esperanza condicional de Y con relación a un cambio en una unidad de $X_{2}$ dependerá en el nivel de $X_{1}$ y $X_{3}$, notemos además que la derivada parcial de $Y$ con respecto a $X$ es una función. 
+
+
+Ahora, pensemos en formas no lineales en parámetros, por ejemplo:
+
+\begin{equation}
+y =  \beta_{0} * \beta_{1} * X_{1} * \beta_{2} * X_{2}  + X_{3}^{\beta_{3}} *  u
+\end{equation}
+
+En este caso no podremos estimar con MCO porque no es lineal en paráemtros; no obstante recordemos hay procesos no lineales de estimacón como Máxima Verosomilitud o NLLS para resolver estos problemas, en algunos casos también habrá formas de transformar la especificación a una ecuación con parámetros lineales, una forma especial es la forma de $ y = e^{\beta_{0}+ \beta{1} X_{1}} e^{u}$ a la cual al momento de aplicarle logaritmo podemos convertir en lineal 
+
+
+```{r, out.width="70%"}
+knitr::include_graphics("Ret_Cuad.png")
+```
+
+
+¿Cuáles son los retornos de estimar una ecuación cuadrática? podemos obtener un mejor ajuste a los datos, sin embargo la interpretación de los coeficientes cambia, ya que ahora tendremos:
+
+
+
+\begin{equation}
+\hat{wage} =  3.12 + .447 exper - .007 exper^2
+\end{equation}
+
+
+Notemos que $\hat{\beta_{1}} =.447 $ no será el "efecto de incrementar $exper$ manteniendo $exper^2$ constante, lo cual no hace sentido, el cambiar $exper$ tiene un efecto más complicado en $wage$, dado que: 
+
+* $\frac{\partial wage}{\partial exper} = .447 -2 * .007 exper = .447 .014 exper$, lo cual escrito de forma distinta nos dará $\Delta wage = (.447-.014 exper) \Delta exper$, por lo que la pendeinte de la línea de regresión ahora dependerá de dónde la calculamos. 
+
+* El efecto de incrementar $exper$ puede cambiar de signo, es decir:
+
+- Si $exper \leq 32$ entonces $.447 -.014 exper$ será positivo.
+- Si $exper > 32$ entonces $.447 -.014 exper$ será negativo
+
+En especificaciones no lineales, debemos tomar la derivada parcial de la función para encontrar los efectos marginales de $X$ en $Y$
+
+### Interacciones 
+
+Podemos pensar también en el caso en el que querramos multiplicar dos variables (regresores) diferentes juntas como por ejemplo $X_{1}$ y $X_{2}$ a estos casos los llamaremos interacciones, los cuales no generan un problema para la estimación pero la intepretación debe de ser realizada con cuidado, por ejemplo pensemos en el caso:
+
+\begin{equation}
+\hat{wage} =  \underset{(.685)}{-.905} + \underset{(0.053)}{.541} x educ ; R^2 = .17 
+\end{equation}
+
 
 
 ```{r cars}
