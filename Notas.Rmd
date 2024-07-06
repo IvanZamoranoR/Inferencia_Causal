@@ -1375,9 +1375,64 @@ Donde:
 2. $SSR_{ur}$ es la suma de los residuales al cuadrado en el modelo no restringido; $SSR_{r}$ será el del modelo restringido. 
 3. $n-k-1$ se referirá a los grados de libertad del estadístico en el denominador. 
 
+Así, bajo la hipótesis nula la distribución $F$ será conocida, donde $F$ se distribuye aproximadamente $F_{q,(n-k-1)}$ y cuando la hipótesis es falsa entonces nuestro $SSR_{r}$ será grande y también lo será $F$, así, usaremos la distribución $F$ para construir nuestro valor $p$. 
 
+Sin embargo al momento de pensar en $q$ resulta importante pensar en cuántas hipótesis tenemos. Es decir, ¿cuántas hipótesis tenemos en en $\beta_{bavg}= \beta_{hrunsyr} = \beta_{rbisyr} =0$? 
 
+Para determinar $q$ haremos lo siguiente:
 
+1. Eliminar redundacias 
+2. Contar los signos de igual 
+
+Por lo que en este caso sería igual a 3, aunque resta preguntarnos:
+
+* ¿Cuál será $q$ para $\beta_{0} = 0$, $\beta_{2} = .65$? $q =2$
+* ¿Cuál será $q$ para $\beta_{1} = \beta_{2}$, $\beta_{2} = \beta_{3}$ y $\beta_{1} = \beta_{3}$? $q =3$
+* ¿Cuál será $q$ para $\beta_{jc} = \beta_{univ}$? $q =1$
+
+Sabemos que para calcular el estadístico F usaremos 
+
+\begin{equation}
+\frac{(SSR_{r} - SSR_{ur})/q}{SSR_{ur}/(n-k-1)}
+\end{equation}
+
+¿Cómo compararemos con la distribución $F$? 
+
+```{r, out.width="50%"}
+knitr::include_graphics("f_est.png")
+```
+
+Recordemos que dependiendo de la naturaleza de $q$ y de $n-k-1$ el threshold cambiará, misma que está en función de los niveles de libertad, por ejemplo para $F(3,200)$ el valor $p$ de un test estadístico de 2 será .115, por lo que no habrá un valor crítico que funcionará siempre, de tal forma el test será: si $F>$ valor crítico, rechazamos la hipótesis nula. 
+
+En nuestro ejemplo, veremos que el test t fallará en rechazar la hipótesis nula de 0 para el índice de bolas, home runs y bateos, y en el caso de del test -$F$ sobre $\beta_{bavg}= \beta_{hrunsyr} = \beta_{rbisyr} =0$, ¿qué pasará? 
+
+\begin{equation}
+F = \frac{(198.311 - 183.186)/3}{183.186/347} \approx  9.55
+\end{equation}
+
+Aunque sea un número relativamente grande tenemos que buscar su interpretación, por lo que podremos usar la distribución $F$ con $q$ y $n-k-1$ como parámetros para buscar su valor $p$, es decir: $F(3,347) =9.55 $ será muy preciso con diferencia de $<.00001$ (el co mando en STATA será $Ftail(3,347,9.55)$), por lo que podemos ver que las tres variables son altamente estadísticamente significativas con relación al resultado, a causa de la multicolinealidad ninguna será significativa de forma independiente cuando todas se incluyen. 
+
+Así, podemos ver que el test $F$ es un test conjunto, por lo que:
+
+* Cuando rechazamos el nulo conjunto no sabemos cuál de las restricciones es falsa, (en el ejemplo visto, no sabemos cuál de las variables de baseball realmeente importan).
+
+* También vemos que en el ejemplo del basbeall cada regresos es estadísticamente significativo si se incluye de forma separada. 
+
+* Dado el ejemplo, ¿podemos tomar los resultados como evidencia de que estas tres variables son determinantes importantes del salario? Quizá. 
+
+¿Entonces por qué no solo usar un test t? 
+
+* Cuando tenemos solo una restricción ($q=1$) el test $F$ y el test $t$ son exactamente equivalentes. 
+
+* El estadístico $F$ es el cuadrado del estadístico $t$ cuando q=1.
+
+* Cuado tengamos $q=1$ siempre podemos reescrbiri la regresión tal que el estadístico t estándar funcione. 
+
+* Los test t pueden servir como test individuales. 
+
+* No hay una razón en específico para usar el estadístico $F$ cuando $q=1$
+
+Pero cuando necesitamos testear más de una restricción ($q\geq2$) el test $t$ no aplica, el test $F$ puede funcionar para cualquier $q$ en general. 
 
 
 
