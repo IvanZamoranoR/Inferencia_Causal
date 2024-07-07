@@ -1576,8 +1576,128 @@ En especificaciones no lineales, debemos tomar la derivada parcial de la funció
 Podemos pensar también en el caso en el que querramos multiplicar dos variables (regresores) diferentes juntas como por ejemplo $X_{1}$ y $X_{2}$ a estos casos los llamaremos interacciones, los cuales no generan un problema para la estimación pero la intepretación debe de ser realizada con cuidado, por ejemplo pensemos en el caso:
 
 \begin{equation}
-\hat{wage} =  \underset{(.685)}{-.905} + \underset{(0.053)}{.541} x educ ; R^2 = .17 
+\hat{wage} =  \underset{(.685)}{-.905} + \underset{(0.053)}{.541} * educ ; R^2 = .17 
 \end{equation}
+
+¿Podemos pensar que los retornos sobre la educación son distintos para las mujeres? podemos incluir $educ * female$ (notemos que también se agregó la variable dummy de mujer), por lo que obtendríamos:
+
+\begin{equation}
+\hat{wage} =  \underset{(.844)}{.200} + \underset{(0.539)}{.064} * educ - \underset{(0.086)}{.104} * educ * female - \underset{(1.33)}{1.20} * female   ; R^2 = .26
+\end{equation}
+
+Notemos que las variables nuevas no son significativas individualmente, pero el estadístico $F$ es muy significante para $H_{0}: \beta_{female} = \beta_{educ*female}=0$.
+
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Intera.png")
+```
+
+Notemos que el modlo no restringido (interactuado) será la línea sólida de $\hat{Y}$ para los hombres, la línea con puntos más pequeños será corresponderá a $\hat{Y}$ para las mujeres, notemos que tanto la pendeinte como el intercepto son distintos, por otro lado la línea con puntos más largos tanto su pendientencomo el intercepto corresponderán a la regresión restringida (mismo $\hat{Y}$ para hombres y mujeres).
+
+### Logaritmos  
+
+Recordemos que el logaritmo natural es la inversa de la función exponencial tal que $ln(e^x) = x$ con las siguientes propiedades:
+
+\begin{equation}
+ln(1) = 0
+\end{equation}
+
+\begin{equation}
+ln(0) = - \ifty
+\end{equation}
+
+\begin{equation}
+ln(ax) = ln(a) + ln(x) 
+\end{equation}
+
+\begin{equation}
+ln(x^{a}) = aln(x) 
+\end{equation}
+
+\begin{equation}
+ln(\frac{1}{x}) = -ln(x)
+\end{equation}
+
+\begin{equation}
+ln(\frac{x}{a}) = ln(x) - ln(a)
+\end{equation}
+
+\begin{equation}
+\frac{ln(x)}{dx} = \frac{1}{x}
+\end{equation}
+
+Nosotros nos concentraremos particularmente en la última característica la cual es: $\frac{dln(x)}{dx}$ = $\frac{1}{x}$, en otras palabras, si tenemos un cambio discreto en $x$ tendremos: $ln(x + \Delta x) - ln(x) \approx \frac{\Delta x}{x}$ si $\Delta x$ es pequeñan, por lo cual para un cabio pequeño $x$, el cambio en el log de $x$ es un cambio porcentual en $x$, lo cual resulta ser bastante útil cuand pensamos en relaciones económicas que generalmente se expresan en términos porcentuales, considerando el ejemplo anterior, podemos contrastar los ajustes de una tansformación logarítmica:
+
+```{r, out.width="40%"}
+knitr::include_graphics("Log_tr.png")
+```
+
+Notemos que si bien tiene un mejor ajuste que la regresión lineal, no necesariamente es mejor que la transformación cuadrática, la version logarítmica será $y = \beta_{0} + \beta_{1} ln(exper) + u$ como se ve en rojo, 
+
+
+Ahora bien, al momento de intepretar, tendremos diferentes formas funcionales, podemos pensar en $Y= \beta_{0} + \beta_{1}ln(X)+u$ (Level-Log) donde $Y$ es una variable pero $X$ estará transformada, para lo cual tendremos que un cambio de 1% en X estará asociado con un cambio de $.01* * \beta_{1}$ en $Y$ (aumentar en $ln(X)$ por 1 requiere duplicar $X$).
+
+Por otro lado, dado $ln(Y) = \beta_{0} + \beta_{1}X + u$ (Log-Level)donde sí transformamos el resultado con una transformación lineal logaritmica pero mantenemos los regresores lineales un cambio en una unidad de $X$ estará asociado a un cambio porcentual de $100*\beta_{1}$ % en $Y$ (hemos usado esta interpetación para log wage)
+
+Ahora, pensemos en el caso $ln(Y) = \beta_{0} + \beta_{1}ln(X)+u$ (Log-Log) un cambio de 1% en $X$ estará asociado a un cambio porcentual de $\beta_{1}$ % $100*\beta_{1}$ % en $Y$, podemos interpretar en este caso que $\beta_{1}$ será la elasticidad de $Y$ con respecto a $X$. 
+
+Recordemos que las elasticidades son muy importantes para la interpretación de la teoría económica dado que muchos parámetros se especifican de esa forma, algunos ejemplos comunes son: 
+
+* Elasticidad de la oferta laoboral con respecto al salario. 
+* Elasticidad de la oferta laboral con respecto al ingreso.
+* Elasticidad de la demanda con respecto al precio.
+* Elasticidad del ingreso sujeto a impuestos con respecto a la tasa impositiva. 
+
+
+La definición de la elasticiad de $Y$ con repescto a $X$
+
+\begin{equation}
+\epsilon_{YX} = \frac{\partial Y / Y}{\partial X / X} = \frac{\partial Y }{\partial X}\frac{X}{Y}
+\end{equation}
+
+
+Y para el caso discreto tendremos:
+
+
+\begin{equation}
+ = \frac{\Delta Y}{\Delta X} \frac{X}{Y}
+\end{equation}
+
+La pendiente de $\beta$ sera una especificación log-log cuando se trate de una elasticidad 
+
+Una pregunta importante es la de cómo deberíamos usar los logaritmos (hacer la transformación en $Y$ o en los regresores $X$), usaremos Log en los regresores cuando las variables difieren mucho en escala entre las observaciones (por ejemplo si tenemos outliers de forma recurrente), también lo usaremos para datos enteros que son usualmente grandes como en el caso de poblaciones, nivel de empleo, etc, también en valores monetarios como salarios, precios, etc. 
+
+Por otro lado usaremos Levels (transformación logarítmica en $Y$) cuando las variables están en porcentajes o proporciones, o bien si tenemos variables con valores negativos, aunque notemos que no hay reglas inflexibles, los logaritmos (Logs) pueden reducir o eliminar la heterocedasticidad, estas transformaciones dependerán en gran medida de cómo están asociadas las variables con el resultado más que por conveniencia o interpretación. 
+
+Podemos resumir que el uso de variables logarítmicas puede cambiar los test de significancia y las conclusiones cualitativas, para elegir enetre un modelo con logaritmos o polinomial, no podemos usar el estadístico $F$ dado que ambas alternativas no están anidadas, lo cual implica que un modelo no puede escribrise como la forma restringida de otra, por lo que un método para comparar las alternativas no anidadas será usar la $R^2$ ajustada, pero debemos usar la teoría para guíar nuestra especificación, así como los datos y cómo se relacionan entre sí. 
+
+
+### Variables indicadoras o Dummy 
+
+Este tipo de variables generalmente tendrán una naturaleza categórica, aunque también podrán ser usadas de forma flexible para controlar una variable, este tipo de variables permiten también interacciones que son fáciles de interpretar, cuando usamos variables dummys dejamos fuera una categoría que será el grupo o categoría base, y todos los coeficientes son relativos al valor de ese grupo, podemos pensar en un ejemplo de tomar una varable continua para construir variables dummy como la siguiente:
+
+Supongamos que tenemos el ingreso (que es una variable continua) para separarlo en 4 variables dummy: 
+
+* 20K - 39K
+* 40K - 69K
+* 70K - 99K 
+* 100K - (el grupo que se queda afuera es "menor a 20K") 
+
+Generaríamos estas variables en STATA de la siguiente forma:
+
+* gen inc20-39k=1 if income >=20,000 & income < 40,000
+* gen inc40-69k=1 if income >=40,000 & income < 70,000
+* gen inc70-99k=1 if income >=70,000 & income < 100,000
+* gen inc100k+=1 if income >= 100,000
+
+El coeficiente de inc20-39k nos dará la media condicional de la variable dependiente para un ingreso entre 20K y 40K relativo al de alguien que tiene un ingreso menor a 20K. 
+
+Ahora bien, un ejemplo de variables categóricas a dummy sería transformar la variable "Industria" a variables dummy para "Manufacturera", "Retail", "Transporte", etc. También podemos generar interacciones entre variables dummy como es el ejemplo de Hombre, Edad donde obtenemos Hombre * Edad, donde Hombre y Edad serán los efectos principales y Hombre*Edad será la interacción, generalmente se incluye tanto los efectos principales como las interacciones e incluiremos la interacción porque asumimos que la Edad tiene un efecto distinto para Mujeres y Hombres, si ignoramos los efectos principales la interpretación de las interacciones resulta difícil. 
+
+
+### Modelo de Probabilidad lineal 
+
 
 
 
