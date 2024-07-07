@@ -1698,7 +1698,7 @@ Ahora bien, un ejemplo de variables categóricas a dummy sería transformar la v
 
 ### Modelo de Probabilidad lineal 
 
-
+El modelo de probabilidad lineal 
 
 
 ```{r cars}
