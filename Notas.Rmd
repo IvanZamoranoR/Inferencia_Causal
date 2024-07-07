@@ -1698,7 +1698,10 @@ Ahora bien, un ejemplo de variables categóricas a dummy sería transformar la v
 
 ### Modelo de Probabilidad lineal 
 
-El modelo de probabilidad lineal 
+Este modelo parte de la idea de tener una variable dependiente binaria, los modelos que hemos visto hasta ahora no funcionan en este caso, pensemos en que queremos estudiar el comportamiento del ahorro donde queremos responder a la pregunta: ¿quién es elegible para tener un programa de retiro para el empleo? podemos definir la elegibilidad usando una variable binaria indicadora de 401k, podremos usar MCO para estimar $\beta_{1}$, la variable que construiremos será: $e$401k (= 1 si es elegible para 401k) = $\beta_{0}$ + $\beta_{1}Income$ + $\epsilon$
+
+
+
 
 
 ```{r cars}
