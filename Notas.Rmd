@@ -1698,7 +1698,166 @@ Ahora bien, un ejemplo de variables categóricas a dummy sería transformar la v
 
 ### Modelo de Probabilidad lineal 
 
-Este modelo parte de la idea de tener una variable dependiente binaria, los modelos que hemos visto hasta ahora no funcionan en este caso, pensemos en que queremos estudiar el comportamiento del ahorro donde queremos responder a la pregunta: ¿quién es elegible para tener un programa de retiro para el empleo? podemos definir la elegibilidad usando una variable binaria indicadora de 401k, podremos usar MCO para estimar $\beta_{1}$, la variable que construiremos será: $e$401k (= 1 si es elegible para 401k) = $\beta_{0}$ + $\beta_{1}Income$ + $\epsilon$
+Este modelo parte de la idea de tener una variable dependiente binaria, los modelos que hemos visto hasta ahora no funcionan en este caso, pensemos en que queremos estudiar el comportamiento del ahorro donde queremos responder a la pregunta: ¿quién es elegible para tener un programa de retiro para el empleo? podemos definir la elegibilidad usando una variable binaria indicadora de 401k, podremos usar MCO para estimar $\beta_{1}$, la variable que construiremos será: 
+
+\begin{equation}
+e401k (= 1 si es elegible para 401k) = \beta_{0} + \beta_{1}Income + \epsilon
+\end{equation}
+
+Al momento de estimar a $Y$ binaria con el modelo anterior obtendríamos un resultado como el siguiente:
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Prob_Line.png")
+```
+
+
+Notemos que tendrá esa forma porque la elegibilidad es binaria, por lo que se tomarán valores 0 o 1 pero no en medio, por ranto cuando corremos un modelo MCO con una variable dependiente binaria, será un modelo de probabilidad lineal (LPM por sus siglas en inglés), el cual tendrá la siguiente forma:
+
+\begin{equation}
+Y = \beta_{0} + \beta_{1}X_{1} +...+ \beta_{k}X_{k} + u
+\end{equation}
+
+
+\begin{equation}
+E(Y|X) = \beta_{0} + \beta_{1}X_{1} +...+ \beta_{k}X_{k}
+\end{equation}
+
+
+\begin{equation}
+P(Y = 1|X) = \beta_{0} + \beta_{1}X_{1} +...+ \beta_{k}X_{k} + u
+\end{equation}
+
+Notemos que MCO partira de la esperanza condicional considaremos una probabilidad donde $Y=1$ condicionado a los valores de $X$. 
+
+De tal forma, el estimador LPM es estadísticamente idéntico a MCO pero la interpretación cambiará, pensemos en que $\hat{Y_{i}}$ es la probabilidad de que $Y_{i} = 1$ dado $X_{i}$, notemos que $P(Y=1) = E(Y|X)$ por lo que es el mismo que en el caso MCO, veremos que ahora $\beta$ será el incremento en la probabilidad de que $Y=1$ dado un incremento en una unidad de $X$, es decir: 
+
+\begin{equation}
+\Delta P(Y=1|X) = \beta_{j} \Delta X_{j}
+\end{equation}
+
+Los estadísticos $t$ y $F$ serán los mismos que hemos visto, ¿en qué puede ser distinto entonces? 
+
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("LPM_aj.png")
+```
+Cuando vemos las predicciones de LPM notamos que si queremos ajustar un modelo lineal notemos que los resultados serán inusuales dado que queremos ajustar una línea como si nuestro resultado $Y$ fuera una variable de interés pero vemos que no hay variación sigificativa entre 0 y 1, solo tendremos variación ya sea en 0 o en 1, podemos ver en ecaso por ejemplo que inclusto la probabilidad excede 1 con algunas de estas observaciones, cuando sabemos que ese no es un resultado feasciente. 
+
+Así, podemos observar que un problema común con el LPM es que los valores predeecidos pueden estar por debajo de 0 o por encima de 1, lo cual no tiene sentido como predicción porque $\hat{Y}$ es una probabilidad, una forma de solucionar lo anterior es clasificar todos los casos con $\hat{Y} < 0.5$ como si predijéramos 0 y $\hat{Y} \geq 0.5$ como si predijéramos 1, usaremos como una medida del "buen ajuste" de nuestro modelo el número de clasificaciones hechas correctamente en función de la probabilidad. 
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("LPM_Cor.png")
+```
+
+En el gráfico anterior, podemos ver que los puntos verdes serán los aciertos en clasificación y los puntos azules serán las fallas en la clasificación de la predicción. 
+
+Ahora bien cuando $Y$ es una variable binaria $u$ es necesariamente heteroscedastica, por lo que MCO no será eficiente (no será el BLUE - Best Lineal Unbiased Estimator), por lo que, dada la heterocedasticidad, usaremos errores estándar robustos, aunque resta preguntarnos ¿cómo se verán los residuales de MCO? 
+
+```{r, out.width="40%"}
+knitr::include_graphics("LPM_res.png")
+```
+
+Pero notemos que MCO aún podría ser insesgado ($\hat{\beta}$ aún sería verdadera), el hechode que $Y$ sea binaria impone una restricción sobre $u$, por lo que incorporar estas restricciones tiene el potencial de mejorar la eficiencia, eso es lo que los Modelos de Variable Dependiente Limitados (LDVM : Limited Dependent Variable Models) tratarán de hacer. 
+
+
+### Modelo Probit 
+
+Pensando en que no estamos satisfechos con el LPM, podemos usar un LDVM, podemos comenzar con un setup genérico que describe la probabilidad $Y=1$
+
+\begin{equation}
+Pr(Y=1|X) = G(\beta_{0} + \beta_{1}X_{1} + ... + \beta_{k}X_{k})
+\end{equation}
+
+Donde $G(w)$ es potencialmente una función no lineal, si $G(w)$ es una función que tiene un rango de 0 a 1, entonces las probabilidades predecidas siempre estarán entre 0 y 1, por tanto el LPM será el caso en el que $G(w) = w$.
+
+Por otro lado el modelo Probit será cuando $G(w) = \Phi(w)$, es decir la función de densidad acumulada de la normal estándar. 
+
+Hay otras $G(w)$ que no discutiremos en este caso (como el Logit), dependiendo de la aplicación, una aproximación LVDM podrá ser mejor opción que otra. 
+
+Nos referiremos a $\Phi(w)$ de la siguiente forma: 
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Dist_Norm_Est.png")
+```
+
+La función de densidad acumulada de la normal estándar (cdf) $\Phi(w)$ será la línea roja con forma de S, recordemos que la cdf se refiere a la probabilidad de que una realización aleatoria de la disribución sea menor a $w$, por otro lado la función de densidad de probabilidad de la normal estándar (pdf) $\phi(w)$ será la línea azul en forma de campana, la pdf será la derivda de la cdf, la cdf será particularmente útil para el modelo que estamos abordando. 
+
+Así el Modelo Probit se define de la siguiente forma: 
+
+\begin{equation}
+Pr(Y= 1 | X) = G(\beta_{0} + \beta_{1} + ... +\beta_{k}X_{k})
+\end{equation}
+
+\begin{equation}
+G(w) = \Phi(w) = \int_{-\infty}^{w} \phi(v) \,dv
+\end{equation}
+
+\begin{equation}
+\phi(w) = (2\pi)^{\frac{1}{2}} exp (-w^2/2)
+\end{equation}
+
+Dado que $\phi(-\infty) = 0$ y  $\phi(\infty) = 1$ la probabilidad predecida siempre estará en (0,1), además de que los valores predecidos tendrán una forma de S aplastada, pero resta preguntarnos ¿qué significa $\beta$ en este contexto? 
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Probit.png")
+```
+
+Notemos que nuestras predicciones seguirán estando entre 0 y 1 y el ajuste será más preciso y las predicciones no superarán los valores de 1 ni estarán por debajo de 0, así al momento de interpretar $\beta_{j}$ partiremos de: 
+
+\begin{equation}
+Pr(Y= 1 | X) = \Phi(\beta_{0} + \beta_{1} + ... +\beta_{k}X_{k})
+\end{equation}
+
+Pero notemos que $\beta_{j}$ no será el cambio en $P(Y=1)$ por un cambio en $X_{j}$, necesitaremos tomar la derivada de $\phi(w)\beta_{j}$, lo cual usa la regla de la cadena (recordemos que $\frac{\partial \Phi}{\partial w} = \phi(w)$), pero entonces ¿qué nos dice $\beta_{j}$? dado que $\phi(w) \geq 0$, el signo de $\beta_{j}$ es el signo del efecto parcial, en STATA/R podemos bteer un error estándar válido, con una interpretación como $z$ tes como en el caso del test $t$: $H_{0}: \beta_{j} = 0$, por lo que en resumen $\hat{\beta_{j}}$ nos dará el signo de la significancia estadística, pero la magnitud requiere evaluar la función completa. 
+
+
+De tal forma, podemos pensar en
+
+\begin{equation}
+\frac{\partial Pr(Y= 1 | X)}{ \partial X_{j}} = \phi(\beta_{0} + \beta_{1} + ... +\beta_{k}X_{k})\beta_{j}
+\end{equation}
+
+Como en los polinomios, el efecto en $Y$ de cambiar $X_{j}$ dependerá del valor de $X_{j}$ y las otras $X's$, dado que $\phi$ es una función complicada, requiere un esfuerzo mayor para poder resumir $\frac{\partial Pr(Y= 1 | X)}{ \partial X_{j}}$ que el LPM, veremos que la ventaje pinricpal del LPM será la interpretación sencilla, mientras que en el otro caso necesitamos decidir dónde vamos a evaluar la derivada, es decir, para qué valor de $X$, por lo que podremos: 1. Tomar valores interesantes o bien 2. Calcular el efecto promedio en la muestra
+
+De tal forma, podemos pensar en el Efecto Parcial sobre el Promedio, pensemos en: 
+
+\begin{equation}
+\hat{\Delta Pr} (Y= 1 | X) = \phi(\hat{\beta_{0}} + \hat{\beta_{1}}X_{1} + ... +\hat{\beta_{k}}X_{k})\hat{\beta_{j}} \Delta X_{j}
+\end{equation}
+
+Podemos tomar unos valores interesantes, cualquier observación que resulte importante, y generalmente calculamos el efecto en la media, en este caso usará la media como la observación excepto para $X_{j}$
+
+\begin{equation}
+\hat{\Delta Pr}(Y= 1 | X) = \phi(\hat{\beta_{0}} + \hat{\beta_{1}} \bar{X_{1}} + ... +\hat{\beta_{k}} \bar{X_{k}})\hat{\beta_{j}} \Delta X_{j}
+\end{equation}
+
+El cual será el Efecto Parcial en la Media (PEA - Partial Effect at the Average)
+
+Otra forma de hacer lo anterior será calculando el Efecto Parcial Promedio (APE - Average Partial Effect)
+
+\begin{equation}
+
+\hat{\Delta Pr}(Y= 1 | X) = \phi(\hat{\beta_{0}} + \hat{\beta_{1}} \bar{X_{1}} + ... +\hat{\beta_{k}} \bar{X_{k}}) \hat{\beta_{j}} \Delta X_{j}
+
+\end{equation}
+
+Evaluaremos el efecto promedio en la muestra, y tomaremos el efecto marginal para cada observación lo cual es sencillo, y tomaremos el promedio:
+
+
+\begin{equation}
+\bar{\hat{\Delta Pr}} = \frac{1}{n} \sum_{i=1}^{n} \phi(\hat{\beta_{0}} + \hat{\beta_{1}} \bar{X_{1}} + ... +\hat{\beta_{k}} \bar{X_{k}})\hat{\beta_{j}} \Delta X_{j}
+\end{equation}
+
+Llamaremos a esto el Efecto Parcial Promedio (APE), el cual será la medida más lógica y útil dado que usaremos toda la información en los datos, es decir para cada observación estaremos calculando el efecto marginal y dividiéndolo sobre el número de observaciones. 
+
+
+
+
 
 
 
