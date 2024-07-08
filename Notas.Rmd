@@ -1856,11 +1856,29 @@ Evaluaremos el efecto promedio en la muestra, y tomaremos el efecto marginal par
 Llamaremos a esto el Efecto Parcial Promedio (APE), el cual será la medida más lógica y útil dado que usaremos toda la información en los datos, es decir para cada observación estaremos calculando el efecto marginal y dividiéndolo sobre el número de observaciones. 
 
 
+### Comparación de modelos 
 
 
+Ahora podemos pensar que queremos comparar las diferentes regresiones, retomando el ejemplo de los 401k, podemos pensar en:
 
 
+Tabla 1: Variable dependiente = 1 si 401k es elegivle (N=9275)
 
+|Modelo   | Estimador   |  SE  | % Correct   |   |
+|---|---|---|---|---|
+| LPM  |  .0054 | (.002)  | 64.39%  |   |
+| Probit  | .0146   | (.006)   | 64.37%  |   |
+| Probit APE  | .0053   | (.002)   | -  |   |
+
+
+El coeficiente del probit/SE nos dirá el signo y la significancia estadística, vemos que LPM y Probit APE nos dirán el signo, la significancia estadística y la magnitud. 
+
+Podemos observar que para el LPM obtenemos un estimador de .0054 el cual es altamente estadísticamente significativo, donde tendremos una clasificación con un porcentaje de aciertos (% Correct) de 64.39%, es decir, para el 64.39% de los casos tendremos la predicción correcta, para el caso del Probit recordemos que los coeficientes no son realmente importantes con respecto a magnitudes, en ello se distinguirán de los estimadores LPM, no obstante, recordemos que podemos calcular el test $z$ y encontraremos que es áltmente estadísticamente significativo, recordemos que con el Probit no podremos interpretar las magnitudes y no necesariamente se ajustará a los datos mejor incrementando nuestro poder predictivo; sin embargo, en esta tabla podemos obtener los resultados de cada modelo en caso de que querramos interpretar las magnitudes, es importante siempre tener en mente que los coeficientes del modelo Probit nos dirán el signo y la significancia estadística pero no nos dirá la magnitud, mientras que para los modelos LPM y Probit APE obtendremos el signo, la significancia estadística y la magnitud. 
+
+
+Algo importante a mencionar es que al momento de obtener $\hat{\beta}$ tendremos un proceso distinto al de MCO, mismo que recordemos proviene de minimizar $\sum_{i=1}^n (Y_{i} - \hat{Y_{i}})^2$, aunque es posible establer una versión de mínimos cuadrados no lineales, aunque no tendrá una forma analítica tan sencilla, en ese sentido usaremos Estimación por Máxima Verosimilitud (MLE), este proceso tendrá los siguientes pasos: 1. Escribir una función de probabilidad entera que genere los datos, 2. Usualmente hacer una búsqueda numérica para $\hat{\beta}'s$ que se ajuste mejor a los datos, 3. en el caso no binario, cuando todoos los supuestos de MCO s ecumplen (además de la normalidad en $u$) veremos que MLE = OLS. 
+
+LPM será OLS con una variable dependiente binaria y será fácil de interpretar 
 
 
 ```{r cars}
