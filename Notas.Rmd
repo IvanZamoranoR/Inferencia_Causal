@@ -1878,7 +1878,27 @@ Podemos observar que para el LPM obtenemos un estimador de .0054 el cual es alta
 
 Algo importante a mencionar es que al momento de obtener $\hat{\beta}$ tendremos un proceso distinto al de MCO, mismo que recordemos proviene de minimizar $\sum_{i=1}^n (Y_{i} - \hat{Y_{i}})^2$, aunque es posible establer una versión de mínimos cuadrados no lineales, aunque no tendrá una forma analítica tan sencilla, en ese sentido usaremos Estimación por Máxima Verosimilitud (MLE), este proceso tendrá los siguientes pasos: 1. Escribir una función de probabilidad entera que genere los datos, 2. Usualmente hacer una búsqueda numérica para $\hat{\beta}'s$ que se ajuste mejor a los datos, 3. en el caso no binario, cuando todoos los supuestos de MCO s ecumplen (además de la normalidad en $u$) veremos que MLE = OLS. 
 
-LPM será OLS con una variable dependiente binaria y será fácil de interpretar 
+LPM será OLS con una variable dependiente binaria y será fácil de interpretar, bajo los supuestos usuales obtendremos un $\hat{\beta}$ pero tendrá predicciones ilógicas como habíamos visto y por tanto no será eficiente, el modelo Probir puede incrementar la eficiencia y nos dará únicamente predicciones lógicas por lo que podríamos preferirla, pero con interpretación difícil, aunque nos dará respuestas directas sobre el signo y la significancia estadística, interpretar la magnitud del modelo Probit requiere tomar la derivada, APE será preferida 
+
+
+## Experimentos Naturales y DiD 
+
+Los experimentos naturales (o cuasi experimentos naturales) son situaciones donde podemos penasr a priori que el tratamiento no está correlactioando con el error sin un experimento necesariamente, es decir como si hubiese existido un proceso de aleatorización, recordemos que siempre tendremos que constuir un grupo de trataemitno y un grupo de control, donde el grupo de control será usado como un contrafactual (cuál hubiese sido el resultado del grupo tratado si no hubiesen recibido tratamiento), en un buen experimento debe de ser claro cuál el mecanismo de asignación del tratamiento. 
+
+Tipos de datos cross section los cuales se refieren a la realización de una muestra de una población en un solo punto en el tiempo, los repetaed cross-section serán diferentes realizaciones de muestras de la misma población en diferentes puntos en el tiempo, los datos panel serán información de los mismos individuos en diferentes puntis en el tiempo, generalmente usaremos el estimador de "diferencias en diferencias"  (difference in difference - DiD) pare estudiar repeated cross-sections o datos panel cuando tenemos un experimento natural, DiD usa el grupo de control para estimar el cambio en el resultado que hubiese ocurrido dentro del grupo de tratamiento si no hubiese sido tratado 
+
+
+Podemos pensar en la Primera Diferencias de Diferencias en Diferencias como a continuación: 
+
+
+
+|   | Tratamiento | Control         |
+| :------------ | :-----------: | -------------------: |
+| Antes     | A        | B |
+| Después    | C     |      D  |
+| Diferencia   | C-A |D-B|
+
+
 
 
 ```{r cars}
