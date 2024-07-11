@@ -1996,7 +1996,9 @@ Podemos ver que el Control será $\beta_{0}$ dado que implicará que todas las v
 knitr::include_graphics("Did_regresion.png")
 ```
 
-Notemos que $afhigh$ será la variable de interacción, notemos que como en el caso anterior nuestro coeficiente será $1.033$
+Notemos que $afhigh$ será la variable de interacción, notemos que como en el caso anterior nuestro coeficiente será $1.033$ pero ahora tendremos el error estándar que será $1.178$ por lo que nuestro estadístico t será .80 por lo que no será estadísticamente significativo, por lo cual podemos sugerir que no hay más uso del seguro en general después del cambio en el monto. 
+
+Fuera del ejemplo 
 
 
 
