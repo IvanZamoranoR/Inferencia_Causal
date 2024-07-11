@@ -1739,7 +1739,6 @@ De tal forma, el estimador LPM es estadísticamente idéntico a MCO pero la inte
 Los estadísticos $t$ y $F$ serán los mismos que hemos visto, ¿en qué puede ser distinto entonces? 
 
 
-
 ```{r, out.width="40%"}
 knitr::include_graphics("LPM_aj.png")
 ```
@@ -1998,8 +1997,13 @@ knitr::include_graphics("Did_regresion.png")
 
 Notemos que $afhigh$ será la variable de interacción, notemos que como en el caso anterior nuestro coeficiente será $1.033$ pero ahora tendremos el error estándar que será $1.178$ por lo que nuestro estadístico t será .80 por lo que no será estadísticamente significativo, por lo cual podemos sugerir que no hay más uso del seguro en general después del cambio en el monto. 
 
-Fuera del ejemplo 
+Fuera del ejemplo, algunos casos de DiD podrán no tener un tratamiento balanceado y un grupo de control. el hecho de que no estén balanceados no causará problema, pero el supuesto de las tendencias comunes deberá de cumplirse, de otra forma podremos obtener estimadores sesgados, así, cualquier factor que afecte al grupo de tratamiento o control de forma distinta a través del tiempo puede violar el supuesto de las tendencias comunes, suponiendo que tenemos 
 
+\begin{equation}
+Y_{it} = \beta_{0} + \beta_{1}treat_{i} + \beta_{2}after_{t} + \beta_{3}treat_{i}*after_{i} + u_{it}
+\end{equation}
+
+Veremos que en la regresión un requerimiento clave será el de el supuesto de la media condicional igual a cero, esto porque si $u$ está correlacionado con $treat*after$, condiconado en $treat$ y en $after$ entonces tendremos un sesgo, si hay algún factor no observado que genera un cambio mayot en el grupo de tratamiento que en el grupo de control, entonces tendremos un sesgo. 
 
 
 
