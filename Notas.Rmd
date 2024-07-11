@@ -1899,6 +1899,106 @@ Podemos pensar en la Primera Diferencias de Diferencias en Diferencias como a co
 | Diferencia   | C-A |D-B|
 
 
+Sea $\hat{Y_{i}}$ la media del resultado para el grupo $i$ :
+
+1. La Primera Diferencia será = $\bar{Y_{C}} - \bar{Y_{A}}$ (Depués-Antes para el grupo de tratamiento).
+2. La Segunda Diferencia será = $\bar{Y_{D}} - \bar{Y_{B}}$ (Depués-Antes para el grupo de control).
+3. Diferencia en Diferencia = $(\bar{Y_{C}} - \bar{Y_{A}}) - (\bar{Y_{D}} - \bar{Y_{B}})$
+
+Algo importante a mencionar es que este proceso puede realizarse con otros estadísticos como la media o percentiles, etc. 
+
+Pero vale la pena preguntar ¿cuál es la diferencia entre un RCT y DiD? 
+
+* RCT: Mecanismo de asignación aleatorio, haciendo el supuesto de independencia plausible, tenemos que verificar si la información es balanceada es decir, que tanto el grupo de control como de tratamiento deben de ser similares antes del tratamiento, además el estimador de la diferencia será $\bar{Y^{t}} - \bar{Y^{c}} $ no tomará la diferencia después y antes del tratamiento dado que por la aletorización asumimos que deberían de las observaciones deberían de ser idénticas antes del tratamiento 
+
+* DiD: No compara simplemente al grupo de control contra el grupo de tratamiento en el periodo después del tratamiento (o el grupo de tratmiento antes y después), pensamos en el cambio en el grupo de control relativo al grupo de tratamiento, se asume que el cambio en el grupo de control es un cambio en el grupo de tratamiento que hubiera ocurrido en la ausencia del tratamiento, lo cual tendrá sentido bajo el supuesto de que el tratamiento y el control tienen tendencias comunes (control y tratamiento deben de tener el mismo sendero de crecimiento), este supuesto se puede entender gráficamente de la siguiente forma: 
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Did_graph.png")
+```
+ 
+ Donde $A$ será el grupo de tratamiento antes del tratamiento, $C$ será el grupo de tratamiento después del tratamiento, $B$ será el grupo de control antes del tratamiento y $D$ será el grupo de control después del tratamiento. 
+ 
+ 
+Podemos pensar en el ejemplo del paper sobre seguros por compensación a trabajadores (Workers Compensation Insurante) de Meyer, Viscusi and Durbin (AER, 1995), en el que los autores consdieran un efecto en el aumento del seguro en compensación de trabajadores en el tiempo, lo anterior bajo el sifguiente marco: 
+
+* El seguro por compensación a trabajadores (el cual cubre accidentes, enfermedades) generalmente tiene un beneficio máximo, los trabajadores con salarios más altos generalmente reciben un monto mensual como beneficio. 
+
+* Kentucky y Michigan aumentaron ese monto.
+
+
+Podemos pensar en el estimador de primera diferencia: Comparar la duración del tiempo fuera del trabajo para los trabajadores con ingresos altos antes y después del cambio, sin embargo es difícil pensar en un grupo de control para obtener las Diferencias en Diferencias, podmeos entender la política como: 
+
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Did_gr1.png")
+```
+
+
+Nos concentraremos en el grupo $E_{3}$ dado que será el grupo de ingresos altos que recibe un monto mensual menor a su salario, también podemos ver un resumen de los datos
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Did_Tab.png")
+```
+
+
+Calculando las primeras diferencias obtenemos:
+
+```{r, out.width="40%"}
+knitr::include_graphics("Did_Tab2.png")
+```
+
+Recordemos que solo tenemos el grupo de ingresos altos, no hay grupo de control, por lo que sería el equivalente a $C$ y $A$ bajo el esquema teórico, la primera fila se refiere a Kentucky, la segunda a Michigan, mientras que la primera columna será cuando el cambio en beneficios no se hace, la segunda será cuando se realiza el cambio.
+
+Podemos observar que el uso del seguro aumentó en 1.7 meses en Kentucky, mientras que para Michigan aumentó en casi 4.6 meses en promedio aumentará aproximadamente en 2 meses, pero ¿podemos definir cuál estado tiene más gente en el programa en nuestros datos? Kentucky tendrá un valor más cercano al cambio en la media (2 meses) a comparación de Michigan lo cual nos sugiere que tenemos una muestra no balanceada, la variación en los efectos vendrá de Kentucky. 
+
+
+Pero resta preguntarnos ¿cómo podemos incluir un control en nuestro análisis? 
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Did_Tab3.png")
+```
+
+En las primeras columnas 1, 2 tendremos nuestro grupo de control y podremos obtener las diferencias entre grupos, dando un resultado de .95 que es aproximadamente un mes lo cual es menor al resultado de primera diferenia, esto sugiere que los trabajadores de bajos ingresos (serán los que conformarán nuestro grupo de control) también están aumentando el uso del seguro, por lo que si no usamos nuestro grupo de control estaríamos sobre estimando el efecto del aumento, mismo caso que si lo hacemos para Kentucky y Michigan.
+
+
+## DiD como regresión
+
+Consideremos la siguiente regresión: 
+
+\begin{equation}
+Y_{it} = \beta_{0} + \beta_{1}treat_{i} + \beta_{2}after_{t} + \beta_{3}treat_{i}*after_{i} + u_{it}
+\end{equation}
+
+De la cual podemos obtener los estimadores DiD
+
+
+ | Tratamiento | Control | Diferencia |
+| --------------- | --------------- | --------------- |--------------- |
+| Antes | $\beta_{0} + \beta_{1}$  | $\beta_{0}$  |  $\beta_{1}$  | 
+| Después |  $\beta_{0} + \beta_{1} + \beta_{2} +\beta_{3}$ | $\beta_{0} + \beta_{2}$ | $\beta_{0}$  | $\beta_{1} + \beta_{3}$  | 
+| Diferencia |  $\beta_{2} + \beta_{3}$ | $\beta_{2}$  | $\beta_{3}$  | 
+
+
+Ventajas de usar regresión: 
+
+* Podemos obtener los errores estándar de forma más conveniente, por lo que podemos realizar pruebas de hipótesis.
+* Es fácil agregar covariantes (i.e variables de control adicionales), por ejemplo: Control de tendencias confusas, reducir la varianza residual (puede aumentar la precisión de $\beta$).
+
+Podemos ver que el Control será $\beta_{0}$ dado que implicará que todas las variables son iguales a 0, será el periodo de antes para el grupo de control, ahora bien, para identificar al grupo de tratamiento tendremos $\beta_{0} + \beta_{1}$ dado que no tendremos interacción y será antes del tratamiento, así el coeficiente del estimador de DiD será $\beta_{3}$ dado que captura la interacción entre el tratamiento y la aplicación, al momento de correr dicha regresión los resultados estadísticos serán:
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Did_regresion.png")
+```
+
+Notemos que $afhigh$ será la variable de interacción, notemos que como en el caso anterior nuestro coeficiente será $1.033$
+
+
 
 
 ```{r cars}
