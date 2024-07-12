@@ -1990,20 +1990,102 @@ Ventajas de usar regresión:
 
 Podemos ver que el Control será $\beta_{0}$ dado que implicará que todas las variables son iguales a 0, será el periodo de antes para el grupo de control, ahora bien, para identificar al grupo de tratamiento tendremos $\beta_{0} + \beta_{1}$ dado que no tendremos interacción y será antes del tratamiento, así el coeficiente del estimador de DiD será $\beta_{3}$ dado que captura la interacción entre el tratamiento y la aplicación, al momento de correr dicha regresión los resultados estadísticos serán:
 
-
 ```{r, out.width="40%"}
 knitr::include_graphics("Did_regresion.png")
 ```
 
 Notemos que $afhigh$ será la variable de interacción, notemos que como en el caso anterior nuestro coeficiente será $1.033$ pero ahora tendremos el error estándar que será $1.178$ por lo que nuestro estadístico t será .80 por lo que no será estadísticamente significativo, por lo cual podemos sugerir que no hay más uso del seguro en general después del cambio en el monto. 
 
-Fuera del ejemplo, algunos casos de DiD podrán no tener un tratamiento balanceado y un grupo de control. el hecho de que no estén balanceados no causará problema, pero el supuesto de las tendencias comunes deberá de cumplirse, de otra forma podremos obtener estimadores sesgados, así, cualquier factor que afecte al grupo de tratamiento o control de forma distinta a través del tiempo puede violar el supuesto de las tendencias comunes, suponiendo que tenemos 
+Fuera del ejemplo, algunos casos de DiD podrán no tener un tratamiento balanceado y un grupo de control. el hecho de que no estén balanceados no causará problema, pero el supuesto de las tendencias comunes deberá de cumplirse, de otra forma podremos obtener estimadores sesgados, así, cualquier factor que afecte al grupo de tratamiento pero no afecte al grupo de contro o que afecte al grupo de control y no al de tratamiento nos indicará un sesgo por variable omitida, de forma distinta a través del tiempo puede violar el supuesto de las tendencias comunes, suponiendo que tenemos 
 
 \begin{equation}
 Y_{it} = \beta_{0} + \beta_{1}treat_{i} + \beta_{2}after_{t} + \beta_{3}treat_{i}*after_{i} + u_{it}
 \end{equation}
 
 Veremos que en la regresión un requerimiento clave será el de el supuesto de la media condicional igual a cero, esto porque si $u$ está correlacionado con $treat*after$, condiconado en $treat$ y en $after$ entonces tendremos un sesgo, si hay algún factor no observado que genera un cambio mayot en el grupo de tratamiento que en el grupo de control, entonces tendremos un sesgo. 
+
+Así podremos distinguir entre si se cumple o no el supuesto de tendencias comunes de la siguiente forma:
+
+Para tendencias comunes/paralelas
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Did_graph1.png")
+```
+
+
+Para tendencias no comunes/paralelas
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Did_graph2.png")
+```
+
+
+Notemos que en el caso que no tenemos tendencias paralelas no tendremos certeza sobre si usar el promedio, la media, o bien desde qué punto en el tiempo podríamos asumir la estimación. 
+
+
+Regresando a nuestro ejemplo, los investigadores no observarán los periodos de pretratamiento (por lo cual no es posible realizar un test directo sobre el supuesto de tendencias paralelas), también habrá otro factor problemático potencialmente, el cual se refiere a que si hay factores no monetarios de la compensación de los trabajadores que afecten la política de duración para cubrir enfermedades o lesiones para los trabajadores de ingresos bbajos (control) más que a los trabajadores de ingresos altos (tratamiento), entonces el supuesto de tendencias paralela será violado, 
+
+Dado lo anterior, se realizaron diferentes tratamientos para las covariables potenciales en el análisis, obteniendo los siguientes resultados:
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Did_Regtab.png")
+```
+
+Podemos ver que hay algunos resultados relevantes comparando modelos, por ejemplo podemos notar que al momento de elegir la variable dependiente: los logs son menos probables a ser influenciados por outliers, también notemos que los controles pueden reducir el sesgo (dado que hacemos que el supuesto de tendencias paralelas sea más plausible), también podemos notar que añadir controles aumenta la precisión estadística pero debemos de ser cuidadosos al momento de controlar dado que se puede perder cierto poder causal 
+
+Otro ejemplo interesante es el de Card y Krueger (1994) donde se etudia el efecto de una ley de cambio en el salario mínimo en New Jersey sobre el empleo, en este experimento natural, en Abril de 1992 se aprobó una ley para cambiar el salario míno de 4.25 a 5.05 (grupo de tratamiento), consideranto que en Pennsylvania no se cambió el salario mínimo (grupo de control), Card y Krueger entrevistaron a empleados de comida rápida en Febrero de 1992 (antes) y en Noviembre de 1992 (después), la idea es que si algo afecta a los empleados en el mercado de comida rápida más allás de la política, probablemente el cambio también afectara en las fronteras del estado, algo interesante a mencionar es que no se encontró evidencia de que el empleo disminuyera después de aumento en el salario mínimo. 
+
+
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Did_Regraph1.png")
+```
+
+
+Podemos ver que no hay cambios significativos, de hecho un cambio no esperado es que aumentó el empleo dado el aumento en el salario mínimo en New Jersey, podemos observar dicho cambio de la siguiente forma:
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Natex_Reg.png")
+```
+
+
+Notemos que el grupo de control será válido únicamente si ambos grupos tienen las mismas tendencias de empleo, para este caso un problema es que solo existen dos puntos en el tiempo los cuales serán Febrero y Noviembre de 1992 por lo que no hay forma de capturar las tendencias previas.
+
+Dado el ejemplo anterior cabe preguntarnos ¿qué es un buen grupo de control? un grupo de control deberá permitirnos aproximar al contrafactural del grupo de tratamiento (¿qué hubiera pasado si no hubiesen recibido el tratamiento?).
+
+En un estudio de antes y después, lo anterior se refiere a que cualquir factor que cambie en el tiempo debe afectar al grupo de tratamiento y al grupo de control de forma equivalente (supuesto de tendencias paralelas), podemos usar tanto la teoría como los datos para verificar si tenemos tendencias paralelas, de forma teórica será verificar si el grupo de control tiene lógica teórica, y de forma empírica podemos tetear la validez del grupo de control preguntándonos si el tratamiento y el control se comportan de forma parecida en periodos de tiempo lejanos a los experimentos,
+
+
+Considerando lo anterior, podemos ver que en nuestro ejemplo, Pensylvania no fue un buen grupo de control, por tanto, en un paper subscuente se expandió la muestr disponible en el tiempo, podemos notar que hay mucha varianza causando muchas diferencias entre el grupo de control y grupo de tratamiento, por lo que no tendrán tendencias paralelas por lo que no será un buen contrafactual:
+
+```{r, out.width="40%"}
+knitr::include_graphics("Natex_Graph1.png")
+```
+
+Otro ejemplo será el de los terremotos en Afghanistan, los efectos naturales tienn efectos económicos disruptivos, además las condiciones económicas pueden influenciasr la tolerancia a la reintegración de combatientes (i.e los rebeldes pueden haber sido vistos como competencia economica) también la estibilzación post conflicto puede ser afectada, por tanto se trata de investigar cuál es la vlidez de experimentos naturales potenciales - en este caso el terremoto más grande en la historia de Afghanistan - para estudiar las tendencias en las condiciones económicas através de las áreas afectadas(tratadas) y no afectadas (no tratadas), podemos ver que la barra vertical indica el momento del terremoto, notemos que hay unna diferencia en las tendencias después del terremoto, valores mayores indicarán que habrá condiciones económicas peores.
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Afg_graph.png")
+```
+
+
+Podemos observar que antes del terremoto las áreas que fueron aceptadas (tratadas) y no fueron afectadas (no tratadas.
+
+
+Algo a consdierar al moemnto de realizar estudios causales, será la validez interna la cual se refire a si podemos validar la inferencia dentro del contexto del estudio, mientras que la validez externa se referirá a si podemos hacer la misma inferencia en otros contextos fuera del experimento, diferentes investigadores ponen diferentes pesos sobre la validez externa y validez interna, por tanto deberemos de ser concientes de los siguientes puntos al momento de usar DiD como heramienta analítica: 
+
+1. Variables omitidas: Eventos distintos al tratamiento experimental que puden afectar las condiciones previas a la intervención así como observaciones posteriores al experimento que puedan ofrecer explicaciones alternativas al resultado causal sugerido.
+
+2. Varianzas no especificadas: Omisión en los términos de error de los grupos (Bertrand et al 2004)
+
+
+
 
 
 
