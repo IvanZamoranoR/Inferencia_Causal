@@ -2094,11 +2094,16 @@ Algo a consdierar al moemnto de realizar estudios causales, será la validez int
 
 Así, podemos decir que un experimento natural es un caso en el que no tenemos una aleatorización necesaria pero contamos con evidencia para asumir que sí es aleatorio, además deberá de ser clara la razón del mecanismo de asignación del tratamiento, las variaciones en la política generalmente son endógenas (una función de resultados potenciales) lo cual puede ser negativo dado que las políticas cambian recurrentemente que los determinantes de las mismas.
 
-Por otro lado Diferencias en Diferencias (DiD) es una estrategia de identificación común para analizar experimentos naturales, la cual usa un grupo de control para comparar las tendencias en el tiempo, notemos que DiD puede ser válido sin un balance para el grupo de tratamiento y control, si el supuesto de tendencias comunes se cumple se puede obtener un estimador insesgado sin balance, la cuestión principal sobre DiD será preguntarnos si los factores no medidos afectan al control y al tratamiento de la misma forma. 
+Por otro lado Diferencias en Diferencias (DiD) es una estrategia de identificación común para analizar experimentos naturales, la cual usa un grupo de control para comparar las tendencias en el tiempo, notemos que DiD puede ser válido sin un balance para el grupo de tratamiento y control, si el supuesto de tendencias comunes se cumple se puede obtener un estimador insesgado sin balance, la cuestión principal sobre DiD será preguntarnos si los factores no medidos afectan al control y al tratamiento de la misma forma.
+
+Algunos ejemplos de DiD son: 
+
+* Deducciones fiscales para ingresos bajos: Eissa y Liebman (1995), Meyer y Rosenbaum (2000,2001)
+* Impuestos a ingresos altos: Feldstein (1995), Goolsbe (2000)
+* Cuidado de infancias: Havnes y Mogstad (2001)
 
 
-
-
+Ahora bien, para hablar de evidencias posteriores y comparabilidad, esto ya que validez de los experimentos naturales aumenta al momento de examinar la comparabilidad de los grupos de tratamiento y comparación así como el uso de múltiples tratamiento y grupso de comparacióm así como múltiples periodos de tiempo, otra forma de examinar la comparabilidad será que las series de tiempo largas pueden permitirnos la examinación fe si las tendencias de los grupos de tratamiento y de control se mueven igual (i.e si están siendo afectadas por otros facotres para la misma cantidad), también podemos examinar el tamaño y la composición de los grupos que se comparan. 
 
 
 
