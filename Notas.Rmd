@@ -2082,7 +2082,20 @@ Algo a consdierar al moemnto de realizar estudios causales, será la validez int
 
 1. Variables omitidas: Eventos distintos al tratamiento experimental que puden afectar las condiciones previas a la intervención así como observaciones posteriores al experimento que puedan ofrecer explicaciones alternativas al resultado causal sugerido.
 
-2. Varianzas no especificadas: Omisión en los términos de error de los grupos (Bertrand et al 2004)
+2. Varianzas no especificadas: Omisión en los términos de error de los grupos, dado que no clusterizamos de forma correcta (Bertrand et al 2004)
+
+3. Economía Política: La endogeneidad de las políticas públicas cambia en función de las respuestas a variables gubernamentales asociadas con resultados en el pasado o el futuro 
+
+4. Selección: Asignación de observaciones a grupos de tratamiento de tal forma que nos lleve a una correlación entre la asignación y los resultados en ausencia del tratamiento, 
+
+5. Attrition: La pérdida en el diferencial de personas que responden entre el grupo de tratamiento y los grupos de comparación, cómo solucionemos el attrition puede tener un efecto en el NIT del experimento y sus conclusiones. 
+
+6. Interacciones omitidas: Diferenciales en las tendencias entre el grupo de control y de tratamiento o variables omitidas que cambian de forma distinta para el grupo de tratamiento y de control, por ejemplo una tendencia en el tiempo del grupo de tratamiento que no está presente en el grupo de comparación, la exclusión de tales interacciones es un supuesto de identifación común en el diseño de experimentos naturales. 
+
+Así, podemos decir que un experimento natural es un caso en el que no tenemos una aleatorización necesaria pero contamos con evidencia para asumir que sí es aleatorio, además deberá de ser clara la razón del mecanismo de asignación del tratamiento, las variaciones en la política generalmente son endógenas (una función de resultados potenciales) lo cual puede ser negativo dado que las políticas cambian recurrentemente que los determinantes de las mismas.
+
+Por otro lado Diferencias en Diferencias (DiD) es una estrategia de identificación común para analizar experimentos naturales, la cual usa un grupo de control para comparar las tendencias en el tiempo, notemos que DiD puede ser válido sin un balance para el grupo de tratamiento y control, si el supuesto de tendencias comunes se cumple se puede obtener un estimador insesgado sin balance, la cuestión principal sobre DiD será preguntarnos si los factores no medidos afectan al control y al tratamiento de la misma forma. 
+
 
 
 
