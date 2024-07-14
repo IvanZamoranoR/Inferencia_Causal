@@ -2135,10 +2135,80 @@ Extendiendo el supuesto de tendencias paralelas, recordmeos que Card y Krueger e
 
 Recordemos que los Datos Panel observan a las mismas entidades (individuos, estados, municipios, etc) en diferentes puntos en el tiempo podemos llamar a la unidad cross sectional como "individuos" denotados por $i = 1,...,N$ , también tendremos una segunda dimensión llamada "tiempo" denotada por: $t= 1,...,T$, dado lo anterior podemos construir el siguiente modelo:
 
+\begin{equation}
+Y_{it} = \beta_{0} + \beta_{1}X_{1it}+...+\beta_{k}X_{kit} + u_{it}
+\end{equation}
+
+Los datos panel también se conocen como datos longitudinales, algunos ejemplos pueden ser: El porcentaje de graduados de cada escuela en Chicago desde los últimos 10 años, la tasa de pobreza para cada estado en los últimos años, ingresos de los trabajadores a través del tiempo antes y después de alguna discapacidad. Así, las técnicas de panel nos permiten remover los sesgos de los individuos no observados invariantes, lo cual nos permite obtener una ventaja en este tipo de datos para eliminar los datos que no varían en el tiempo, estos datos se podrán observar de la siguiente forma: 
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Panel_tab.png")
+```
+
+Podemos pensar en el ejemplo de impuestos en la cerveza y la mortalidad por accidentes automovolísticos, la cual se concentra por un panel de 48 estados ($i$) en 7 años ($t$), notemos a priori que esperaríamos que mayores impuestos en la cerveza disminuirían el consumo de cerveza, no obstante los datos cross-sectional para 1982 nos muestra una relación positiva como vemos a continuación:
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Cerv_muert.png")
+```
+
+Así, paraece ser que cuando vemos a los datos cross-sectional que los impuestos en la cerveza de hecho aumentan las muertes por tráfico, lo cual no parece tener mucho sentido teórico, aunque parece que el año 1982 tiene alguna anomalía, pero observando el año 1988 parece seguir siendo positiva: 
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Cerv_2.png")
+```
+
+
+¿A qué se debe lo anterior? puede ser el caso que los estados que adoptaron mayores impuestos en cerveza sea en respuesta a una mortalidad por tráfico más grande, por lo que tendríamos la relación causal en la dirección equivocada, por lo que si quiséramos observar el verdadero efecto del impuesto no debermos de mirar solo a los datos cross section, necesitaremos un diseño de investigación disitinto. 
+
+Algo importante a notar es que en los dos casos de datos cross section tenemos sesgo por variables omitidas, algunas de estas variables omitidas pueden ser: 
+
+* Comportamiento de beber alcohol (curva de demanda por alcohol)
+* Kilometraje y velocidad al momento de las muertes automovilísticas
+* Aceptación de manejar borracho ("cultura")
+* Número de policías y patrullas
+* Clima
+
+Si nos concentramos en la Cultura por ejemplo, dado que no es muy varible en el tiempo, podríamos pensar en la siguiente especificación: 
 
 \begin{equation}
+FatalityRate_{it} = \beta_{0} + \beta_{1}BeerTax_{it} + \beta_{2}Culture_{it} + u_{it} 
+\end{equation}
+
+Supongamos que, controlando por Cultura, nuestro MCO es insesgado $E(u|Tax, Culture)=0$ pero la "Cultura" es una variable difícil de medir, por lo que no es viable controlarla. 
+
+Así, podemos partir de un marco más general:
+
+\begin{equation}
+Y_{it} = \beta_{0} + \beta_{1}X_{it} + a_{i} + u_{it} 
+\end{equation}
+
+Donde $a_{i}$ serán todos los factores no varibles en el tiempo, es decir las cosas que no varían en el tiempo para la misma entidad cross-ectional ($i$). Así, podríamos partir de una idea simple pero poderosa: estimar los efectos de $a_{i}$ lo cual es equivalente a que cada entidad/individuo $i$ tenga su propio intercepto único en la ecuación, al momento de correr MCO con estas variables dummy tendríamos nuestro Estimador de Efectos Fijos (FE estimator) aunque en STATA y en R habrá formas de hacer lo anterior sin tener que construir las variables dummy que se agregan de forma secuencial a la regresión. 
+
+Ahora bien, dado que la especificación es distinta, ¿cómo cambia la intepretación de $\hat{\beta}$? será la misma que usualmente tenemos, solo que la parte de "mantener todo constante" ahora contiene efectos fijos que se mantienen constantes, FE solo usa variación a nivel individual para estimar el efecto de $X$ en $Y$, hablaremos de FE estimando el efecto de cambios en $x$ sobre los cambios en $Y$ lo cual es un proceso análogo al de la primera diferencia cundo hablamos de DiD, también es importante considerar que es imposible estimar el efecto de cualquier vriable que no varíe dentro de una unidad/individuo, dado que todo factor que no cambia en el tiempo será capturado por los efectos fijos pero no para diferencias entre individuos. 
+
+Así, regresando al ejemplo anterior, al momento de agregar efectos fijos a nuestra regresión, nuestro coeficiente será negativo, por lo que la relación que obtenemos será distinta más de acuerdo a la intuición, donde un aumento en el impuesto a cerveza disminuye la tasa de mortalidad automovilística, así esta primera diferencia al usar efectos fijos por unidad elimina las variables invariantes en el tiempo no observables, pero las variables no observables que varían a través del tiempo se mantendrán, por lo que podrán causar algún seso si están correlacionadas a $\Delta X$.
+
+```{r, out.width="40%"}
+knitr::include_graphics("Fe_cer.png")
+```
+
+ Así, supongamos por ejemplo que el impeusto a la cerveza asumento al mismo tiempo que otra política se realizó tal que ésta afectó el impuesto, por ejemplo programas de educación contra el manejo bajo alcohol, o el límite de velocidd, o bien si el impuesto aumento al mismo tiempo que la cultura sobre el alcohol cambió, cualqier factor que cambie a través del tiempo puede inducir a un sesgo por variable omitida en la primera diferenciam, otro caso es por ejemplo la causalidad inversa también puede causar sesgo, generalmente se usarán técnicas de panel para estudiar las políticas públicas, pero es importante tener presente que las políticas públicas pueden estar dirigidas por un cambio en $Y$ por lo que tendríamos causalidd inversa y por tanto un sesgo importante en nuestros sresultados. 
 
 
+## Efectos Fijos por Tiempo 
+
+
+Dado que podemos tener de efectos fijos por unidades que nos permiten controlar efectos de cosas que se mantienen constantes a través del tiempo para cualquier unidad podemos pensar en tener efectos fijos por tiempo que controlen los factores que son los mismos para todas las unidades en un periodo de tiempo de tiempo, esta idea es el centro de los efectos fijos por tiempo, los cuales serán capturarán variables no observables invariantes a nivel individual (pensemos en políticas públicas a nivel nacional o bien shocks macroeconómicos los cuales afectan de la misma forma a todos los estados,) en este proceso le quitamos la media a los datos por periodo de tiempo en lugar de a nivel invidual, aunque la estructura matemática será idéntica, solo cambiará el significado de los efectos para $i$ y para $t$.
+
+\begin{equation}
+Y_{it} = \beta_{1}X_{it} + \sum_{i=1}^{T} \delta_{t}d_{t} + u_{it}
+\end{equation}
+
+
+Así combinando efectos fijos por tiempo y por individuo, tendríamos efectos fijos por dos lados (Two way fixed effects). 
 
 
 
