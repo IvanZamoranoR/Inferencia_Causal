@@ -2105,6 +2105,41 @@ Algunos ejemplos de DiD son:
 
 Ahora bien, para hablar de evidencias posteriores y comparabilidad, esto ya que validez de los experimentos naturales aumenta al momento de examinar la comparabilidad de los grupos de tratamiento y comparación así como el uso de múltiples tratamiento y grupso de comparacióm así como múltiples periodos de tiempo, otra forma de examinar la comparabilidad será que las series de tiempo largas pueden permitirnos la examinación fe si las tendencias de los grupos de tratamiento y de control se mueven igual (i.e si están siendo afectadas por otros facotres para la misma cantidad), también podemos examinar el tamaño y la composición de los grupos que se comparan. 
 
+Podemos tomar como ejemplo el paper de Getmanskey, Grossman y Wright (2019) estudiaron el efecto de la fortificación de la bordera sobre el contrabando fronterizo, el cual parte del hecho de que Israel construyó una barrera separando a Israel del Banco Occidental en respuesta a los ataques suicidas en la Seunda Intafada, una consecuencia no deseada fue que hubo un incremento significativo en el costo del contrabando de vehículos desde Israel al Banco Occidental, la pregunta que se trató de responder es cuál es el impacto de la fortifiación de la frontera en el contrabandp? el grupo de tratmaiento fueron las áreas protegidas, el primer grupo de control  fue las áreas más cercanas a ser protegidas, el segundo grupo de control fueron las áreas remotas, dicho esquema peude ser observado en el siguiente mapa:
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Israel_map.png")
+```
+
+
+También se eploró el supuesto de tendencias paralelas, podemos ver que las tendencias son generalmente consistentes através de las unidades de tratamiento y control antes del tratamiento, ambas áreas no protegidas cercanas a la frontera (grupo de control 1) muestran un aumento en el robo a autpartes no presente en las áreas remotas (grupo de control 2), lo anterior puede ser evidencia del desplazamiento del crimen, una disminución en el robo de autopartes en el área protegida cercana a la frontera y un aumento en el robo de aupartes en las áreas no protegidas cercanas a la frontera. 
+
+
+```{r, out.width="40%"}
+knitr::include_graphics("Israel_ten.png")
+```
+
+
+EL ejemplo anterior es una buena represntación de por qué es iportante considerar los efectos en equilibrio general al momento de que un experimento natural se realice. 
+
+```{r, out.width="40%"}
+knitr::include_graphics("Israel_tab.png")
+```
+
+
+
+## Datos Panel y Modelos de Efectos Fijos
+
+Extendiendo el supuesto de tendencias paralelas, recordmeos que Card y Krueger estudiaron las leyes de salario mínimo en dos estdos (New Jersey y Pennsylvania), ¿qué pasaría si hubiese muchos cambios en las leyes en diferentes años? por ejemplo supongaos que New Jersey cambió su ley en 1992, New York y Pennsylvania en 1993, Connecticut en 1994 y New Jersey de nuevo en 1995, los efectos fijos (FE) nos ayudan a usar la lógica de DiD (tendencias paralelas) para estudiar un problema más general, no solo 2 periodos para 2 grupos. 
+
+Recordemos que los Datos Panel observan a las mismas entidades (individuos, estados, municipios, etc) en diferentes puntos en el tiempo podemos llamar a la unidad cross sectional como "individuos" denotados por $i = 1,...,N$ , también tendremos una segunda dimensión llamada "tiempo" denotada por: $t= 1,...,T$, dado lo anterior podemos construir el siguiente modelo:
+
+
+\begin{equation}
+
+
+
 
 
 ```{r cars}
