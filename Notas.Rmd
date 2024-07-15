@@ -2204,11 +2204,23 @@ knitr::include_graphics("Fe_cer.png")
 Dado que podemos tener de efectos fijos por unidades que nos permiten controlar efectos de cosas que se mantienen constantes a través del tiempo para cualquier unidad podemos pensar en tener efectos fijos por tiempo que controlen los factores que son los mismos para todas las unidades en un periodo de tiempo de tiempo, esta idea es el centro de los efectos fijos por tiempo, los cuales serán capturarán variables no observables invariantes a nivel individual (pensemos en políticas públicas a nivel nacional o bien shocks macroeconómicos los cuales afectan de la misma forma a todos los estados,) en este proceso le quitamos la media a los datos por periodo de tiempo en lugar de a nivel invidual, aunque la estructura matemática será idéntica, solo cambiará el significado de los efectos para $i$ y para $t$.
 
 \begin{equation}
-Y_{it} = \beta_{1}X_{it} + \sum_{i=1}^{T} \delta_{t}d_{t} + u_{it}
+Y_{it} = \beta_{1}X_{it} + \sum_{i=1}^{T} \alpha_{t}d_{t} + u_{it}
 \end{equation}
 
 
-Así combinando efectos fijos por tiempo y por individuo, tendríamos efectos fijos por dos lados (Two way fixed effects). 
+Así combinando efectos fijos por tiempo y por individuo, tendríamos efectos fijos por dos lados (Two way fixed effects), obteniendo una especificación como 
+
+\begin{equation}
+Y_{it} = \beta_{1}X_{it} + \sum_{i=1}^{N} \alpha_{i}d_{i} + \sum_{i=1}^{T} \phi_{t}d_{t} + u_{it}
+\end{equation}
+
+Lo cual eliminará variables no observables que sean invariantes en el tiempo por unidades y también variables no observables que no sean invariantes por unidad para cada periodo de tiempo, por ejemplo podemos pensar en la cultura de consumo de alcohol en los estados ($\alpha_{i}$), así como los cambios de políticas públicas a nivel federal que afectan a todos los estados de la misma forma ($\alpha_{t}$), pero es importante notar que las variables no obserdads que varíen en el tiempo y son únicas para cada estado (no un shock común) seguirán generando un sesgo, a causa de no tener tendencias paralelas. 
+
+
+Podemos observar en el siguiente ejemplo que tenemos datos de forma tabular usando efectos fijos, notemos que si nos concentráramos en el coeficiente del impuesto de cerveza sobre la mortalidad automovilística tendrá un coeficiente positivo y estadísticamente significativo $|t-stat| > 2$
+
+
+
 
 
 
