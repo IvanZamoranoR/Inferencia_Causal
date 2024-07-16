@@ -2217,8 +2217,16 @@ Y_{it} = \beta_{1}X_{it} + \sum_{i=1}^{N} \alpha_{i}d_{i} + \sum_{i=1}^{T} \phi_
 Lo cual eliminará variables no observables que sean invariantes en el tiempo por unidades y también variables no observables que no sean invariantes por unidad para cada periodo de tiempo, por ejemplo podemos pensar en la cultura de consumo de alcohol en los estados ($\alpha_{i}$), así como los cambios de políticas públicas a nivel federal que afectan a todos los estados de la misma forma ($\alpha_{t}$), pero es importante notar que las variables no obserdads que varíen en el tiempo y son únicas para cada estado (no un shock común) seguirán generando un sesgo, a causa de no tener tendencias paralelas. 
 
 
-Podemos observar en el siguiente ejemplo que tenemos datos de forma tabular usando efectos fijos, notemos que si nos concentráramos en el coeficiente del impuesto de cerveza sobre la mortalidad automovilística tendrá un coeficiente positivo y estadísticamente significativo $|t-stat| > 2$
 
+```{r, out.width="40%"}
+knitr::include_graphics("FE_ej.png")
+```
+
+
+
+Podemos observar en el siguiente ejemplo que tenemos datos de forma tabular usando efectos fijos, notemos que si nos concentráramos en el coeficiente del impuesto de cerveza sobre la mortalidad automovilística tendrá un coeficiente positivo y estadísticamente significativo $|t-stat| > 2$ en la columna 1, ahora bien al momento de agregar efectos fijos por estado y clusterizando correctamente nuestros errores estándar terminamos estimando efectos negativos en la columna 2, ahora bien si agregamos efectos fijos por tiempo también estiamos efectos negativos lo cual sugiere que mientras más altos impuestos en cerveza se reducirá más la mortalidad automovilística, ahora bien esto no excusa que también tengamos otras políticas que puedan afectar a las unidades y a los periodos de tiempo de forma específica, por ejemplo la edad para beber, mismo que se agrega en la columna 4 como variables dummy, también se agregan las multas o sanciones por tomar, también límites de velocidad, la tasa de desempleo para cada estado en cada año y el ingreso real también para cada estado y año. 
+
+Ahora bien, cuando consideramos las variables de tiempo y por unidad al ver de columna 4 notamos que son apenas estadísticamente signficativos con $|t-stats|$ cercanos a 0, en la columna 5 cuando eliminamos la tasa de desmpleo y el ingreso real, las otras variables son más estadístiamente significativos, ahora bien si cambiamos las edades para beber a una sola variable continua obtendremos con la tasa de desempleo e ingreso real casi estadísticamente insignificativo, lo cual sugiere que es conveniente mantener los efectos fijos que son variables en el tiempo particularmente los de tasas de desempleo e ingreso real, ahora bien, en la columna 7 nos muestra que la magintud de los coeficientes pero la diferencia en usar dos años 1982 y 1988 respectivamente en lugar del rango de años entre 1982 y 1988, por lo que aunque son resultados robustos estadísticamente, no necesariamente son buenos reflejos de la realidad a causa de la muestra. 
 
 
 
