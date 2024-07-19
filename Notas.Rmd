@@ -2228,5 +2228,38 @@ Podemos observar en el siguiente ejemplo que tenemos datos de forma tabular usan
 
 Ahora bien, cuando consideramos las variables de tiempo y por unidad al ver de columna 4 notamos que son apenas estadísticamente signficativos con $|t-stats|$ cercanos a 0, en la columna 5 cuando eliminamos la tasa de desmpleo y el ingreso real, las otras variables son más estadístiamente significativos, ahora bien si cambiamos las edades para beber a una sola variable continua obtendremos con la tasa de desempleo e ingreso real casi estadísticamente insignificativo, lo cual sugiere que es conveniente mantener los efectos fijos que son variables en el tiempo particularmente los de tasas de desempleo e ingreso real, ahora bien, en la columna 7 nos muestra que la magintud de los coeficientes pero la diferencia en usar dos años 1982 y 1988 respectivamente en lugar del rango de años entre 1982 y 1988, por lo que aunque son resultados robustos estadísticamente, no necesariamente son buenos reflejos de la realidad a causa de la muestra. 
 
+Uno de los ejemplos más comunes para entender efectos fijos por tiempo es el de la brecha de género, particularmente eel trabajo de Kleven, Landais y Sogaard (2017) que estudian el efecto del nacimiento de hijos sobre los ingresos de hombres y mujeres, la motivación se fundamente en que la brecha de ingresos entre hombres y mujeres es una constante en diferentes entornos, particularmente por la discriminación de género y las responsabilidades en la crianza de hijos o hijas, una solución simple es estudiar la evolución del mercado laboral antes y después de tener hijos. 
+
+
+```{r, out.width="60%"}
+knitr::include_graphics("Wage_gap_graph.png")
+```
+
+
+Podemos notar que las diferencias han ido disminuido en el tiempo de forma consistente en todas las variables menos en el salario, por tanto se propuso una estrategia empírica la cual es: 
+
+\begin{equation}
+
+Y_{ist}^{q} = \sum_{j \neq -1}\alpha_{j}^{g} \mathbb{1}[j=t] + \sum_{k} \beta_{k}^{g} \mathbb{1}[k = age_{is}] + \sum_{y} \gamma_{y}^{g} \mathbb{1} [y = s] + \epsilon_{ist}
+
+\end{equation}
+
+Notemos que en esta ecuación se descomponen los salarios $Y$ en tres partes las cuales serán: 1. Relativas al tiempo, considernado el año antes del nacimiento del primer hijo $alpha_{j}^{g} \mathbb{1}[j=t]$, 2. Edad $\beta_{k}^{g} \mathbb{1}[k = age_{is}]$  3. Año calendario  $\gamma_{y}^{g} \mathbb{1} [y = s] + \epsilon_{ist}$. 
+
+```{r, out.width="60%"}
+knitr::include_graphics("Wage_gap_graph2.png")
+```
+
+```{r, out.width="60%"}
+knitr::include_graphics("Wage_gap_graph3.png")
+```
+
+
+Primero podemos observar que hay una diferencia importante en los ingresos y también de horas trabajadas relativo a las muejeres en el periodo inmediato anterior al nacimiento de los niños, mismo caso para la participación aunque el salario parece tener la menor diferencia respecto a las variables anteriores, la conclusión más importante de este estudio es que el nacimiento de un hijo o una hija explica alreddor del 80% del resto de la diferencia en salarios, la participación, horas trabajadas y salarios contribuyen de la misma forma, dado lo anterior se comenzaron a impulsar políticas públicas diseñadas a la disminución en el salario de forma explítica al nacimiento. 
+
+### Modelo de Efectos Fijos como regresió de datos estandarizados 
+
+Cuando hablamos de datos estandarizados nos referimos a un conjunto de datos a los cuales les restamos su media, veremos que los estimadors de efectos fijos de $\beta_{1}$ son exactamente los mismos a los que obtendríamos si tuviésemos $X$ y $Y$ estandarizados y corrieramos una regresión de variables estandarizadas. 
+
 
 
