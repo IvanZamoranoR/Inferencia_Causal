@@ -2261,5 +2261,43 @@ Primero podemos observar que hay una diferencia importante en los ingresos y tam
 
 Cuando hablamos de datos estandarizados nos referimos a un conjunto de datos a los cuales les restamos su media, veremos que los estimadors de efectos fijos de $\beta_{1}$ son exactamente los mismos a los que obtendríamos si tuviésemos $X$ y $Y$ estandarizados y corrieramos una regresión de variables estandarizadas. 
 
+La interpretación en la estandarización se refiere a que es un proceso de parcialización aplicado a variables dummy, recordemos los siguientes tres pasos: 
+
+1. Corremos regresión de $X$ sobre todos los efectos fijos; tomamos los residuos; obtenemos $\tilde{X}$:
+
+\begin{equation}
+X_{it} = \sum_{i=1}^{N} \sigma_{i}d_{i} + \epsilon_{it}, \tilde{X_{it}} = X_{it} - \sum_{i=1}^{N} \hat{\alpha_{i}}d_{i}
+\end{equation}
+
+2. Corremos regrresión de $Y$ sobre todos los efectos fijos; tomamos los residuos; obtenemos $\tilde{Y}$: 
+
+\begin{equation}
+Y_{it} = = \sum_{i=1}^{N} \phi_{i}d_{i} + u_{it}, \tilde{Y_{it}} = Y_{it} - \sum_{i=1}^{N} \hat{\phi_{i}}d_{i}
+\end{equation}
+
+3. Corremos regresión con los residuales obtenidos para calcular:
+
+\begin{equation}
+ \tilde{Y_{it}} = \beta_{1}\tilde{X_{it}} + \tilde{u_{it}}
+\end{equation}
+
+4. Notemos que $\tilde{X}$ y $\tilde{Y}$ son las variables estandarizadas. 
+
+Dado que los datos estandarizados $a_{it} - \bar{a_{it}}= 0$ eliminan $a_{i}$, notemos sin embargo que si incluimos una constante en la última regresión, ésta será cero dado que $\bar{\tilde{Y}}$ = $\bar{\tilde{X}}$ = 0, la intuición detrás es que un efecto fijo es como una variable de control, misma que tendrá un valor constante, notemos que solo nos concentraremos en la parte de la variación que no está explicada por esos controles, siendo la razón de por qué son tan útiles, dado que podemos eliminar el sesgo si estuviesen en el término de error, lo mismo ocurre cuando hablamos de datos estandarizados. 
+
+Algunos de los beneficios de los diseños de panel es que podemos eliminar el sesgo causado por factores no observables e invariantes en el tiempo, o bien por factores no observvables e invariantes por individuo, lo cual es bastante práctico, dado que podemos olvidrlos de cierto tipo de problemas sin tener datos de eso, o bien sin saber exactamente cuál es el problema. 
+
+Por otro lado, las limitantes de las estrategias de panel es que si tenemos variables omitidas que varían a través del tiempo dentro de las unidades, entonces los FE estarán sesgados. Otra limitante o desventaje es que no podemos estudiar cosas que no varían en el tiempo o entre unidades (por ejemplo, no podemos utiizar datos panel apra evaluar una política pública federal dado que todas las unidades reciben el mismo tratamiento), también el contar con poca variación aumenta la imprecisión de nuestro modelo 
+
+
+
+
+
+
+
+
+
+
+
 
 
