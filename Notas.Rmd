@@ -2290,14 +2290,89 @@ Algunos de los beneficios de los diseños de panel es que podemos eliminar el se
 Por otro lado, las limitantes de las estrategias de panel es que si tenemos variables omitidas que varían a través del tiempo dentro de las unidades, entonces los FE estarán sesgados. Otra limitante o desventaje es que no podemos estudiar cosas que no varían en el tiempo o entre unidades (por ejemplo, no podemos utiizar datos panel apra evaluar una política pública federal dado que todas las unidades reciben el mismo tratamiento), también el contar con poca variación aumenta la imprecisión de nuestro modelo 
 
 
+## Regresión Discontinua 
+
+Una manera de introducir los diseños de regresión discontinua es considerando que comunmente las políticas públicas parecen generarse de forma arbitaria o bien tratan a personas que tienen elementos en común de forma distinta, es decir, podríamos pensar en una aleatorización por política pública como una forma de experimento natural, recordemos que algo que nos importa mucho del diseño del tratamiento es que generalmente es endógeno, es decir hay un actor estratégico que define los grupos de tratamiento o control, pero hay algunos ajustes que hemos discutido varios casos en los que un experimento natural nace de la introducción de una política pública, así si podemos concoer el mecanismo de asignación (a pesar de parecer arbitrario), puede servir de palanca para establecer grupos de tratamiento y control comparables. 
+
+Algunos ejemplos son los siguientes: 
+
+1. El Estado de California limita el número de alumnos en un grupo a 32 estudiantes, los resultados se concentran en estudiar las calificaciones y al nivel educativo. (Grupos de 33 estudiantes no están este lineamiento contra los grupos de 32 estudiantes)
+
+2. En Alemania, las personas que tienen 42 años son elegibles a beneficios de la por 18 meses en lugar de 12 meses, los resultados son la duración del seguro por desempleo así como los ingresos del siguiente empleo. (Personas de 43 años y 363 días no están en el lineamiento contra las personas 44 años y un día)
+
+3. Las persnas con ingresos bajos y nacidas después del 1 de Octubre de 1983 son elegibles a 5 años más de seguro médico (Medicaid) en la edad infantil, los resultados son la mortalidad, la tasa de hospitalización. (Personas que nacieron antes del 31 Septiembre de 1983 no lo recibirán)
+
+4. Los 300 países más pobres recibieron ayuda por un programa de financiación, los resultados son la mortalidad infancial, así como el niel de estudios.  (Los países que están en el lugar 301 y proximidades son casi idénticos a los del grupo de países pobre pero no formarán parte de los 300)
+
+También otros ejemplos que no involucran al gobierno, por ejemlo rankings o ratings que parecen dividir unidades similares en unidades tratadas y de control. 
+
+Un ejemplo común es la edad mínima para beber en Estados Unidos, la cual contempla que adultos por encima de los 21 años pueden beber alcohol, la motivación de la política es reducir el acceso de los jóvenes al alochol, previniendo el efecto dañino a la salud, así un cambio pequeño en la edad (por ejemplo medido en meses o incluso días) genera un gran cambio en el acceso legal.
 
 
 
+```{r, out.width="60%"}
+knitr::include_graphics("Legal_age.png")
+```
 
 
 
+Notemos que hay algo especial sobre el cumpleaños 21, dado que el número de muertes aumentan para ese cumpleaños de manera notoria comparándolo contra los cumpleaños 20 y 22, lo cual podría explicarse por la edad mínima para beber en Estadod Unidos, podemos desarrollar este ejemplo de la siguiente forma: 
 
 
+```{r, out.width="60%"}
+knitr::include_graphics("Legalage_graph.png")
+```
 
 
+Notemos que tenemos la tasa de muerte (mortalidad medida en muertes por 100,000 personas por año) por el mes de edad, centrado al rededor del cumpleaños 21, podemos notar que hay un salto en la continudad (discontinudad) de los datos alrededor de dicho cumpleaños, donde esa discontinuidad está creada por el threshold dado por la edad mínima para beber. 
 
+Considerando el marco anterior, podemos preguntarnos, ¿cuál es el efecto causal del acceso legal al alcohol sobre la tasa de mortalidad? podríamos plantear un modelo con los siguientes elementos: 
+
+* Variable de tratamiento: $D_{a}$ donde $D_{a} = 1$ indica que el individuo tiene la edad legal para beber, y 0 en otro caso, podemos plantear lo anterior como una función por partes tal que: 
+
+ \[ D_{a} = \begin{cases} 
+      1 & a \geq  21 \\
+      0 & a < 21 \\
+   \end{cases}
+\]
+
+* El estado del tratamieto es una función determinista de $a$ 
+* El estado del tratmaiento es una función disconitnua de $a$
+* La variabel que determina el tratamiento $(a)$ se le llamará "running variable" 
+* Podemos establecer un modelo de Regresión Disconitnua como:
+
+\begin{equation}
+M_{a} = \alpha + \rho D_{a} + \gamma a + e_{a}
+\end{equation}
+
+Resta preguntarnos ¿es éste un estimador con credibilidad para el efecto causal de la Edad Mínima para Beber? por un lado, el Sesgo por Variable Omitida nos dice que eso dependerá de la correlación entre $D_{a}$ y las variables omitidas condicionales en $a$, pero pero $D_{a}$ está determinada únicamente por $a$, por lo que no tendremos sesgo por variables omitidas siempre y cuando la relación entre $M_{a}$ y $a$ sea lineal.  
+
+En ese sentido, podemos tener diferentes especifiaciones o modificaciones para el modelo de regresión discontinua, por ejemplo:
+
+* Regresión Discontinua con tendencias cuadráticas:
+
+\begin{equation}
+M_{a} = \alpha + \rho D_{a} + \gamma_{1}a + \gamma_{1}a^{2} + e_{a}
+\end{equation}
+
+* Regresión Discontinua con cambios repentinos en la pendiente de corte 
+
+\begin{equation}
+M_{a} = \alpha + \rho D_{a} + \gamma(a-a_{0}) + \delta[(a-a_{0})D_{a}] + e_{a}
+\end{equation}
+
+Aqui, podemos ver que $a_{0}$ será el corte (edad de 21) por lo que tendremos una intepretación más fácil 
+
+* Regresión Discontinua con tendencias no lineales y cambios en la pendiente de corte
+
+\begin{equation}
+M_{a} = \alpha + \rho D_{a} + \gamma_{1}(a-a_{0}) + \gamma_{2}(a-a_{0})^2  + \delta_{1}[(a-a_{0})D_{a}] + \delta_{2}[(a-a_{0})^2 D_{a}] + e_{a}
+\end{equation}
+
+Aunque una pregunta común es pensar en ¿qué modelo es mejor? lo cierto es que no hay reglas generles, todo dependerá de los datos que tengamos. 
+
+```{r, out.width="60%"}
+knitr::include_graphics("Legalage_graph2.png")
+```
+
+En la imagen anterior estamos considerando controles cuadráticos y cambios en la pendiente de corte 
