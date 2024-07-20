@@ -2375,4 +2375,20 @@ Aunque una pregunta común es pensar en ¿qué modelo es mejor? lo cierto es que
 knitr::include_graphics("Legalage_graph2.png")
 ```
 
-En la imagen anterior estamos considerando controles cuadráticos y cambios en la pendiente de corte 
+En la imagen anterior estamos considerando controles cuadráticos y cambios en la pendiente de corte aunque las estimaciones de controles cuadráticos y lineales parecen ser cercanos, podemos ver que parace ser que un control de tendencias no lineales (cuadráticas) se ajusta mejor. 
+
+También podemos explotar el hecho de que las discontinuidad de tendencias no lineales se vuelven menos molestas a medida que nos centramos en los puntos cercanos al punto de corte, para conjuntos pequeños de puntos cercanos al límite, las tendencias no lineales no causarán tanto problema, aunque tendremos una forma de intercambio o trade-off: si la ventana es muy estrecha, tendremos menos observaciones y coeficientes estimados imprecisos, dado que la precisión de un estimador está en función de la varianza del término de eror $\epsilon$ o $e$, la varianza de $X$ y el tamaño de nuestra meustra, por lo que mientras esa ventana se haga más pequeña nuestro estimador tendrá más fiabilidad pero tendremos menos datos. 
+
+Dado lo anterior, podemos pensar en el siguiente modelo econométrico: 
+
+\begin{equation}
+M_{a} = \alpha + \rho D_{a} + \gamma a + + e_{a}
+\end{equation}
+
+sobre una muestra tal que: $a_{0} - b \leq b \leq b+ a_{0}$
+
+Donde $b$ describe el tamaño de la ventana y comunmente se le refiere como bandwith, es importante mencionar que hay algoritmos para elegir de forma óptima el bandwith y elegir estimadores óptimos y factibles 
+
+
+
+ 
