@@ -2289,7 +2289,6 @@ Algunos de los beneficios de los diseños de panel es que podemos eliminar el se
 
 Por otro lado, las limitantes de las estrategias de panel es que si tenemos variables omitidas que varían a través del tiempo dentro de las unidades, entonces los FE estarán sesgados. Otra limitante o desventaje es que no podemos estudiar cosas que no varían en el tiempo o entre unidades (por ejemplo, no podemos utiizar datos panel apra evaluar una política pública federal dado que todas las unidades reciben el mismo tratamiento), también el contar con poca variación aumenta la imprecisión de nuestro modelo 
 
-
 ## Regresión Discontinua 
 
 Una manera de introducir los diseños de regresión discontinua es considerando que comunmente las políticas públicas parecen generarse de forma arbitaria o bien tratan a personas que tienen elementos en común de forma distinta, es decir, podríamos pensar en una aleatorización por política pública como una forma de experimento natural, recordemos que algo que nos importa mucho del diseño del tratamiento es que generalmente es endógeno, es decir hay un actor estratégico que define los grupos de tratamiento o control, pero hay algunos ajustes que hemos discutido varios casos en los que un experimento natural nace de la introducción de una política pública, así si podemos concoer el mecanismo de asignación (a pesar de parecer arbitrario), puede servir de palanca para establecer grupos de tratamiento y control comparables. 
@@ -2446,4 +2445,48 @@ knitr::include_graphics("UI_graph4.png")
 ```
 
 Otras características en la que pdoemos pensar es la de testear para disitntas bandwiths alternativas lo cual podemos observar en la tabla anterior, vemos que en las columnas van considerando bandiwths con diferencias primero de 2 años, luego de 1 año, después de 0.5 años y al final de 0.2 años, así las variables dependientes serán la duración del benefico por seguro de desempleo y podemos ver que habrá 1.8 meses más de uso del beneficio por seguro de desempleo, así también si consideramos la edad mayor a 42 será de 1 mes y mayor a 49 srá de 1.4 meses más, por lo que podemos observar la variación usando distintos cutoffs y distintos bandwiths.
+
+Otro ejemplo popular del diseño de regresiones discontinuas es el de Crost et al 2014 sobre la ayuda en zonas de conflicto, en este trabajo se explora el efecto de campañas de ayuda de forma preventiva en zonas de conflicto, en este ejercicio se tomaron diferentes rangos y un threhdhold en función del nivel de pobreza que definía la participación del tratamiento o no en Filipiinas, aunque los autores no tuvieron acceso a los datos originales, hicieron estimaciones para pensar en el threshold real entre los niveles de ingreso y pobreza en filipinas.
+
+
+```{r, out.width="60%"}
+knitr::include_graphics("Aig_graph1.png")
+```
+
+Después de estimar ese threshold, los autores hicieron pruebas de balance (balance tests) donde observaron cómo se comportaban esas discontinuidades alrededor del threshold, podemos observar que hay diferencias pequeñas entre la población, no así el caso para el porcentajes de musulmanes, y el tipo de productos con los que hacen los tejados, aún así, podemos ver que hay bastante suavidad al rededor del threshold o corte, lo cual nos puede dar mayor confianza a pensar que las diferencias en tendencias se pueden deber a la aplicación de la ayuda, para dicho programa se preguntaron distintas cosas, la primera fue la de investigar cuándo ocurren los conflictos. 
+
+
+```{r, out.width="60%"}
+knitr::include_graphics("Aid_graph2.png")
+```
+
+Podemos ver que los lugares que apenas fueron elegidos para el programa son mucho más violentos que los lugares que apenas no fueron elegidos para el programa, también vemos que antes del programa no había diferencias estadísticamente significativas en términos de víctimas por mes aunque vemos que hay un aumento en la fase de preparación social la cual se define como la fase en la que las comunidades están decidiendo si participan por el programa y el tipo de programa que tomarán por lo que representa un momento estratégico en la implementación de todo el estudio. 
+
+```{r, out.width="60%"}
+knitr::include_graphics("Aid_graph3.png")
+```
+
+La siguiente pregunta puede ser cuál es el perfil de la víctima y quién lo inicia, vemos que no hay una diferencia estadísticamente significativa en los conflictos iniciados por el gobierno pero hay un efecto grande en los conflictos iniciados por insurgentes 
+
+```{r, out.width="60%"}
+knitr::include_graphics("Aid_graph4.png")
+```
+
+Ahora bien, la siguiente pregunta es sobre los involucrados, más allá de las víctimas, por lo que sería alguien que se beneficia al no permitir acceso a la ayuda contra el conflicto, donde vemos que movimientos políticos como el MILF y el NPA cuyos objetivos tienen visiones a largo plazo parecen ser los victimarios en lugar de grupos criminales pequeños como el LE 
+
+```{r, out.width="60%"}
+knitr::include_graphics("Aid_graph4.png")
+```
+
+A forma de resumen, podemos ver que la regresión discontiua aproxima la aleatorización, primero tenemos que determinar como el tratamiento depende de la "running variable", después tenemos que demostrar que el resultado tiene una discontinuidad en el valor esperado de la "running variable", la regresión discontinua también requiere una muestra más grande, generalmente se usan datos administrativos, también existe un tradepff entre una muestra más grande y densa alrededor del corte y precisió contra el sesgo esto dado que mientras más alargamos nuestro bandwith damos más espacio a que existan más variables omitidas que afecten nuestra estimación causal, además no debemos observar los checks de balances, y tenemos que ser consientes de que puede existir manipulación de las running variables. 
+
+
+## Variables Instriumentales 
+
+Como hemos visto, un problema recurrente se debe a la endogeindad en los modelos, particularmente sobre el término de error el cual muchas veces resulta en un sesgo por variable omitida, esto puede ser solucionado parcialmente usando variables instrumentales, así las variables instrumentales serán una aproximación para estudiar un experimento natural. 
+
+
+
+
+
 
