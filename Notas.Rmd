@@ -2450,7 +2450,7 @@ Otro ejemplo popular del diseño de regresiones discontinuas es el de Crost et a
 
 
 ```{r, out.width="60%"}
-knitr::include_graphics("Aig_graph1.png")
+knitr::include_graphics("Aid_graph1.png")
 ```
 
 Después de estimar ese threshold, los autores hicieron pruebas de balance (balance tests) donde observaron cómo se comportaban esas discontinuidades alrededor del threshold, podemos observar que hay diferencias pequeñas entre la población, no así el caso para el porcentajes de musulmanes, y el tipo de productos con los que hacen los tejados, aún así, podemos ver que hay bastante suavidad al rededor del threshold o corte, lo cual nos puede dar mayor confianza a pensar que las diferencias en tendencias se pueden deber a la aplicación de la ayuda, para dicho programa se preguntaron distintas cosas, la primera fue la de investigar cuándo ocurren los conflictos. 
@@ -2485,8 +2485,79 @@ A forma de resumen, podemos ver que la regresión discontiua aproxima la aleator
 
 Como hemos visto, un problema recurrente se debe a la endogeindad en los modelos, particularmente sobre el término de error el cual muchas veces resulta en un sesgo por variable omitida, esto puede ser solucionado parcialmente usando variables instrumentales, así las variables instrumentales serán una aproximación para estudiar un experimento natural. 
 
+Para entender mejor lo anterior, podemos pensar en el ejemplo de entender cómo el tamaño de la faimilia afecta el esfuerzo laboral (oferta laboral), partiendo de la especificación: 
+
+\begin{equation}
+hours_worked_{i} = \beta_{0} + \beta_{1}famsize_{i} + \beta_{2}likeschildren_{i} + u_{i}
+\end{equation}
 
 
+Donde vemos que se hace referencia a las horas trabajadas, el tamaño de la familia, así como la preferencia por tener hijos, pero notemos que no podemos observar la variable $likeschildren$ (que será un indicador para alguien que le gustan los hijos) por lo que podemos omitirla y correr la siguiente especificación:
+
+\begin{equation}
+hours_worked_{i} = \beta_{0} + \beta_{1}famsize_{i} + u_{i}
+\end{equation}
+
+Así, esperearíamos que $\hat{\beta_{1}}$ sufra de sesgo por variable omitida dado que $\beta_{2} \neq 0$ y  $\delta_{1} \neq 0$ pueso que pensamos que si te gustan o no los hijos influirán en las horas que trabajas y por otro lado  $\delta_{1} \neq 0$  se refiere a que el número de hijos también está influenciado si te gustan o no los hijos por lo que asumiremos que $Cov(famsize,u) \neq 0$ será muy probable. 
+
+Por tanto, podremos obtener un estimador consistente de $\beta_{1}$ sin controlar la variable $likeschildren$ si encontramos un instrumento válido, notemos que un instrumento válido $Z$ cumple con dos condiciones: 
+
+1. Está no correlacionado con $u:Cov(Z,u) = 0$ (Exogeneidad del instrumento)
+2. Está correlacionado con $X: Co(Z,X) \neq 0$  (Relevancia del instrumento )
 
 
+Dado lo anterior, podemos pensar que si queremos estimar un efecto causal de $X$ sobre $Y$ antes partíamos del supuesto de que los regresores $X$ y el término de error $(u)$ no están correlacionados, 
+
+Podeos pensar en la siguiente relación:
+
+
+```{r, out.width="60%"}
+knitr::include_graphics("IV_diag1.png")
+```
+Así, en la práctica podemos encontrarnos a la situación en la que los regresores y los errores están asociados 
+
+```{r, out.width="60%"}
+knitr::include_graphics("IV_diag2.png")
+```
+
+En tal caso, podemos ver ue no podemos estimar el efecto causal de $X$ sobre $Y$:
+
+```{r, out.width="60%"}
+knitr::include_graphics("IV_diag3.png")
+```
+
+Así, podemos usar un instrumento $Z$ con las siguientes propiedades:
+
+```{r, out.width="60%"}
+knitr::include_graphics("IV_diag4.png")
+```
+
+La idea detrás de las Variables Instrumentales (IV) es que podemos estimar el efecto causal de $X$ sobre $Y$ de la siguiente forma:
+
+```{r, out.width="60%"}
+knitr::include_graphics("IV_diag5.png")
+```
+
+Retomando el ejemplo anterior, pensemos en que una variable instrumental para el tamaño de la familia deberá: 1. Estar no correlacionada con los factores no observados que determinan el esfuerzo en el trabajo (exogeneidad con respecto a $u$, independencia a alguna variable omitida posible) y 2. Correlacionado con el tamaño de la familia (instrumento válido). 
+
+Para este caso, podemos pensar en dos ideas fundamentales: 1. Que los hijos son "bienes" consumibles durables (Beckers, Schutz) los hijos no tienen un periodo de duración pequeño como fuente de utilidad y 2. Convexidad en las preferencias: Las personas tienen preferencias sobre combinaciones de bienes antes que soluciones de esquina sobre un bien en concreto (género másculino y femenino). 
+
+Así, Angrist y Evans (1998) considran si los primeros hijos en una familia tienen el mismo género como un instrumento del tamaño de la familia, el argumento detrás es que las familias con dos dos hijos o hijas del mismo género son más probables a tener un tercer hijo que las familias que tienen de inicio un hijo y una hija. 
+
+Así tomaremos una variable indicadora de los primeros dos hijos del mismo género como $Z$, la exogenidad del instrumento estará dada por $Cov(Z,u)=0$ dado que el género de los hijos no está relacionado con horas trabajadas (excepto en función del tamaño de la familia), y la relevancia del instrumento $Cov(Z,X)\neq 0$ dado que el género de los hijos determinar el tamaño de la familia. 
+
+
+Podemos observar lo anterior con la siguiente tabla donde se muestran las probabilidades condicionales de niños adicionales, se tomaron muestras de mujeres de 1980 y 1990 y se consideraron las fracciones de la muestra condicionada a tener un hijo o una hija, así por ejemplo, si se tiene primero una hija será una fracción de la muestra de .48 y la siguiente fracción que tuvo otro hijo o hija fue del .694, de manera similar, si se tiene primero un hijo será una fracción de la muestra de .512 y la siguiente fracción que tuvo otro hijo o hija del .694 y al momento de calcular las diferencias obtenemos magnitudes muy pequeñas además de no ser estadísticamente significativas 
+
+```{r, out.width="60%"}
+knitr::include_graphics("Fam_gr1.png")
+```
+
+Dado lo anterior, podemos pensar que el hecho de tener un segundo hijo o hija no está influenciado por el género del primer hijo o hija, aunque ahora veremos si los primeros dos hijos influencían el tamaño de la familia obteniendo también la probabilidad condicional de hijos o hijas adicionales, notamos que la primera columna se captura si tenemos un hijo o una hija así como tener dos hijas o dos hijos donde vemos que al momento de tener dos hijos o dos hijas del mismo género la probabilidad de tener una hija o hijo adicional es mayor a que si fuesen un hijo e hija respectivamente (comparando la probabilidad condicional de .432 contra .372). 
+
+```{r, out.width="60%"}
+knitr::include_graphics("Fam_gr2.png")
+```
+
+Es importante mencionar que este instrumento no predice perfectamente el tamaño de la familia, solo explica movimientos marginales que de hecho es lo que los autores tratan de ilustrar.
 
