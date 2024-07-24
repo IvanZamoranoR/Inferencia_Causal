@@ -2636,6 +2636,6 @@ Y despejando $beta_{1}$
 = \frac{\frac{Cov(X_{1},Z)}{Var(Z)}Cov(Y,Z)}{\frac{Cov(X_{1},Z)^2}{Var(Z)^2}Var(Z)} = \frac{Cov(Y,Z)}{Cov(X_{1},Z)}
 \end{equation}
 
-Que será nuestro estimador de Wald como vimos anteriormente
+Que será nuestro estimador de Wald como vimos anteriormente jj
 
 
