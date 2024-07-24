@@ -2661,8 +2661,40 @@ Así el proceso de estimación será:
 2. Second - stage: Corremos regresión de $Y_{i}$ sobre todas las predicciones del first-stage, i.e todas las $\hat{X_{ji}}$ y todos los $W_{ji}$, así el estimador $\hat{\beta}$ será el estimados 2SLS de $\beta$. 
 
 
+Ahora bien, para ilustrar lo anterior, podemos tomar el ejemplo del gusto por tener hijos, es importante tener en mente que no podremos calibrar exactamente cuánta variación en la oferta laboral está dado por el tamaño de la familia ligado al gusto por tener hijos o hijas relativo a alguna variablele omitida como la del gusto de tener hijos o hijas, en la siguiente tabla podemos observar que con MCO las mujeres que tienen más de 2 hijos o hijas son significativamente menos probables de trabajar por trabajo, también trabajan menos semanas, menos horas por semana y tienen menor ingreso relacionado al trabajo y el ingreso para toda la familia disminuye, bajo el esquema de MCO se combinan dos elementos el primero es el efecto del tamaño de la familia y el segundo es que todas las variables omitidas que están presentes en el tamaño de la familia, por tanto buscaremos una variale exógena en foma de un instrumento $Z$ para identificar la variación y aislarla, permitiéndonos encontrar un etimador causal plausible.
+
+Así, esperaríamos que las variables omitidas que conllevan a que las familias tengan muchos hijas o hijos también reducen el esfuerzo en el trabajo por lo que estas dos cosas estarán positivamente correlacionadas lo cual implica que estaríamos obteniendo estimadores que son más grandes en magnitud que lo que realmente son, que es lo que vemos en la columna 2, cuando usamos 2SLS con los mismos instrumentos (que tus dos primeros hijos tengan el mismo género o no) esperaríamos que aislen la variación resultando en una variación menor de -.176 a -.120 para el trabajo por ingreso, de -8.97 a -5.66 en las semanas trabajadas, de -6.66 a -4.59 de horas por semana también será menor para el ingreso laboral y el ingreso familiar.
+
+Así, para este caso podemos ver que al momento de estimar MCO es posible obtener estimadores sesgado dado las variables omitidas, por lo que si usamos variables instrumentales para identificar como si fuera una variación aleatoria en el tamaño de la familia y usaron eso para estimar los efectos que vemos están atenuados. 
+
+```{r, out.width="60%"}
+knitr::include_graphics("2SLS_gr1.png")
+```
 
 
+Así a forma de resumen podemos resumir los siguientes supuestos importantes para applicar 2SLS: 
+
+1. E(u_{i}|W_{i1},...,W_{ri}) = 0 (Todos los otros controles son exógenos, i.e $W_{ri}$ van a ser exógenos a $u$)
+2. (X_{1},...,X_{ki}, W_{ki}, W_{1},...,W_{ri}, Z_{1i},...,Z_{mi}, Y_{i}) son independientes e idénticamente distribuidas.
+3. Curtosis finita para todo $X, W, Z$ y $Y$. 
+4. $(\hat{X_{1i}*},...,\hat{X_{ki}}*, W_{1i},..,W_{ri},1)$ no son perfectamente multicolineales, donde $\hat{X_{ji}}$ son las predicciones de la población de $X_{j}$ sobre todas las $W_{j}$ y $Z_{J}$.
+5. $Cov(Z_{1i}, u_{i}) = ... = cov(Z_{mi}, u_{i}) = 0$
+
+Donde el supuesto 4. es la condición multivariada para la relevancia de un instrumento, los supuestos 1-5 hacen que $\hat{\beta^{2SLS}}$ sea consistente (converge al estimador verdadero) pero no insesgado y notemos que la $R^2$, $F-stat$ no son válidos. 
+
+Así, recordemos que tenemos dos condiciones para los instrumentos: 
+
+1. Exogeneidad: $Cov(Z,u)=0$
+2. Relevancia: $Cov(Z,X)=0$
+
+
+La exogeneidad generalmente no se cumplirá generalmente debido a que $Z$ está relacionada con otro factores que influencían $Y$. o bien $Z$ tiene un efecto directo sbre $Y$, así podemos ver que: 
+
+* La exogeneidad se relaviona con $u$ - no es testeable. 
+* Para el ejemplo que hemos visto cabe preguntarnos, ¿el género de un hijo o hija es completamente aleatorio? Mejor usemos loterías o RCT 
+
+
+También notemos que la relevancia puede fallar si el instrumento es muy débil, lo cual sí puede ser testeable usando un F-test sobre los instrumentos en la first stage, solo tenemos que asegurarnos que $F$ es grande (tegla del meñique >10), también si el instrumeto es deil tendremos inconsistencia, y un sesgo incluso para muestras grandes y también afecta la normalidad, dificultando la inferencia 
 
 
 
