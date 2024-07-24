@@ -2636,6 +2636,31 @@ Y despejando $beta_{1}$
 = \frac{\frac{Cov(X_{1},Z)}{Var(Z)}Cov(Y,Z)}{\frac{Cov(X_{1},Z)^2}{Var(Z)^2}Var(Z)} = \frac{Cov(Y,Z)}{Cov(X_{1},Z)}
 \end{equation}
 
-Que será nuestro estimador de Wald como vimos anteriormente jj
+Que será nuestro estimador de Wald como vimos anteriormente. 
+
+Así, si tenemos una especificación con diferentes regresores endógenos podemos pensar en:
+
+\begin{equation}
+Y_{I} = \beta_{0} + \beta_{1}X_{1i} + ... + \beta_{K}X_{ki} + \beta_{k+1}W_{1i} + ... + \beta_{k+r}W_{ri} + u_{i} 
+\end{equation}
+
+Donde:
+
+* $X_{1i},...,X_{ki}$ son variables endógenas (posiblemente correlacionds con $u$).
+* $W_{1i},...,W_{ri}$ son variables exógenas (no correlacionadas con $u$).
+* $Z_{1i},...,Z_{mi}$ son $m$ instrumentos.
+
+Notemos que 2SLS requiere que $m \geq k$ i.e, necesitamos al menos tantos instrumentos como variables endógenas, (no podremos tener menos instrumentos que variales endógenas).
+
+Así el proceso de estimación será:
+
+1. First - stage: Corremos regresión de $X_{1i}$ en todos $Z_{ji}$ y $W_{ji}$, calculamos los valores predecidos de $\hat{X_{1i}}$ y repetimos el proceso para todos los $k$ en las $X_{j}$  variables. 
+
+2. Second - stage: Corremos regresión de $Y_{i}$ sobre todas las predicciones del first-stage, i.e todas las $\hat{X_{ji}}$ y todos los $W_{ji}$, así el estimador $\hat{\beta}$ será el estimados 2SLS de $\beta$. 
+
+
+
+
+
 
 
