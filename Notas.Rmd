@@ -2511,30 +2511,30 @@ Dado lo anterior, podemos pensar que si queremos estimar un efecto causal de $X$
 Podeos pensar en la siguiente relación:
 
 
-```{r, out.width="60%"}
+```{r, out.width="15%"}
 knitr::include_graphics("IV_diag1.png")
 ```
 Así, en la práctica podemos encontrarnos a la situación en la que los regresores y los errores están asociados 
 
-```{r, out.width="60%"}
+```{r, out.width="15%"}
 knitr::include_graphics("IV_diag2.png")
 ```
 
 En tal caso, podemos ver ue no podemos estimar el efecto causal de $X$ sobre $Y$:
 
-```{r, out.width="60%"}
+```{r, out.width="15%"}
 knitr::include_graphics("IV_diag3.png")
 ```
 
 Así, podemos usar un instrumento $Z$ con las siguientes propiedades:
 
-```{r, out.width="60%"}
+```{r, out.width="15%"}
 knitr::include_graphics("IV_diag4.png")
 ```
 
 La idea detrás de las Variables Instrumentales (IV) es que podemos estimar el efecto causal de $X$ sobre $Y$ de la siguiente forma:
 
-```{r, out.width="60%"}
+```{r, out.width="10%"}
 knitr::include_graphics("IV_diag5.png")
 ```
 
@@ -2560,4 +2560,50 @@ knitr::include_graphics("Fam_gr2.png")
 ```
 
 Es importante mencionar que este instrumento no predice perfectamente el tamaño de la familia, solo explica movimientos marginales que de hecho es lo que los autores tratan de ilustrar.
+
+Ahora bien, regresando a nuestro marco teórico, podemos pensar en nuestro estimador de la Variable Insrumental partiendo del modelo/especificación estándar:
+
+\begin{equation}
+Y = \beta_{0} + \beta_{1}X + u
+\end{equation}
+
+Podemos comenzar con una fórmula sencilla para explicar la covarianza de $Z$ con $Y$, obteniendo:
+
+\begin{equation}
+Cov (Z,Y) = Cov (Z, \beta_{0} + \beta_{1}X + u)
+\end{equation}
+
+
+\begin{equation}
+= \beta_{1}Cov(Z,X) + Cov(Z,u)
+\end{equation}
+
+
+\begin{equation}
+= \beta_{1}Cov(Z,X)  
+\end{equation}
+
+Dada la exogeneidad, y al momento de despegar $\beta_{1}$ obtenemos:
+
+
+\begin{equation}
+\beta_{1}= \frac{Cov(Z,Y)}{Cov(Z,X)}
+\end{equation}
+
+Y obteniendo este resultado partiendo de la muestra tendríamos:
+
+\begin{equation}
+\hat{\beta_{1}^{IV} }= \frac{\hat{Cov(Z,Y)}}{\hat{Cov(Z,X)}} = \frac{\sum_{i=1}^{n}(Z_{i} - \bar{Z})(Y - \bar{Y})}{\sum_{i=1}^{n}(Z_{i} - \bar{Z})(X_{i} - \bar{X})}
+\end{equation}
+
+Así, podemos observar que cuando $Z$ se cambia, cambia a $X$ pero no afecta $u$, por tanto el instrumento $Z$ no ayuda a aislar la variación "exógena" en $X$ que no está relacionada con $u$, así la estimación por IV usa solo esa variación de $X$ para estimar $\hat{\beta}$ en los RCT nos gusta el marco porque podemos controlar $X$ dado que podemos hacer que $X$ varíe sin preocuparnos que dicha variación esté correlacionada con $u$, las IV hacen lo mismo al aislar un subconjunto de la variación de $X$ que creemos que está causado por $Z$, la variación en $X$ ausada por $Z$ no está correlacionada con $u$, al final queremos ver como un cambio en $Z$ influencia a $Y$, y al final atribuir eso a $X$. 
+
+Dado que el estimador IV usa solo un subconjunto de la variación en $X$ para estimar la relación ente $X$ y $Y$, la precisión disminuirá {comparado a MCO} por tanto si $z$ y $X$ no están muy relacionados, la precisión será muy pobre en el estimador IV es decir si $Z$ no es relevante para $X$ es decir si el porcentaje de varianza que está siendo influenciado por $Z$ es pequeño entonces la varianza de $X$ disminuirá, también si $X$ y $Z$ están muy relacioandos $Z$ no puede ser un buen instrumento dado que fallará la restricción de exogeneidad, si $X$ y $Z$ están perfectamente correlacionados entonces $Cov(Z,U)$ no será cero a menos de ue $Cov(X,u)$ también sea cero (lo cual implica que no necesitamos un instrumento en primer lugar).
+
+
+## IV Two Stage Least Squares (2SLS) 
+
+Considerando lo anterior 
+
+
 
