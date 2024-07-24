@@ -2603,7 +2603,39 @@ Dado que el estimador IV usa solo un subconjunto de la variación en $X$ para es
 
 ## IV Two Stage Least Squares (2SLS) 
 
-Considerando lo anterior 
+Considerando lo anterior, si queremos estimar una varable instrumental (IV), para el caso de tener una $X$ y una $Z$ usamos la forma analítica dada por  
 
+\begin{equation}
+\hat{\beta_{1}^{IV} }= \frac{\hat{Cov(Z,Y)}}{\hat{Cov(Z,X)}} = \frac{\sum_{i=1}^{n}(Z_{i} - \bar{Z})(Y - \bar{Y})}{\sum_{i=1}^{n}(Z_{i} - \bar{Z})(X_{i} - \bar{X})}
+\end{equation}
+
+Será conocido como el estimador de Wald, sin embargo, si queremos usar una forma más general para usar para más de una $X$ y más de una $Z$ a la cual nos referiremos como 2SLS, donde nos referiremos como:
+
+1. First stage: Correr la regesión: $X_{1} = \pi_{0} + \pi_{1}Z_{1} + \pi_{2}Z_{2} + u$ y después calculamos  $\hat{X_{1}} = \hat{\pi_{0}} + \hat{\pi_{1}}Z_{1} + \hat{\pi_{2}}Z_{2} + u$ en este paso vamos a intentar predecir la variación en $X$
+
+2. Second stage: Correr la regesión: $Y = \beta_{0} + \beta_{1}\hat{X_{1}} + \epsilon$ Tomamos la variación predecida y la usaremos como un parámetro en la second stage
+
+En caso de que tengamos varias $X$ endógenas, podemos correr el paso 1 para cada $X$, en cada caso se tomará el valor predecido de $X_{1}$ que será una variable exógena plausible si $Z$ es un instrumento válido.
+
+Así 2SLS nos lleva al mismo resultado que nuestra fórmula para IV en el caso donde tenemos una $X$ y una $Z$, tal que obtendremos:
+
+\begin{equation}
+\hat{X_{1}} = \pi_{0} + \frac{Cov(X_{1},Z)}{Var(Z)}Z
+\end{equation}
+
+E introduciendo el estimador $\hat{X_{1}}$ obtenemos:
+
+\begin{equation}
+Y = \beta_{0} + \beta_{1}\hat{X_{1}} + \epsilon = \beta_{0} + \beta_{1}( \pi_{0} + \frac{Cov(X_{1},Z)}{Var(Z)}Z) + \epsilon 
+\end{equation}
+
+Y despejando $beta_{1}$
+
+\begin{equation}
+\beta_{1} = \frac{Cov(Y, \frac{Cov(X_{1},Z)}{Var(Z)}Z)}{Var (\frac{Cov(X_{1},Z)}{Var(Z)Z})}
+= \frac{\frac{Cov(X_{1},Z)}{Var(Z)}Cov(Y,Z)}{\frac{Cov(X_{1},Z)^2}{Var(Z)^2}Var(Z)} = \frac{Cov(Y,Z)}{Cov(X_{1},Z)}
+\end{equation}
+
+Que será nuestro estimador de Wald como vimos anteriormente
 
 
