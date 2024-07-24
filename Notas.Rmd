@@ -2652,6 +2652,8 @@ Donde:
 
 Notemos que 2SLS requiere que $m \geq k$ i.e, necesitamos al menos tantos instrumentos como variables endógenas, (no podremos tener menos instrumentos que variales endógenas).
 
+Notemos que $W_{ri}$ denotarán las variables que vamos a incluir en nuestra especificación como controles, mismos que no estrán correlacionados con el término de error $u$
+
 Así el proceso de estimación será:
 
 1. First - stage: Corremos regresión de $X_{1i}$ en todos $Z_{ji}$ y $W_{ji}$, calculamos los valores predecidos de $\hat{X_{1i}}$ y repetimos el proceso para todos los $k$ en las $X_{j}$  variables. 
