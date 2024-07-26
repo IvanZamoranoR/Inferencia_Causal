@@ -2694,7 +2694,16 @@ La exogeneidad generalmente no se cumplirá generalmente debido a que $Z$ está 
 * Para el ejemplo que hemos visto cabe preguntarnos, ¿el género de un hijo o hija es completamente aleatorio? Mejor usemos loterías o RCT 
 
 
-También notemos que la relevancia puede fallar si el instrumento es muy débil, lo cual sí puede ser testeable usando un F-test sobre los instrumentos en la first stage, solo tenemos que asegurarnos que $F$ es grande (tegla del meñique >10), también si el instrumeto es deil tendremos inconsistencia, y un sesgo incluso para muestras grandes y también afecta la normalidad, dificultando la inferencia 
+También notemos que la relevancia puede fallar si el instrumento es muy débil, lo cual sí puede ser testeable usando un F-test sobre los instrumentos en la first stage, solo tenemos que asegurarnos que $F$ es grande (tegla del meñique >10), también si el instrumeto es deil tendremos inconsistencia, y un sesgo incluso para muestras grandes y también afecta la normalidad, dificultando la forma de hacer inferencia. 
 
+Por tanto, es importante tener preseente que las estrategias de variables instrumentales solo usan la variación relacionada con el instrumento, por lo que si todas las unidades tuviesen el mismo efecto del tratamiento, entonces $\beta_{i} = \beta \forall i$ no tendríamos problema, perosi tenemos efectos heterogéneos del tratamiento, tal que los individuos/unidades tienen $\beta_{i}$ distintas, entonces las variables instrumentales tienen una intepreteación específica. 
+
+Así $\beta^{2SLS}$ será el Efecto del Tratamiento Promedio Local (LATE - Local Average Treatement Effect) dado que $\beta^{2SLS} = E(\beta_{i})$ para cada $i$ que es afectada por el instrumneto, la intuición de esto es que dado que la variable instrumental solo usa la variación en $X$ relacionado con $Z$, es decir estamos usando una submuestra de los datos para estimar la relación entre $X$ y $Y$, si esa submuestra no es representativa de la relación de $X$ con $Y$ solo obtendremos información sobre la relación en esa submuestra.
+
+Podemos pensar en lo anterior recordando el instrumento para tener hijos o hijas del mismo género, ¿es el tamaño de la familia afectado por el instrumento por los primeros hijos/hijas del mismo género siempre? no realmente, sobre todo para familias que no tienen hijos/hijas o que tienen uno solo. 
+
+Un buen instrumento tiene relevancia y también cunple con la restricción de exclusión; $\hat{\beta^{IV}} = \hat{Cov}(Y,Z)/ \hat{Cov}(X,Z))$ donde tenemos una $X$ y una $Z$ y usaremos 2SLS, sabemos que las IV pueden desiminuir su precisión dad o que solo usan una prporción de la variación en $X$, la restriccón de exclusión no se puede testear y generalmente fallará, por lo que tenemos que ser cuidadosos con esta metodología. 
+
+A manera de resumen, podemos decir que las estrategías IV pueden solucionar el Sesgo por Variable Omitida y otros problemas que hacen que $E(u|X) \neq 0$, la forma general de su implementación es a través de 2SLS, un instrumento requería exogeneidad $Cov(Z,u) =0$ lo cual no se puede testear y también relevancia $Cov(Z,x \neq 0$ lo cual se puede testear, un instrumento débil es peligoroso dado que puede disminuir la precisión de nuestra estimación, además de ser sesgado, podremos usar el (estadístico) test $F$ sobre los instrumentos en la primera etapa, pero tenemos que asegurarnos que $F$ es suficientemente grande (generalmente >10) para omitir un problema de instrumentos débiles. 
 
 
