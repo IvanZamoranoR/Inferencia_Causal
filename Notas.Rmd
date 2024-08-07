@@ -12,13 +12,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Inferencia Causal
 
-Cuando hablamos de un proceso de inferencia causal nos referimos al proceso de hacer afirmaciones sobre una $población$ basándonos en una $muestra$ representativa compuesta de $unidades$  (misma que dependerá de diferentes supuestos), particularmente, usaremos estos dos conceptos para entender el efecto de un fenómeno ocurrido de la $muestra$ sobre la $población$, buscando si es $estadísticamente \ significativo$ para establecer una relación $causal$.
+Cuando hablamos de un proceso de inferencia causal nos referimos al proceso de hacer afirmaciones sobre una **población** basándonos en una **muestra** representativa compuesta de **unidades**, las cuales estarán sujetas al cumplimiento de diferentes supuestos, particularmente, usaremos estos dos conceptos para entender el efecto de un fenómeno ocurrido de la **muestra** sobre la **población**, buscando si es **estadísticamente significativo** para establecer una **relación causal**.
 
 ## Modelo de Rubin, Holland 
 
-Una afirmación ya bastante conocida es que correlación no implica causalidad, sin embargo no resulta muy claro el camino a seguir estadísticamente para crear un modelo causal, una parte importante es establecer el concepto de $aleatoreidad$ lo cual obedece a un $proceso \ generador \ de \ datos $ el cual puede se puede aislar  bajo sus propias condiciones. 
+Una afirmación bastante conocida es que correlación no implica causalidad, sin embargo no resulta muy claro el camino a seguir estadísticamente para crear un modelo causal, una parte importante es establecer el concepto de **aleatoreidad** lo cual obedece a un **proces generador de datos** (data generating process) mismo que dependerá de las condiciones dadas y bucará tener unidades equiprobables.
 
-Retomando los conceptoa anteriores, consideraremos una $población$, $muestra$ y $unidades$, de las últimas podremos establecer $funcione$ que traduciremos como $variables$. 
+Retomando los conceptoa anteriores, consideraremos una **población**, **muestra** y **unidades**, de las últimas podremos establecer **funcione** que traduciremos como **variables** a través de un proceso ergódco. 
 
 En ese sentido, podemos definir los componentes del modelo como: 
 
@@ -30,11 +30,11 @@ En ese sentido, podemos definir los componentes del modelo como:
 * Efecto causal: La diferencia entre el resultado potencial para una unidad dada: $Y_{i}^{t} - Y_{i}^{c} = T_{i}$. 
 
 
-Una vez que $S = c$ podemos obtener el $efecto /del tratamiento$ como $Y_{i}^{t} - Y_{i}^{c} = T_{i}$. No obstante una vez que $S$ está determinado solo observamos un resultado, nunca podemos observar dos resultados potenciales para la misma unidad, a esto se refiere el Problema Fundamental de la Inferencia Causal, es decir, es imposible observar el valor de  $Y_{i}^{t}$ y $Y_{i}^{c}$ para la misma unidad y por tanto, es imposible observar el efecto de $t$ contra $c$ para una $i$ en particular.  
+Una vez que $S = c$ podemos obtener el **efecto del tratamiento** como $Y_{i}^{t} - Y_{i}^{c} = T_{i}$. No obstante una vez que $S$ está determinado solo observamos un resultado, nunca podemos observar dos resultados potenciales para la misma unidad, a esto se refiere el Problema Fundamental de la Inferencia Causal, es decir, es imposible observar el valor de  $Y_{i}^{t}$ y $Y_{i}^{c}$ para la misma unidad y por tanto, es imposible observar el efecto de $t$ contra $c$ para una $i$ en particular.  
 
 // 
 
-Una solución al problema anterior es, en lugar de concentrarnos en calcular $T_{i}$ calculamos $T$ que será el $Efecto / medio / de/  tratamientoo$ calculado como: $T = E(Y_{i}^{t} - Y_{i}^{c}) = E(T_{i}) $ el cual se obtiene directamente recordando que la media es un operador lineal. 
+Una solución al problema anterior es, en lugar de concentrarnos en calcular $T_{i}$ calculamos $T$ que será el **Efecto  medio de tratamientoo** calculado como: $T = E(Y_{i}^{t} - Y_{i}^{c}) = E(T_{i}) $ el cual se obtiene directamente recordando que la media es un operador lineal. 
 
 Aunque no siempre podemos observar $T$, podemos estimarlo de la siguiente forma: 
 
@@ -45,15 +45,11 @@ Generalmente $\hat{T}$ es un buen estimador de $T$ (no quiere decir que sea el �
 
 Consideremos: $E(Y_{i}^{t}) = (Y_{i}^{t}| S=t)$ y $E(Y_{i}^{c}) = (Y_{i}^{c}| S=c)$
 
-Entonces  $E(\hat{T}) = T$ se cumplirá si $S$ es independeinte de $Y$, entonces el grupo tratado es una muestra aleatoria del grupo de los potencialmente tratados, mismo caso para el grupo de control. 
-
-Notemos entonces que la asignación aleatoria de $S$ hace que la independencia sea plausible pero no testeable. 
+Entonces  $E(\hat{T}) = T$ se cumplirá si $S$ es independiente de $Y$, así el grupo tratado es una muestra aleatoria del grupo de los potencialmente tratados, mismo caso para el grupo de control, así podemos notar que la asignación aleatoria de $S$ hace que la independencia sea plausible pero no necersaiemnte testeable. 
 
 ## Problema de identificación. 
 
-Cuando el supuesto de independencia entre $S$ y $Y$ cuando hay alguna relación a priori entre ambos, por ejemplo, si el tratamiento es parte de un procceso de optimización que involucra al resultado, caso que es común. 
-
-A partir de lo anterior, nos referimos al problema de identificación a la dificultad de obtener un estimador insesgado para identificar parámetros causales a menos que el mecanismo de asignación cumpla con distintas condiciones. 
+Cuando el supuesto de independencia entre $S$ y $Y$ cuando hay alguna relación a priori entre ambos, por ejemplo, si el tratamiento es parte de un procceso de optimización que involucra al resultado, caso que es común.A partir de lo anterior, nos referimos al problema de identificación a la dificultad de obtener un estimador insesgado para identificar parámetros causales a menos que el mecanismo de asignación cumpla con distintas condiciones. 
 
 
 ## Organización y estructura de datos.
@@ -389,7 +385,7 @@ MCO será el mejor estimador bajo los siguientes supuestos para todo $i$:
 4. $var(u_{i}|X_{i}) = \sigma_{u}^2$ para todos los valores de $X_{i}$ (homocedasticidad).
 
 
-## Supuesto 1: $E(u_{i}|X_{i}) = 0$ 
+### Supuesto 1: $E(u_{i}|X_{i}) = 0$ 
 
 Media condicional igual a cero, se refiere a que la tendencia central de la distribución del término de error $u_{i}$ no está relacionado a $X_{i}$, es decir la media de $u$ es la misma para cualquier valor de $X$. 
 
@@ -427,12 +423,12 @@ Por tanto, si el supuesto 1 se cumple entonces esperaríamos que:
 Por tanto, no podremos testear si $E(u|X) = 0$ checando si $E(\hat{u}|X) =0 $ dado que esto último siempre es cierto, tampoco podríamos si se cumple $E(u|X) = 0$ directamente dado que nunca observamos $u$, por lo que tendremos que decidir si el supuesto 1 es plausible dada la información que sabemos de los datos (por lo que resulta importante pensar en el mecanismo de asignación), otra opción sería observar las relaciones no lineales entre $\hat{u}$ y $X$. 
 
 
-## Supuesto 2: $(X_{i},Y_{}i)$ son independientes e identicamente distribuidas.
+### Supuesto 2: $(X_{i},Y_{}i)$ son independientes e identicamente distribuidas.
 
 Consideremos que cada unidad de los datos proviene de una realización de la misma población y cada realización es independiente entre sí, notemos que los datos panel generalmente violan esa condición, las series de tiempo también violan ese supuesto regularmente. 
 
 
-## Supuesto 3: Los outliers son "poco comunes". 
+### Supuesto 3: Los outliers son "poco comunes". 
 
 Es decir $X$ y $Y$ tienen curtosis finita, haciendo referencia al cuarto momento central i.e : $ 0 < E(X^4) < \infty$, esta condición también nos sirve para asegurar que tienen una varianza y covarianza finita y bien definida. 
 
