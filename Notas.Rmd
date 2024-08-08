@@ -328,7 +328,7 @@ Notemos sin embargo que $\hat{\beta_{0}}$ y $\hat{\beta_{1}}$ son los valroes de
 \hat{\beta_{0}} = \bar{Y} - \hat{\beta_{1}}\bar{X}
 \end{equation}
 
-Donde 
+Donde usaremos
 
 $\hat{X} = \frac{1}{n} \sum_{i=1}^{n} X_{i}$ es la media muestral de X.
 
