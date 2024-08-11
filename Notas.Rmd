@@ -34,7 +34,7 @@ Una vez que $S = c$ podemos obtener el **efecto del tratamiento** como $Y_{i}^{t
 
 // 
 
-Una solución al problema anterior es, en lugar de concentrarnos en calcular $T_{i}$ calculamos $T$ que será el **Efecto  medio de tratamientoo** calculado como: $T = E(Y_{i}^{t} - Y_{i}^{c}) = E(T_{i}) $ el cual se obtiene directamente recordando que la media es un operador lineal. 
+Una solución al problema anterior estará en lugar de concentrarnos en calcular $T_{i}$ calculamos $T$ que será el **Efecto  medio de tratamientoo** calculado como: $T = E(Y_{i}^{t} - Y_{i}^{c}) = E(T_{i}) $ el cual se obtiene directamente recordando que la media es un operador lineal. 
 
 Aunque no siempre podemos observar $T$, podemos estimarlo de la siguiente forma: 
 
