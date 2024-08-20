@@ -18,45 +18,44 @@ Cuando hablamos de un proceso de inferencia causal nos referimos al proceso de h
 
 Una afirmación bastante conocida es que correlación no implica causalidad, sin embargo no resulta muy claro el camino a seguir estadísticamente para crear un modelo causal, una parte importante es establecer el concepto de **aleatoreidad** lo cual obedece a un **proces generador de datos** (data generating process) mismo que dependerá de las condiciones dadas y bucará tener unidades equiprobables.
 
-Retomando los conceptoa anteriores, consideraremos una **población**, **muestra** y **unidades**, de las últimas podremos establecer **funcione** que traduciremos como **variables** a través de un proceso ergódco. 
+Retomando los conceptoa anteriores, consideraremos una **población**, **muestra** y **unidades**, y de las últimas podremos establecer **funcione** que traduciremos como **variables** a través de un proceso ergódco. 
 
 En ese sentido, podemos definir los componentes del modelo como: 
 
-* Unidad : Un objeto $i$ en un punto del tiempo específico. 
-* Tratamiento : Una intervención $t$, cuyos efectos queremos estimar comparando con un $control / c$ determinado por la ausencia de intervención. 
-* Estado del mundo: $S$ para la unidad $i$ la cual tiene un estado de tratamiento definido por $S \in {t,c}$. 
-* Resultado potencial: Antes de que el tratamiento es asignado, podemos estimar la medición de nuestro resultado de interés $Y$ para cada unidad $i$, bajo ambos tratamiento y control, identificados como $Y_{i}^{t}$ y $Y_{i}^{c}$.
+* Unidad : Será un elemento $i$ en un punto del tiempo específico. 
+* Tratamiento : O también llamado intervención $t$, cuyos efectos queremos estimar comparando con un grupo de **control**  $c$ determinado por la ausencia de intervención. 
+* Estado del mundo: $S$ para la unidad $i$ al cual nos referiremos cuando exista el tratamiento definido por $S \in {t,c}$. 
+* Resultado potencial: Antes de que el tratamiento es asignado, podemos estimar la medición de nuestro resultado de interés $Y$ para cada unidad $i$, bajo ambos grupos de tratamiento y de control, identificados como $Y_{i}^{t}$ y $Y_{i}^{c}$.
 * Mecanismo de asignación: El algoritmo que determina si cada $i$ recibe $t$ o $c$.
-* Efecto causal: La diferencia entre el resultado potencial para una unidad dada: $Y_{i}^{t} - Y_{i}^{c} = T_{i}$. 
+* Efecto causal: La diferencia entre el resultado potencial y los resultados después del tratamientopara una unidad dada: $Y_{i}^{t} - Y_{i}^{c} = T_{i}$.
 
 
-Una vez que $S = c$ podemos obtener el **efecto del tratamiento** como $Y_{i}^{t} - Y_{i}^{c} = T_{i}$. No obstante una vez que $S$ está determinado solo observamos un resultado, nunca podemos observar dos resultados potenciales para la misma unidad, a esto se refiere el Problema Fundamental de la Inferencia Causal, es decir, es imposible observar el valor de  $Y_{i}^{t}$ y $Y_{i}^{c}$ para la misma unidad y por tanto, es imposible observar el efecto de $t$ contra $c$ para una $i$ en particular.  
+Una vez que $S = c$ podemos obtener el **efecto del tratamiento** como $Y_{i}^{t} - Y_{i}^{c} = T_{i}$. No obstante una vez que $S$ está determinado solo podemos observar un único resultado, por lo que nunca observaremos dos resultados potenciales para la misma unidad, a esto se le conocerá como el Problema Fundamental de la Inferencia Causal, es decir, es imposible observar el valor de  $Y_{i}^{t}$ y $Y_{i}^{c}$ para la misma unidad y por tanto, es imposible observar el efecto de $t$ contra $c$ para una $i$ en particular.  
 
 // 
 
-Una solución al problema anterior estará en lugar de concentrarnos en calcular $T_{i}$ calculamos $T$ que será el **Efecto  medio de tratamientoo** calculado como: $T = E(Y_{i}^{t} - Y_{i}^{c}) = E(T_{i}) $ el cual se obtiene directamente recordando que la media es un operador lineal. 
+Una solución al problema anterior estará en lugar de concentrarnos en calcular $T_{i}$ calculamos $T$ que será el **Efecto  medio de tratamientoo** dado por: $T = E(Y_{i}^{t} - Y_{i}^{c}) = E(T_{i}) $ el cual se obtiene directamente recordando que la media es un operador lineal. 
 
 Aunque no siempre podemos observar $T$, podemos estimarlo de la siguiente forma: 
 
 $\hat{T} = \hat{E}(Y_{i}^{t}| S=t) - \hat{E}( Y_{i}^{c}|S=c)$
 
-Generalmente $\hat{T}$ es un buen estimador de $T$ (no quiere decir que sea el único), lo cual depende del mecanismo de asignación.
-
+Algo que es importante recordad es que generalmente $\hat{T}$ es un buen estimador de $T$ (no quiere decir que sea el único), lo cual depende del mecanismo de asignación.
 
 Consideremos: $E(Y_{i}^{t}) = (Y_{i}^{t}| S=t)$ y $E(Y_{i}^{c}) = (Y_{i}^{c}| S=c)$
 
-Entonces  $E(\hat{T}) = T$ se cumplirá si $S$ es independiente de $Y$, así el grupo tratado es una muestra aleatoria del grupo de los potencialmente tratados, mismo caso para el grupo de control, así podemos notar que la asignación aleatoria de $S$ hace que la independencia sea plausible pero no necersaiemnte testeable. 
+Entonces  $E(\hat{T}) = T$ se cumplirá si $S$ es independiente de $Y$, así el grupo tratado es una muestra aleatoria del grupo de los potencialmente tratados, mismo caso para el grupo de control, por lo que podemos notar que la asignación aleatoria de $S$ hace que la independencia sea plausible pero no necersaiemnte testeable. 
 
 ## Problema de identificación. 
 
-Cuando el supuesto de independencia entre $S$ y $Y$ cuando hay alguna relación a priori entre ambos, por ejemplo, si el tratamiento es parte de un procceso de optimización que involucra al resultado, caso que es común.A partir de lo anterior, nos referimos al problema de identificación a la dificultad de obtener un estimador insesgado para identificar parámetros causales a menos que el mecanismo de asignación cumpla con distintas condiciones. 
+Sabremoq que el supuesto de independencia entre $S$ y $Y$ no se cumplirá cuando hay exista alguna relación a priori entre ambos, por ejemplo, si el tratamiento es parte de un procceso de optimización que involucra al resultado, caso que es común.A partir de lo anterior, nos referimos al problema de identificación a la dificultad de obtener un estimador insesgado para identificar parámetros causales a menos que el mecanismo de asignación cumpla con distintas condiciones. 
 
 
 ## Organización y estructura de datos.
 
 ### Vectores
 
-Los vectores se usan regularmente para establecer una secuencia numérica, cada elemento del vector revela información sobre los datos en general, se representan comunmente como: $(S_{1}.... S_{6})$, en este caso se tratará de un vector de 6 elementos. 
+Los vectores se usan regularmente para establecer una secuencia numérica, cada elemento del vector revela información sobre los datos en general y se representan comunmente como: $(S_{1}.... S_{6})$, en este caso se tratará de un vector de 6 elementos. 
 
 ### Matrices
 
@@ -83,7 +82,7 @@ Las matrices son objectos relacionados en dos dimensiones los cuales crean combi
 
 ### Data frame
 
-Un data frame contendrá información sobre múltiples unidades para diferentes vectores, los elemtnos que contienen este data frame regularmente a nivel de fila tendrán identificadores, aunque no siempre puede darse el caso en el que la información esté idenxada, esta última característica será útil si queremos agrupar nuestros datos. 
+Un data frame contendrá información sobre múltiples unidades para diferentes vectores, los elementos que contienen este data frame regularmente a nivel de fila tendrán identificadores, aunque no siempre puede darse el caso en el que la información esté indexada, esta última característica será útil si queremos agrupar nuestros datos con algún identificador único de órden.
 
 ### Tipos de variables 
 
@@ -99,10 +98,9 @@ Un data frame contendrá información sobre múltiples unidades para diferentes 
 
 * Descargas directas: generalmente son datos con una estructura definida, son de fácil acceso a través de links descargables. 
 
-* Scrapeo de datos: es un proceso de automatización comunmente realizado en R o Python, en el cual se obtienen datos de cada link en una página o bien se retoman usando la estructura HTML de la página en cuestión. 
+* Scrapeo de datos: es un proceso de automatización comunmente realizado en R o Python, en el cual se obtienen datos de cada link en una página o bien se retoman usando la estructura HTML de la página en cuestión.
 
 * Data Capture: son datos que se encuentran previamente clasificados, generalmente siguen una estructura estadística. 
-
 
 * API: es una fuente en la que podemos acceder más directamente a los datos a través de código, generalmente los datos se encuentran en foramto JSON. 
 
@@ -112,9 +110,9 @@ Un data frame contendrá información sobre múltiples unidades para diferentes 
 
 * Muestra aleatoria: se refiere a una realización aleatoria de un conjunto de objetos en un data frame, esperamos que al tomar subconjuntos de dicha muestra:
 
-    * La media de ese subconjunto converga (en media) a la             media de la muestra completa.
+    * La media de ese subconjunto converga a la media de la muestra completa.
   
-    * La varianza de ese subconjunto sea representativa a la          varianza de nuestra muestra completa. 
+    * La varianza de ese subconjunto sea representativa a la varianza de nuestra muestra completa. 
     
 * Lo anterior se cumplirá sí y sólo sí los datos son independientes e idénticamente distribuidos (no hay ninguna conexión entre las observaciones o filas para un dataframe), es decir, si no hay subgrupos en la población que podrían tener resultados correlacionados. 
 
