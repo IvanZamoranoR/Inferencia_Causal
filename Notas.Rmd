@@ -121,8 +121,8 @@ Un data frame contendrá información sobre múltiples unidades para diferentes 
 
 ## Distribuciones: nos muetran el comportamiento las varibales aleatorias, y son particularmente útiles para realizar pruebas de hipótesis. Podemos distinguir entre: 
 
-  * Discretas: Involucran descontinuidades escalonadas en la        densidad, también tienen la naturaleza de mostrar realizaciones binarias, es por eso que los ejemplos más comunes son las distribuciones Bernoulli y Binomial. 
-  * Continuas: Tienen una forma suavizada, son un caso de una        distribución discreta, la forma más común es la distribución normal (Gaussiana)
+  * Discretas: Involucran descontinuidades escalonadas en densidad, también tienen la naturaleza de mostrar realizaciones binarias, es por eso que los ejemplos más comunes son las distribuciones Bernoulli y Binomial. 
+  * Continuas: Tienen una forma suavizada, son un caso de una distribución discreta, la forma más común es la distribución normal (Gaussiana)
   
 * Lo anterior nos sierve para establecer el Teorema del Límite Central, el cual establece que conforme el número de realizaciones aumenta, la media muestral tiene a distribuirse de forma normal alrederor la media de la población, también la desviación estandar tiende a disminuir conforme $n$ disminuye (a causa de la convergencia en media). 
 
