@@ -201,7 +201,7 @@ Lo anterior se puede entender también en un problema de exogeneidad sobre una r
 * Sesgo por elección
 
 
-Attrition: Algunos participantes pueden dejar el estudio, el problema está en que no podremos encontrar $Y$ de las personas que abandonan el estudio, si el attrition no está correlacionado $Y^{s}$, no será un problema, dado que aún se podrá tener independencia de $S$ y $Y^{t}$ y $Y^{c}$ en el resto de la muestra, si el attrition está correlacionado con $Y^{S}$ y el tratamiento cambia el attrition entonces la indepedencia se rompe, necesitaríamos: 
+Attrition o desgaste: Algunos participantes pueden dejar el estudio, el problema está en que no podremos encontrar $Y$ de las personas que abandonan el estudio, si el attrition no está correlacionado $Y^{s}$, no será un problema, dado que aún se podrá tener independencia de $S$ y $Y^{t}$ y $Y^{c}$ en el resto de la muestra, si el attrition está correlacionado con $Y^{S}$ y el tratamiento cambia el attrition entonces la indepedencia se rompe, necesitaríamos: 
 
 $E[Y^{S}|S = s, observada] = E[Y^{S}, observada]$
 
