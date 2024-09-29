@@ -20,7 +20,7 @@ Una afirmación bastante conocida es que correlación no implica causalidad, sin
 
 Retomando los conceptoa anteriores, consideraremos una **población**, **muestra** y **unidades**, y de las últimas podremos establecer **funcione** que traduciremos como **variables** a través de un proceso ergódco. 
 
-En ese sentido, podemos definir los componentes del modelo como: 
+Así, podemos definir los componentes del modelo como: 
 
 * Unidad : Será un elemento $i$ en un punto del tiempo específico. 
 * Tratamiento : O también llamado intervención $t$, cuyos efectos queremos estimar comparando con un grupo de **control**  $c$ determinado por la ausencia de intervención. 
